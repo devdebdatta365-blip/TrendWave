@@ -21,13 +21,17 @@ import com.examly.springapp.service.ReviewService;
 @RequestMapping("/api/reviews")
 
 public class ReviewController {
-      @Autowired
+    @Autowired
     private ReviewService reviewService;
 
     @PostMapping
     public ResponseEntity<String> addReview(@RequestBody Review review) {
-        reviewService.addReview(review);
+        Review rr=reviewService.addReview(review);
+        if(rr!=null)
+        {
         return ResponseEntity.status(201).body("Review added successfully!");
+        }
+        return ResponseEntity.status(400).build();
     }
 
     @GetMapping("/{reviewId}")
@@ -43,7 +47,12 @@ public class ReviewController {
 
     @GetMapping
     public ResponseEntity<List<Review>> getAllReviews() {
-        return ResponseEntity.status(200).body(reviewService.getAllReviews());
+        List<Review> list=reviewService.getAllReviews();
+        if(list.isEmpty())
+        {
+            return ResponseEntity.status(400).build();
+        }
+        return ResponseEntity.status(200).body(list);
     }
 
     @GetMapping("/user/{userId}")

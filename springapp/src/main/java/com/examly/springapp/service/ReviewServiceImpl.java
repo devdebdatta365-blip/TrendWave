@@ -16,9 +16,9 @@ public class ReviewServiceImpl implements ReviewService{
 	private ReviewRepo reviewRepo;
 	
 	@Override
-	public void addReview(Review review) {
+	public Review addReview(Review review) {
 		review.setDate(LocalDate.now());
-		reviewRepo.save(review);
+		return reviewRepo.save(review);
 		
 	}
 
