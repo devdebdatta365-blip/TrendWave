@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.examly.springapp.SpringappApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 15, Failures: 4, Errors: 0, Skipped: 0, Time elapsed: 3.96 s <<< FAILURE! - in com.examly.springapp.SpringappApplicationTests
-backend_testGetAllProducts  Time elapsed: 0.347 s  <<< FAILURE!
+Tests run: 15, Failures: 4, Errors: 0, Skipped: 0, Time elapsed: 3.13 s <<< FAILURE! - in com.examly.springapp.SpringappApplicationTests
+backend_testGetAllProducts  Time elapsed: 0.261 s  <<< FAILURE!
 java.lang.AssertionError: Status expected:<200> but was:<401>
 	at com.examly.springapp.SpringappApplicationTests.backend_testGetAllProducts(SpringappApplicationTests.java:48)
 
@@ -10,7 +10,7 @@ backend_testGetAllReviews  Time elapsed: 0.009 s  <<< FAILURE!
 java.lang.AssertionError: Status expected:<200> but was:<401>
 	at com.examly.springapp.SpringappApplicationTests.backend_testGetAllReviews(SpringappApplicationTests.java:62)
 
-backend_testOrderHasManyToOneAnnotation  Time elapsed: 0.004 s  <<< FAILURE!
+backend_testOrderHasManyToOneAnnotation  Time elapsed: 0.003 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: No field with @ManyToOne annotation found in Order class.
 	at com.examly.springapp.SpringappApplicationTests.backend_testOrderHasManyToOneAnnotation(SpringappApplicationTests.java:120)
 
