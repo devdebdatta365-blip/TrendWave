@@ -3,12 +3,14 @@ package com.examly.springapp.model;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+@Entity
 public class Review {
     @Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -16,7 +18,9 @@ public class Review {
 	private Long reviewId;
 	@Column(name="review_text")
 	private String reviewText;
+	@Column(name="rating")
 	private Integer rating;
+	@Column(name="date")
 	private LocalDate date;
 	@ManyToOne
 	@JoinColumn(name="userId")
@@ -60,5 +64,19 @@ public class Review {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+	public Review() {
+	}
+	public Review(Long reviewId, String reviewText, Integer rating, LocalDate date, User user, Product product) {
+		this.reviewId = reviewId;
+		this.reviewText = reviewText;
+		this.rating = rating;
+		this.date = date;
+		this.user = user;
+		this.product = product;
+	}
+
+	
+
+
     
 }
