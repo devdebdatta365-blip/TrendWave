@@ -22,10 +22,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="order")
+@Table(name="`order`")
 public class Order {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="order_id")
 	private long orderId;
     @Column(name="order_date")
