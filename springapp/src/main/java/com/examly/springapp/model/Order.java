@@ -22,11 +22,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-<<<<<<< HEAD
-@Table(name="`order`") 
-=======
 @Table(name="`order`")
->>>>>>> 515a50307a2868087cc1dc06e5b4945ffd95763c
 public class Order {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
