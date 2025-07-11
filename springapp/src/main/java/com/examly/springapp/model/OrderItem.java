@@ -2,6 +2,7 @@ package com.examly.springapp.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,11 +24,11 @@ public class OrderItem {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-   // @Column(name="")
+    @Column(name="order_item_id")
 	private long orderItemId;
-   // @Column(name="")
+    @Column(name="quantity")
 	private int quantity;
-    //@Column(name="")
+    @Column(name="price")
 	private double price;
 	
 	@ManyToOne

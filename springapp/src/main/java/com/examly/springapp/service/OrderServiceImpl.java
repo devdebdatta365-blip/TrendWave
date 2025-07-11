@@ -14,6 +14,7 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private OrderRepo oRepo;
 
+
     @Override
     public Order addOrder(Order order) throws DuplicateOrderException{
         if (oRepo.existsById(order.getOrderId())) {
@@ -42,7 +43,8 @@ public class OrderServiceImpl implements OrderService{
 	    	old.setOrderStatus(updatedOrder.getOrderStatus());
 	    	old.setBillingAddress(updatedOrder.getBillingAddress());
 	    	old.setTotalAmount(updatedOrder.getTotalAmount());
-	    	
+	    	old.setUser(updatedOrder.getUser());
+            old.setOrderItems(updatedOrder.getOrderItems());
 	    	oRepo.save(old);
 	    }
 	    return old;
