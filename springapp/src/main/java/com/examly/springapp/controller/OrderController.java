@@ -38,10 +38,10 @@ public class OrderController {
 	}
 
     @GetMapping("api/orders/{orderId}")
-    public ResponseEntity<Optional<Order>> getOrderById(@PathVariable long orderId){
+    public ResponseEntity<Order> getOrderById(@PathVariable long orderId){
         Optional<Order> opt=oService.getOrderById(orderId);
         if(opt.isPresent()){
-            return new ResponseEntity<>(opt, HttpStatus.OK);
+            return new ResponseEntity<>(opt.get(), HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

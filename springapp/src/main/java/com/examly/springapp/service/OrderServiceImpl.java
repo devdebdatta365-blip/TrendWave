@@ -4,11 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.examly.springapp.exceptions.DuplicateOrderException;
 import com.examly.springapp.model.Order;
 import com.examly.springapp.repository.OrderRepo;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
 public class OrderServiceImpl implements OrderService{
 
     @Autowired
@@ -17,6 +22,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public Order addOrder(Order order) throws DuplicateOrderException{
+        log.info("We are in addOrder OrderServiceImpl");
         if (oRepo.existsById(order.getOrderId())) {
             throw new DuplicateOrderException("Order already placed!");
         }
@@ -25,16 +31,19 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public Optional<Order> getOrderById(long orderId) {
+        log.info("We are in getOrderById OrderServiceImpl");
         return oRepo.findById(orderId);
     }
 
     @Override
     public List<Order> getAllOrders() {
+        log.info("We are in getAllOrders OrderServiceImpl");
        return oRepo.findAll();
     }
 
     @Override
     public Order updateOrder(long orderId, Order updatedOrder) {
+        log.info("We are in updateOrder OrderServiceImpl");
         Optional<Order> opt=oRepo.findById(orderId);
 	    Order old=null;
 	    if(opt.isPresent()) {
@@ -52,11 +61,13 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public List<Order> getOrdersByUserId(long userId) {
+        log.info("We are in getOrdersByUserId OrderServiceImpl");
         return oRepo.findByUserUserId(userId);
     }
 
     @Override
     public boolean deleteOrder(long orderId) {
+        log.info("We are in deleteOrder OrderServiceImpl");
         Optional<Order> opt=oRepo.findById(orderId);
     	if(opt.isPresent()) {
     		oRepo.deleteById(orderId);
