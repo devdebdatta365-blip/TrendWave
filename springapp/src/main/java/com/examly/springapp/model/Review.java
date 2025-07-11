@@ -35,5 +35,6 @@ public class Review {
 	private User user;
 	@ManyToOne
 	@JoinColumn(name="productId")
-	private Product product;    
+	private Product product;  
+	  
 }
