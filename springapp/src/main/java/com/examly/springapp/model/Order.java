@@ -22,7 +22,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="order")
+@Table(name="`order`")
 public class Order {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
