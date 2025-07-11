@@ -62,11 +62,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public List<Order> getOrdersByUserId(long userId) {
         log.info("We are in getOrdersByUserId OrderServiceImpl");
-<<<<<<< HEAD
         return oRepo.getOrderById(userId);
-=======
-        return oRepo.getOrderList(userId);
->>>>>>> 515a50307a2868087cc1dc06e5b4945ffd95763c
     }
 
     @Override
