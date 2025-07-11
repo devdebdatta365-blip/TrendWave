@@ -43,5 +43,4 @@ public class Order {
 	
 	@OneToMany(mappedBy="order", cascade=CascadeType.ALL)
 	List<OrderItem> orderItems;
-
 }
