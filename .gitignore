@@ -1,1 +1,3 @@
-target/
+springapp/target/*
+
+angularapp/node_modules/*
