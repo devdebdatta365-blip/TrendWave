@@ -2,6 +2,8 @@ package com.examly.springapp.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,11 +32,14 @@ public class Review {
 	private Integer rating;
 	@Column(name="date")
 	private LocalDate date;
+	
 	@ManyToOne
 	@JoinColumn(name="userId")
+	@JsonBackReference
 	private User user;
+
 	@ManyToOne
 	@JoinColumn(name="productId")
-	private Product product;  
-	  
+	@JsonBackReference
+	private Product product;    
 }
