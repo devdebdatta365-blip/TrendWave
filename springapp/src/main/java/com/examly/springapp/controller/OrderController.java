@@ -61,7 +61,7 @@ public class OrderController {
 	@GetMapping("/api/orders")
 	public ResponseEntity<List<Order>> getAllOrders(){
 		List<Order> od=oService.getAllOrders();
-		if(od!=null) {
+		if(!od.isEmpty()) {
 			return new ResponseEntity<>(od, HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
