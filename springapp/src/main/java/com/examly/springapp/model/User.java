@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,8 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="user_id")
 	private Long userId;
+
+	@NotNull(message = "Email is required")
 	@Column(name="email")
 	private String email;
 	@Column(name="password")
@@ -35,10 +38,10 @@ public class User {
 	private String mobileNumber;
 	@Column(name = "user_role")
 	private String userRole;
-	@OneToMany(mappedBy = "user",cascade=CascadeType.ALL)
-	@JsonManagedReference
-	private List<Order> orders;
-	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-	@JsonManagedReference
-	private List<Review> reviews;
+	// @OneToMany(mappedBy = "user",cascade=CascadeType.ALL)
+	//  @JsonManagedReference
+	// private List<Order> orders;
+	// @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+	//  @JsonManagedReference
+	// private List<Review> reviews;
 }
