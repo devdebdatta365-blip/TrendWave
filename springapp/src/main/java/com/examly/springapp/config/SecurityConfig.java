@@ -62,13 +62,15 @@ public class SecurityConfig {
 
                 // Admin-only order management
                 .requestMatchers(HttpMethod.GET, "/api/orders").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.GET, "/api/orders/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/orders/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/api/orders/**").hasRole("ADMIN")
 
                 // User-only order actions
                 .requestMatchers(HttpMethod.POST, "/api/orders").hasRole("USER")
                 .requestMatchers(HttpMethod.GET, "/api/orders/user/**").hasRole("USER")
                 .requestMatchers(HttpMethod.DELETE, "/api/orders/**").hasRole("USER")
+                // .requestMatchers(HttpMethod.GET, "/api/orders/**").hasRole("USER")
+
 
                 // User-only review actions
                 .requestMatchers(HttpMethod.POST, "/api/reviews").hasRole("USER")
