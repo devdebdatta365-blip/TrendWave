@@ -11,5 +11,6 @@ export class AdminviewreviewsComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  
 
 }
