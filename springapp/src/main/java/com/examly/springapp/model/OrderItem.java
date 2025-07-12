@@ -33,6 +33,7 @@ public class OrderItem {
 	
 	@ManyToOne
 	@JoinColumn(name="productId")
+	@JsonBackReference
 	private Product product;
 	
 	@ManyToOne
