@@ -10,8 +10,8 @@ import com.examly.springapp.model.Order;
 
 @Repository
 public interface OrderRepo extends JpaRepository<Order, Long>{
-
     @Query("select p from Order p where p.user.userId=?1")
-    List<Order> getOrderList(long userId);
+    List<Order> getOrderById(long userId);
+   
     
 }
