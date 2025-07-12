@@ -3,6 +3,7 @@ package com.examly.springapp.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -27,7 +28,7 @@ import lombok.Setter;
 @Table(name="`order`")
 public class Order {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="order_id")
 	private long orderId;
     @Column(name="order_date")
@@ -41,6 +42,7 @@ public class Order {
 	
 	@ManyToOne
 	@JoinColumn(name="userId")
+	@JsonBackReference
 	private User user;
 	
 	@OneToMany(mappedBy="order", cascade=CascadeType.ALL)
