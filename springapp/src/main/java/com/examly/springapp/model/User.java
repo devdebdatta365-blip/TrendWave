@@ -30,6 +30,7 @@ public class User {
 	@NotNull(message = "Email is required")
 	@Column(name="email")
 	private String email;
+	@NotNull(message = "Password is required")
 	@Column(name="password")
 	private String password;
 	@Column(name="username")
