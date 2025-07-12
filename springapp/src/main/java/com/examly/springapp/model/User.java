@@ -13,6 +13,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -34,7 +36,9 @@ public class User {
 	@Column(name = "user_role")
 	private String userRole;
 	@OneToMany(mappedBy = "user",cascade=CascadeType.ALL)
+	@JsonManagedReference
 	private List<Order> orders;
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<Review> reviews;
 }
