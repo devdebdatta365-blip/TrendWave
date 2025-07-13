@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.examly.springapp.config.JwtUtils;
 import com.examly.springapp.exceptions.UnauthorizeException;
+import com.examly.springapp.model.LoginDTO;
 import com.examly.springapp.model.User;
 import com.examly.springapp.repository.UserRepo;
 
@@ -38,9 +39,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String loginUser(User user){
+    public String loginUser(LoginDTO loginDTO){
         Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
+            new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),loginDTO.getPassword()));
         if(authentication.isAuthenticated()){
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             return jwtUtils.generateToken(userDetails);
