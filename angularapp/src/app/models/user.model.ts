@@ -6,3 +6,4 @@ export class User {
     mobileNumber: string;
     userRole: string;
     }
+    

@@ -7,7 +7,7 @@ export interface Order {
     orderStatus: string; 
     shippingAddress: string; 
     billingAddress: string; 
-    totalAmount: number; 
-    user: User;
-    orderItems: OrderItem[];
+    totalAmount: number; // Total cost of the order
+    user: User; // Reference to the user who placed the order
+    orderItems: OrderItem[]; // List of items included in the order
    }

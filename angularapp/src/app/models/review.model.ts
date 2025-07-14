@@ -9,3 +9,4 @@ export interface Review {
     user: User;
     product: Product;
     }
+    
