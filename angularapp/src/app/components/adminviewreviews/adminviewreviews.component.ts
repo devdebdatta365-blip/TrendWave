@@ -52,6 +52,7 @@ export class AdminviewreviewsComponent implements OnInit {
 
     this.filteredReviews = filtered;
   }
+  
 
   //Updates the current page
   //Returns the reviews of the current page
