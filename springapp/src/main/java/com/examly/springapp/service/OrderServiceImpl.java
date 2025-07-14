@@ -3,21 +3,21 @@ package com.examly.springapp.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.examly.springapp.exceptions.DuplicateOrderException;
 import com.examly.springapp.model.Order;
 import com.examly.springapp.repository.OrderRepo;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
 
-    @Autowired
-    private OrderRepo oRepo;
+    private final OrderRepo oRepo;
 
 
     @Override
