@@ -16,6 +16,8 @@ import com.examly.springapp.model.User;
 import com.examly.springapp.repository.UserRepo;
 import com.examly.springapp.service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api")
@@ -36,7 +38,7 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user){
+    public ResponseEntity<?> registerUser(@Valid @RequestBody User user){
        User createdUser = userService.createUser(user);
        if(createdUser != null){
         return new ResponseEntity<>(createdUser,HttpStatus.CREATED);
@@ -46,8 +48,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody User user){
-        String token = userService.loginUser(user);
+    public ResponseEntity<String> loginUser(@Valid @RequestBody LoginDTO loginDTO){
+        String token = userService.loginUser(loginDTO);
         if(token!=null){
             return new ResponseEntity<>(token, HttpStatus.CREATED);
         }else{
