@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.examly.springapp.model.User;
 public class UserPrinciple implements UserDetails {
-    // private final User user;
 
     private String email;
     private String password;

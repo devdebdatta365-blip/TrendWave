@@ -4,19 +4,20 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.examly.springapp.model.Review;
 import com.examly.springapp.repository.ReviewRepo;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService{
-    @Autowired
-	private ReviewRepo reviewRepo;
+    
+	private final ReviewRepo reviewRepo;
 	
 	@Override
 	public Review addReview(Review review) {
