@@ -1,1 +1,34 @@
-<p>myreview works!</p>
+<div class="myreview-container">
+    <h2>My Reviews</h2>
+    <div *ngIf="reviews.length === 0" class="no-data">No reviews found.</div>
+    <div class="review-list">
+      <div class="review-card" *ngFor="let review of reviews">
+        <div>{{review.product.productName}}</div>
+        <div>Rating: {{review.rating}}/5</div>
+        <div>Date: {{review.date | date}}</div>
+        <div>{{review.reviewText}}</div>
+        <button (click)="openProductModal(review)">View Product</button>
+        <button (click)="confirmDelete(review)">Delete Review</button>
+      </div>
+    </div>
+    <!-- Product Modal -->
+    <div class="modal" *ngIf="showProductModal">
+      <div class="modal-content">
+        <button class="close-btn" (click)="closeProductModal()">X</button>
+        <h3>{{selectedReview?.product.productName}}</h3>
+        <div>Price: ₹{{selectedReview?.product.price}}</div>
+        <div>Category: {{selectedReview?.product.category}}</div>
+        <div>Brand: {{selectedReview?.product.brand}}</div>
+        <div>Description: {{selectedReview?.product.description}}</div>
+      </div>
+    </div>
+    <!-- Delete Modal -->
+    <div class="modal" *ngIf="showDeleteModal">
+      <div class="modal-content">
+        <p>Are you sure you want to delete this review?</p>
+        <button (click)="deleteReview()">Yes, Delete</button>
+        <button (click)="cancelDelete()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  
