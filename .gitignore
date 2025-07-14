@@ -1,3 +1,4 @@
 springapp/target/*
 
 angularapp/node_modules/*
+angularapp/package-lock.json

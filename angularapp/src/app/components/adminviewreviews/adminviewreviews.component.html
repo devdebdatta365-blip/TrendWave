@@ -1,1 +1,42 @@
-<p>adminviewreviews works!</p>
+<div class="container mt-4">
+    <h2>All Product Reviews</h2>
+
+    <input type="text" [(ngModel)]="searchTerm" (input)="applyFilters()" placeholder="Search by product name"
+        class="form-control mb-3">
+
+    <button class="btn btn-secondary mb-3" (click)="toggleSort()">Sort by Date ({{ sortDirection }})</button>
+
+    <div *ngIf="filteredReviews.length === 0" class="alert alert-info">
+        No reviews found.
+    </div>
+
+    <div *ngFor="let review of paginatedReviews" class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ review.product.productName }}</h5>
+            <p class="card-text">{{ review.reviewText }}</p>
+            <p class="card-text"><strong>Rating:</strong> {{ review.rating }}</p>
+            <p class="card-text"><strong>User:</strong> {{ review.user.username }}</p>
+            <p class="card-text"><strong>Date:</strong> {{ review.date | date }}</p>
+        </div>
+
+    </div>
+
+    <nav *ngIf="filteredReviews.length > pageSize">
+        <ul class="pagination">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+                <button class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
+
+            </li>
+            <li class="page-item"
+                *ngFor="let page of [].constructor(Math.ceil(filteredReviews.length / pageSize)); let i = index"
+                [class.active]="currentPage === i + 1">
+                <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
+            </li>
+            <li class="page-item" [class.disabled]="currentPage === Math.ceil(filteredReviews.length / pageSize)">
+                <button class="page-link" (click)="changePage(currentPage + 1)">Next</button>
+            </li>
+
+        </ul>
+
+    </nav>
+</div>
