@@ -3,7 +3,6 @@ package com.examly.springapp.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,13 +17,16 @@ import com.examly.springapp.exceptions.DuplicateOrderException;
 import com.examly.springapp.model.Order;
 import com.examly.springapp.service.OrderServiceImpl;
 
+import lombok.RequiredArgsConstructor;
+
 
 
 @RestController
+@RequiredArgsConstructor
 public class OrderController {
 	
-	@Autowired
-	private OrderServiceImpl oService;
+
+	private final OrderServiceImpl oService;
 	
 	@PostMapping("/api/orders")
 	public ResponseEntity<String> addOrder(@RequestBody Order order)throws DuplicateOrderException{

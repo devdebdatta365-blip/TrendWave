@@ -17,12 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.examly.springapp.model.Review;
 import com.examly.springapp.service.ReviewService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/reviews")
 
 public class ReviewController {
-    @Autowired
-    private ReviewService reviewService;
+    
+    private final ReviewService reviewService;
 
     @PostMapping
     public ResponseEntity<String> addReview(@RequestBody Review review) {

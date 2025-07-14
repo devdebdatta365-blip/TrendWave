@@ -18,13 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.examly.springapp.model.Product;
 import com.examly.springapp.service.ProductService;
 
+import lombok.RequiredArgsConstructor;
+
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/products")
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
     @PostMapping
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
