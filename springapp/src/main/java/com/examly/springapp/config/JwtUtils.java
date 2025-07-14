@@ -10,7 +10,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtUtils {
-    private final String jwtSecret = "bookHeavensecretkey2025";
+    private final String jwtSecret = "proKartsecretkey2025";
     private final int jwtExpirationMs = 86400000;
 
     public String generateToken(UserDetails userDetails) {
