@@ -1,1 +1,62 @@
-<p>product-create works!</p>
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+  <label>Product Name<span class="required">*</span></label>
+  <input type="text" formControlName="productName" />
+  <div *ngIf="productForm.get('productName')?.invalid && (productForm.get('productName')?.touched || productForm.get('productName')?.dirty)" class="error">
+    *Product Name is required
+  </div><br>
+
+  <label>Description<span class="required">*</span></label>
+  <textarea formControlName="description"></textarea>
+  <div *ngIf="productForm.get('description')?.invalid && (productForm.get('description')?.touched || productForm.get('description')?.dirty)" class="error">
+    *Description is required
+  </div><br>
+
+  <label>Price<span class="required">*</span></label>
+  <input type="number" formControlName="price" />
+  <div *ngIf="productForm.get('price')?.invalid && (productForm.get('price')?.touched || productForm.get('price')?.dirty)" class="error">
+    *Price is required
+  </div><br>
+
+  <label>Stock Quantity<span class="required">*</span></label>
+  <input type="number" formControlName="stockQuantity" />
+  <div *ngIf="productForm.get('stockQuantity')?.invalid && (productForm.get('stockQuantity')?.touched || productForm.get('stockQuantity')?.dirty)" class="error">
+    *Stock Quantity is required
+  </div><br>
+
+  <label>Category<span class="required">*</span></label>
+  <select formControlName="category">
+    <option value="">Select Category</option>
+    <option value="electronics">Electronics</option>
+    <option value="homeAppliances">Home Appliances</option>
+    <option value="books">Books</option>
+    <option value="fashion">Fashion</option>
+    <option value="toys">Toys</option>
+    <option value="furniture">Furniture</option>
+    <option value="beauty">Beauty</option>
+  </select>
+  <div *ngIf="productForm.get('category')?.invalid && (productForm.get('category')?.touched || productForm.get('category')?.dirty)" class="error">
+    *Category is required
+  </div><br>
+
+  <label>Brand<span class="required">*</span></label>
+  <input type="text" formControlName="brand" />
+  <div *ngIf="productForm.get('brand')?.invalid && (productForm.get('brand')?.touched || productForm.get('brand')?.dirty)" class="error">
+    *Brand is required
+  </div><br>
+
+  <label>Cover Image<span class="required">*</span></label>
+  <input type="file" (change)="onFileChange($event)" />
+  <div *ngIf="productForm.get('coverImage')?.invalid && submitted" class="error">
+    *Cover Image is required
+  </div><br>
+
+  <button type="submit" class="submit-btn">Add Product</button>
+
+  <!-- Success Popup -->
+  <div *ngIf="showSuccessPopup" class="popup-overlay">
+    <div class="popup-content">
+      <p>Product Added Successfully</p>
+      <button (click)="onPopupOk()" class="submit-btn">OK</button>
+    </div>
+  </div>
+</form>
