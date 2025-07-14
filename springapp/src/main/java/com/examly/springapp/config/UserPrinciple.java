@@ -9,8 +9,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.examly.springapp.model.User;
-
-
 public class UserPrinciple implements UserDetails {
 
     private String email;
