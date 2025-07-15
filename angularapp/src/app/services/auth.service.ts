@@ -1,45 +1,81 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from '../models/user.model';
 import { Login } from '../models/login.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
   
-  private roleSubject = new BehaviorSubject<string | null>(null);
-  private userIdSubject = new BehaviorSubject<number | null>(null);
+  private apiUrl:string = 'https://ide-bfacbddbceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080/api';
 
-  constructor(private http: HttpClient) {}
+  public loggedIn = new BehaviorSubject<boolean>(this.hasToken());
+  public userRole = new BehaviorSubject<string | null>(localStorage.getItem('userRole'));
+  public userId = new BehaviorSubject<number | null>(Number(localStorage.getItem('userId')));
 
-  register(user: User): Observable<any> {
-    return this.http.post('/api/register', user);
+  constructor(private http:HttpClient, private router:Router) { }
+
+  //Register user
+  register(user:any):Observable<any>{
+    return this.http.post(`${this.apiUrl}/register`,user);
   }
 
-  login(login: Login): Observable<any> {
-    return new Observable(observer => {
-      this.http.post<any>('/api/login', login).subscribe({
-        next: (response) => {
-          localStorage.setItem('token', response.token);
-          this.roleSubject.next(response.role);
-          this.userIdSubject.next(response.userId);
-          observer.next(response);
-          observer.complete();
-        },
-        error: (err) => observer.error(err)
-      });
-    });
+  //login user
+  
+login(login: Login): Observable<any> {
+  return this.http.post(`${this.apiUrl}/login`, login);
+}
+
+  setToken(token: string):void {
+    localStorage.setItem('token',token);
+    this.loggedIn.next(true);
   }
 
-  getRole(): Observable<string | null> {
-    return this.roleSubject.asObservable();
+
+   //store user details in localstorage  + token too
+   storeAuthData(token:string,userId:number,userRole:string):void{
+    localStorage.setItem('token',token);
+    localStorage.setItem('userId',userId.toString());
+    localStorage.setItem('userRole',userRole);
+    this.loggedIn.next(true);
+    this.userRole.next(userRole);
+    this.userId.next(userId);
   }
 
-  getUserId(): Observable<number | null> {
-    return this.userIdSubject.asObservable();
+  //check login status
+  isLoggedIn():boolean{
+    return !!localStorage.getItem('token');
   }
 
+  isAdmin():boolean{
+    return localStorage.getItem('userRole')==='ADMIN';
+  }
+
+  isTraveller():boolean{
+    return localStorage.getItem('userRole')==='USER';
+  }
+  
+  getUserRole():string{
+    return localStorage.getItem('userRole')||'';
+  }
+
+  getUserId():number{
+    return Number(localStorage.getItem('userId')||'0');
+  }
+
+  getToken():string{
+    return localStorage.getItem('token')||'';
+  }
+
+  //logout
+  logout():void{
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
+
+  private hasToken():boolean{
+    return !!localStorage.getItem('token');
+  }
 }

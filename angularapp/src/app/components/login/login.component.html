@@ -1,1 +1,20 @@
-<p>login works!</p>
+<h2>Login</h2>
+<form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+  <label>
+    Email:
+    <input formControlName="email" type="email" />
+    <span class="error" *ngIf="submitted && f.email.errors?.required">Email is required.</span>
+    <span class="error" *ngIf="submitted && f.email.errors?.email">Enter a valid email.</span>
+  </label><br>
+
+  <label>
+    Password:
+    <input formControlName="password" type="password" />
+    <span class="error" *ngIf="submitted && f.password.errors?.required">Password is required.</span>
+    <span class="error" *ngIf="submitted && f.password.errors?.minlength">Password must be at least 6 characters.</span>
+  </label><br>
+
+  <button type="submit">Login</button>
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+</form>
+<a routerLink="/signup">Don't have an account? Signup</a>

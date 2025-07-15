@@ -1,1 +1,51 @@
-<p>signup works!</p>
+<h2>Signup</h2>
+<form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+  <label>
+    Username:
+    <input formControlName="username" />
+    <span class="error" *ngIf="submitted && f.username.errors?.required">Username is required.</span>
+  </label><br>
+
+  <label>
+    Email:
+    <input formControlName="email" type="email" />
+    <span class="error" *ngIf="submitted && f.email.errors?.required">Email is required.</span>
+    <span class="error" *ngIf="submitted && f.email.errors?.email">Enter a valid email.</span>
+  </label><br>
+
+  <label>
+    Mobile:
+    <input formControlName="mobileNumber" />
+    <span class="error" *ngIf="submitted && f.mobileNumber.errors?.required">Mobile number is required.</span>
+    <span class="error" *ngIf="submitted && f.mobileNumber.errors?.pattern">Enter a valid 10-digit mobile number.</span>
+  </label><br>
+
+  <label>
+    Password:
+    <input formControlName="password" type="password" />
+    <span class="error" *ngIf="submitted && f.password.errors?.required">Password is required.</span>
+    <span class="error" *ngIf="submitted && f.password.errors?.minlength">Password must be at least 6 characters.</span>
+  </label><br>
+
+  <label>
+    Confirm Password:
+    <input formControlName="confirmPassword" type="password" />
+    <span class="error" *ngIf="submitted && f.confirmPassword.errors?.required">Confirm password is required.</span>
+    <span class="error" *ngIf="submitted && signupForm.errors?.mismatch">Passwords do not match.</span>
+  </label><br>
+
+  <label>
+    Select Role:
+    <select formControlName="userRole">
+      <option value="">Select</option>
+      <option value="User">User</option>
+      <option value="Admin">Admin</option>
+    </select>
+    <span class="error" *ngIf="submitted && f.userRole.errors?.required">Role is required.</span>
+  </label><br>
+
+  <button type="submit">Signup</button>
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+  <div *ngIf="successMsg" class="success">{{ successMsg }}</div>
+</form>
+<a routerLink="/login">Already have an account? Login</a>

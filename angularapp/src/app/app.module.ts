@@ -1,6 +1,8 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AdminnavComponent } from './components/adminnav/adminnav.component';
@@ -9,7 +11,6 @@ import { AdminviewreviewsComponent } from './components/adminviewreviews/adminvi
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ErrorComponent } from './components/error/error.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
-import { LoginComponent } from './components/login/login.component';
 import { MyorderComponent } from './components/myorder/myorder.component';
 import { MyreviewComponent } from './components/myreview/myreview.component';
 import { OrderplacedComponent } from './components/orderplaced/orderplaced.component';
@@ -18,8 +19,7 @@ import { ReviewComponent } from './components/review/review.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { UsernavComponent } from './components/usernav/usernav.component';
 import { UserviewproductComponent } from './components/userviewproduct/userviewproduct.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,6 @@ import { HttpClientModule } from '@angular/common/http';
     CheckoutComponent,
     ErrorComponent,
     HomePageComponent,
-    LoginComponent,
     MyorderComponent,
     MyreviewComponent,
     OrderplacedComponent,
@@ -38,18 +37,15 @@ import { HttpClientModule } from '@angular/common/http';
     ReviewComponent,
     SignupComponent,
     UsernavComponent,
-    UserviewproductComponent
+    UserviewproductComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-<<<<<<< HEAD
-    HttpClientModule
-=======
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule
->>>>>>> fb33a6031871c9bd4aa0be660dd8677baf46e04e
   ],
   providers: [],
   bootstrap: [AppComponent]
