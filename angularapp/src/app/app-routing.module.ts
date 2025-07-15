@@ -9,6 +9,7 @@ import { ReviewComponent } from './components/review/review.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { UsernavComponent } from './components/usernav/usernav.component';
 import { UserviewproductComponent } from './components/userviewproduct/userviewproduct.component';
+import { MyorderComponent } from './components/myorder/myorder.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/signup', pathMatch: 'full' }, 
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path:'reviews', component:ReviewComponent},
   {path:'adminviewproduct', component:AdminviewproductComponent},
   {path:'userviewproduct', component:UserviewproductComponent},
+  {path:'myorders', component:MyorderComponent},
   {path:'', component:HomePageComponent}
 ];
 

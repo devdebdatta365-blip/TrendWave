@@ -1,1 +1,52 @@
-<p>myorder works!</p>
+<div class="myorder-container">
+    <h2>My Orders</h2>
+    <div *ngIf="orders.length === 0" class="no-data">No orders found.</div>
+    <div class="order-list">
+      <div class="order-card" *ngFor="let order of orders">
+        <div>Order ID: {{order.orderId}}</div>
+        <div>Status: {{order.orderStatus}}</div>
+        <div>Total Amount: ₹{{order.totalAmount}}</div>
+        <div>Billing Address: {{order.billingAddress}}</div>
+        <div>Shipping Address: {{order.shippingAddress}}</div>
+        <div>Order Date: {{order.orderDate | date}}</div>
+        <div *ngFor="let item of order.orderItems">
+          Product: {{item.product.productName}} | Quantity: {{item.quantity}}
+        </div>
+        <button (click)="trackOrder(order)">Track Order</button>
+        <button (click)="viewItems(order)">View Items</button>
+        <button *ngIf="order.orderStatus === 'Pending'" (click)="cancelOrder(order)">Cancel Order</button>
+      </div>
+    </div>
+    <!-- Items Modal -->
+    <div class="modal" *ngIf="showItemsModal">
+      <div class="modal-content">
+        <button class="close-btn" (click)="closeModal()">X</button>
+        <h3>Order Items</h3>
+        <div *ngFor="let item of selectedOrder?.orderItems">
+          {{item.product.productName}} - Quantity: {{item.quantity}} - Price: ₹{{item.price}}
+        </div>
+      </div>
+    </div>
+    <!-- Track Modal -->
+    <div class="modal" *ngIf="showTrackModal">
+      <div class="modal-content">
+        <button class="close-btn" (click)="closeModal()">X</button>
+        <h3>Order Tracking Status</h3>
+        <div *ngIf="selectedOrder">
+          <div [ngClass]="{'active': selectedOrder.orderStatus === status}" *ngFor="let status of ['Pending','Accepted','Dispatched','OutForDelivery','Delivered']">
+            {{status}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Cancel Modal -->
+    <div class="modal" *ngIf="showCancelModal">
+      <div class="modal-content">
+        <p>Are you sure you want to cancel this order?</p>
+        <button (click)="confirmCancelOrder()">Yes, Cancel Order</button>
+        <button (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  
+
