@@ -1,92 +1,57 @@
-
-// import { Component, OnInit } from '@angular/core';
-// import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-// import { Router } from '@angular/router';
-// import { User } from 'src/app/models/user.model';
-// import { AuthService } from 'src/app/services/auth.service';
-
-// @Component({
-//   selector: 'app-signup',
-//   templateUrl: './signup.component.html',
-//   styleUrls: ['./signup.component.css']
-// })
-// export class SignupComponent{
-//   errorMessage: string = '';
-//   successMessage: string = '';
-
-//   constructor(private authService: AuthService,
-//     private router: Router) {
-
-//   }
-//   register(form: NgForm): void {
-//     if (form.valid) {
-//       const userData: User = new User(
-//         form.value.email,
-//         form.value.password,
-//         form.value.userName,
-//         form.value.mobileNumber,
-//         form.value.userRole
-//       );
-
-//       this.authService.register(userData).subscribe({
-//         next: (registeredUser) => {
-//           this.successMessage = 'Registration successful!';
-//           // setTimeout(() => {
-//           //   this.router.navigate(['/login']);
-//           // }, 2000);
-//         },
-//         error: (err) => {
-//           this.errorMessage = 'Registration failed. Please try again.';
-//           console.error('Registration error', err);
-//         }
-//       });
-//     }
-//   }
-
-// }
-// register.component.ts
-
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user.model';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  templateUrl: './signup.component.html'
 })
 export class SignupComponent {
-  user: User = {
-    email: '',
-    password: '',
-    username: '',
-    mobileNumber: '',
-    userRole: 'USER'
-  };
-  confirmPassword: string = '';
-  errorMessage: string = '';
-  success: boolean = false;
+  signupForm: FormGroup;
+  submitted = false;
+  errorMsg = '';
+  successMsg = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
-
-  onRegister(): void {
-    if (this.user.password !== this.confirmPassword) {
-      this.errorMessage = 'Passwords do not match.';
-      return;
-    }
-
-    this.authService.register(this.user).subscribe({
-      next: () => {
-        this.success = true;
-      },
-      error: (err) => {
-        this.errorMessage = 'Something went wrong. Please try again.';
-      }
-    });
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.signupForm = this.fb.group({
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      mobileNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
+      userRole: ['', Validators.required]
+    }, { validators: this.passwordMatchValidator });
   }
 
-  closeModal(): void {
-    this.router.navigate(['/login']);
+  get f() { return this.signupForm.controls; }
+
+  passwordMatchValidator(form: FormGroup) {
+    return form.get('password')?.value === form.get('confirmPassword')?.value
+      ? null : { mismatch: true };
+  }
+
+  onSignup() {
+    this.submitted = true;
+    this.errorMsg = '';
+    this.successMsg = '';
+    if (this.signupForm.invalid) return;
+
+    const { username, email, mobileNumber, password, userRole } = this.signupForm.value;
+    const user = { username, email, mobileNumber, password, userRole };
+
+    this.authService.register(user).subscribe({
+      next: () => {
+        this.successMsg = 'User Registration is Successful!';
+        setTimeout(() => this.router.navigate(['/login']), 1500);
+      },
+      error: () => {
+        this.errorMsg = 'Registration failed. Try again.';
+      }
+    });
   }
 }

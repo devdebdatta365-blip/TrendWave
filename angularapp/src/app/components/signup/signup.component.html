@@ -1,255 +1,51 @@
-<!-- 
-<div class="register-container">
-  <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
-      <h2>User Registration</h2>
+<h2>Signup</h2>
+<form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+  <label>
+    Username:
+    <input formControlName="username" />
+    <span class="error" *ngIf="submitted && f.username.errors?.required">Username is required.</span>
+  </label><br>
 
-      <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" id="userName" name="userName" ngModel required #username="ngModel">
-          <div *ngIf="username.invalid && (username.dirty || username.touched)" class="error-message">
-              Username is required
-          </div>
-      </div>
+  <label>
+    Email:
+    <input formControlName="email" type="email" />
+    <span class="error" *ngIf="submitted && f.email.errors?.required">Email is required.</span>
+    <span class="error" *ngIf="submitted && f.email.errors?.email">Enter a valid email.</span>
+  </label><br>
 
-      <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" ngModel required email #email="ngModel">
-          <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error-message">
-              <div *ngIf="email.hasError('required')">
-                  Email is required
-              </div>
-              <div *ngIf="email.hasError('email')">
-                  Please enter a valid email address
-              </div>
-          </div>
-      </div>
+  <label>
+    Mobile:
+    <input formControlName="mobileNumber" />
+    <span class="error" *ngIf="submitted && f.mobileNumber.errors?.required">Mobile number is required.</span>
+    <span class="error" *ngIf="submitted && f.mobileNumber.errors?.pattern">Enter a valid 10-digit mobile number.</span>
+  </label><br>
 
-      <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" ngModel required #password="ngModel"
-              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$">
-          <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error-message">
-              <div *ngIf="password.hasError('required')">
-                  Password is required
-              </div>
-              <div *ngIf="password.hasError('pattern')">
-                  Password must have:
-                  - Minimum 8 characters
-                  - At least 1 uppercase letter
-                  - At least 1 lowercase letter
-                  - At least 1 number
-                  - At least 1 special character
-              </div>
-          </div>
-      </div>
+  <label>
+    Password:
+    <input formControlName="password" type="password" />
+    <span class="error" *ngIf="submitted && f.password.errors?.required">Password is required.</span>
+    <span class="error" *ngIf="submitted && f.password.errors?.minlength">Password must be at least 6 characters.</span>
+  </label><br>
 
-      <div class="form-group">
-          <label for="confirmPassword">Confirm Password</label>
-          <input type="password" id="confirmPassword" name="confirmPassword" ngModel required
-              #confirmPassword="ngModel">
-          <div *ngIf="confirmPassword.value !== password.value && confirmPassword.touched" class="error-message">
-              Passwords do not match
-          </div>
-      </div>
+  <label>
+    Confirm Password:
+    <input formControlName="confirmPassword" type="password" />
+    <span class="error" *ngIf="submitted && f.confirmPassword.errors?.required">Confirm password is required.</span>
+    <span class="error" *ngIf="submitted && signupForm.errors?.mismatch">Passwords do not match.</span>
+  </label><br>
 
-      <div class="form-group">
-          <label for="mobile">Mobile Number</label>
-          <input type="tel" id="mobile" name="mobileNumber" ngModel required pattern="^\d{10}$" #mobile="ngModel">
-          <div *ngIf="mobile.invalid && (mobile.dirty || mobile.touched)" class="error-message">
-              <div *ngIf="mobile.hasError('required')">
-                  Mobile number is required
-              </div>
-              <div *ngIf="mobile.hasError('pattern')">
-                  Mobile number must be 10 digits
-              </div>
-          </div>
-      </div>
+  <label>
+    Select Role:
+    <select formControlName="userRole">
+      <option value="">Select</option>
+      <option value="User">User</option>
+      <option value="Admin">Admin</option>
+    </select>
+    <span class="error" *ngIf="submitted && f.userRole.errors?.required">Role is required.</span>
+  </label><br>
 
-      <div class="form-group">
-          <label for="userRole">Role</label>
-          <select id="userRole" name="userRole" ngModel required #userRole="ngModel">
-              <option value="">Select Role</option>
-              <option value="USER">User</option>
-              <option value="ADMIN">Admin</option>
-          </select>
-          <div *ngIf="userRole.invalid && (userRole.dirty || userRole.touched)" class="error-message">
-              Role is required
-          </div>
-      </div>
-
-      <div *ngIf="errorMessage" class="error-message">
-          {{ errorMessage }}
-      </div>
-
-      <div *ngIf="successMessage" class="success-message">
-          {{ successMessage }}
-      </div>
-
-      <button type="submit" [disabled]="registerForm.invalid">
-          Register
-      </button>
-
-      <p>
-          Already have an account?
-          <a routerLink="/login">Login here</a>
-      </p>
-  </form>
-</div> -->
-<!-- register.component.html -->
-<!-- register.component.html -->
-
-<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f7f7f7;">
-    <div style="background-color: white; padding: 40px 30px; border-radius: 10px; box-shadow: 0 6px 12px rgba(0,0,0,0.1); width: 420px; max-width: 90vw;">
-      <h2 style="text-align: center; margin-bottom: 25px; color: #2c3e50;">Register</h2>
-  
-      <form (ngSubmit)="onRegister()" #registerForm="ngForm">
-  
-        <!-- Username -->
-        <div style="margin-bottom: 20px;">
-          <label for="username" style="display: block; font-weight: 500; margin-bottom: 6px;">Username *</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            class="form-control"
-            [(ngModel)]="user.username"
-            pattern="^[A-Za-z][A-Za-z0-9]{4,}$"
-            required
-            placeholder="Start with letters, 5+ characters"
-            #usernameRef="ngModel"
-          />
-          <div *ngIf="usernameRef.invalid && (usernameRef.touched || usernameRef.dirty)" style="color: red; margin-top: 5px;">
-            <small *ngIf="usernameRef.errors?.required">Username is required.</small>
-            <small *ngIf="usernameRef.errors?.pattern">Must begin with a letter, min 5 alphanumeric characters.</small>
-          </div>
-        </div>
-  
-        <!-- Email -->
-        <div style="margin-bottom: 20px;">
-          <label for="email" style="display: block; font-weight: 500; margin-bottom: 6px;">Email *</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            class="form-control"
-            [(ngModel)]="user.email"
-            required
-            email
-            placeholder="Enter your email"
-            #emailRef="ngModel"
-          />
-          <div *ngIf="emailRef.invalid && (emailRef.touched || emailRef.dirty)" style="color: red; margin-top: 5px;">
-            <small *ngIf="emailRef.errors?.required">Email is required.</small>
-            <small *ngIf="emailRef.errors?.email">Enter a valid email address.</small>
-          </div>
-        </div>
-  
-        <!-- Mobile -->
-        <div style="margin-bottom: 20px;">
-          <label for="mobileNumber" style="display: block; font-weight: 500; margin-bottom: 6px;">Mobile Number *</label>
-          <input
-            type="text"
-            id="mobileNumber"
-            name="mobileNumber"
-            class="form-control"
-            [(ngModel)]="user.mobileNumber"
-            pattern="^[6-9][0-9]{9}$"
-            required
-            placeholder="10-digit number starting with 6–9"
-            #mobileRef="ngModel"
-          />
-          <div *ngIf="mobileRef.invalid && (mobileRef.touched || mobileRef.dirty)" style="color: red; margin-top: 5px;">
-            <small *ngIf="mobileRef.errors?.required">Mobile number is required.</small>
-            <small *ngIf="mobileRef.errors?.pattern">Must start with 6–9 and be exactly 10 digits.</small>
-          </div>
-        </div>
-  
-        <!-- Password -->
-        <div style="margin-bottom: 20px;">
-          <label for="password" style="display: block; font-weight: 500; margin-bottom: 6px;">Password *</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            class="form-control"
-            [(ngModel)]="user.password"
-            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]{8,}$"
-            required
-            placeholder="Min 8 chars with uppercase, lowercase, digit & symbol"
-            #passwordRef="ngModel"
-          />
-          <div *ngIf="passwordRef.invalid && (passwordRef.touched || passwordRef.dirty)" style="color: red; margin-top: 5px;">
-            <small *ngIf="passwordRef.errors?.required">Password is required.</small>
-            <small *ngIf="passwordRef.errors?.pattern">Include upper/lowercase, number, symbol. Min 8 characters.</small>
-          </div>
-        </div>
-  
-        <!-- Confirm Password -->
-        <div style="margin-bottom: 20px;">
-          <label for="confirmPassword" style="display: block; font-weight: 500; margin-bottom: 6px;">Confirm Password *</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            class="form-control"
-            [(ngModel)]="confirmPassword"
-            required
-            placeholder="Retype your password"
-            #confirmPasswordRef="ngModel"
-          />
-          <div *ngIf="confirmPasswordRef.invalid && (confirmPasswordRef.touched || confirmPasswordRef.dirty)" style="color: red; margin-top: 5px;">
-            <small>Confirm password is required.</small>
-          </div>
-          <div *ngIf="user.password !== confirmPassword && confirmPasswordRef.touched" style="color: red; margin-top: 5px;">
-            <small>Passwords do not match.</small>
-          </div>
-        </div>
-  
-        <!-- Role -->
-        <div style="margin-bottom: 20px;">
-          <label for="userRole" style="display: block; font-weight: 500; margin-bottom: 6px;">Role *</label>
-          <select
-            id="userRole"
-            name="userRole"
-            class="form-control"
-            [(ngModel)]="user.userRole"
-            required
-            #roleRef="ngModel"
-          >
-            <option value="" disabled>Select Role</option>
-            <option value="USER">User</option>
-            <option value="ADMIN">Admin</option>
-          </select>
-          <div *ngIf="roleRef.invalid && (roleRef.touched || roleRef.dirty)" style="color: red; margin-top: 5px;">
-            <small>Select a role to continue.</small>
-          </div>
-        </div>
-  
-        <!-- General Error -->
-        <div *ngIf="errorMessage" class="alert alert-danger" style="margin-top: 10px;">{{ errorMessage }}</div>
-  
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-success w-100" [disabled]="registerForm.invalid" style="margin-top: 15px;">
-          Register
-        </button>
-      </form>
-  
-      <!-- Success Modal -->
-      <div class="modal" tabindex="-1" role="dialog" [ngClass]="{ 'd-block': success }" *ngIf="success" style="margin-top: 25px;">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content text-center">
-            <div class="modal-header">
-              <h5 class="modal-title">Success</h5>
-            </div>
-            <div class="modal-body">
-              <p>Registration successful. Click "Ok" to go to login.</p>
-            </div>
-            <div class="modal-footer justify-content-center">
-              <button type="button" class="btn btn-primary" (click)="closeModal()">Ok</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
+  <button type="submit">Signup</button>
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+  <div *ngIf="successMsg" class="success">{{ successMsg }}</div>
+</form>
+<a routerLink="/login">Already have an account? Login</a>
