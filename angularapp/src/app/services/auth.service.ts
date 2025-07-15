@@ -48,13 +48,14 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Login } from '../models/login.model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   
-  private apiUrl:string = 'https://ide-bfacbddbceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080/api';
+  private apiUrl:string = 'https://ide-dacabdbfceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080/api';
 
   public loggedIn = new BehaviorSubject<boolean>(this.hasToken());
   public userRole = new BehaviorSubject<string | null>(localStorage.getItem('userRole'));
