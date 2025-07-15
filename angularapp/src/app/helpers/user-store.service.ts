@@ -1,41 +1,38 @@
-
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { User } from '../models/user.model';
-
+import { BehaviorSubject, Observable } from 'rxjs';
+import { AuthUser } from '../models/auth-user';
 @Injectable({
   providedIn: 'root'
 })
 export class UserStoreService {
-  private authUserSubject = new BehaviorSubject<User | null>(null);
-  authUser$ = this.authUserSubject.asObservable();
+
+  private userSubject = new BehaviorSubject<AuthUser | null>(null);
+  
+  user$: Observable<AuthUser | null> = this.userSubject.asObservable();
 
   constructor() {
-    const userJson = localStorage.getItem('authUser');
-    if (userJson) {
-      this.authUserSubject.next(JSON.parse(userJson));
+    const storedUser = localStorage.getItem('authUser');
+    if (storedUser) {
+      this.setUser(JSON.parse(storedUser));
     }
-  }
+   }
 
-  setUser(user: User | null): void {
-    this.authUserSubject.next(user);
-    if (user) {
-      localStorage.setItem('authUser', JSON.stringify(user));
+   public setUser(authUser: AuthUser | null): void {
+    if (authUser) {
+      localStorage.setItem('authUser', JSON.stringify(authUser));
     } else {
       localStorage.removeItem('authUser');
     }
+    
+    this.userSubject.next(authUser);
   }
 
-  get authUser(): User | null {
-    return this.authUserSubject.value;
+  get authUser(): AuthUser | null {
+    return this.userSubject.getValue();
   }
 
   isLoggedIn(): boolean {
-    return !!this.authUserSubject.value;
-  }
-
-  clearUser(): void {
-    this.authUserSubject.next(null);
-    localStorage.removeItem('authUser');
+    return !!this.authUser;
   }
 }
+

@@ -1,30 +1,30 @@
 <div class="userviewproduct-container">
-  <h2>Products</h2>
-  <input type="text" placeholder="Search products..." [(ngModel)]="searchTerm" />
-  <div *ngIf="filteredProducts().length === 0" class="no-data">No products found.</div>
-  <div class="product-list">
-    <div class="product-card" *ngFor="let product of filteredProducts()">
-      <img [src]="product.coverImage" alt="{{product.productName}}" class="product-img" />
-      <div class="product-info">
-        <h3>{{product.productName}}</h3>
-        <p>{{product.description}}</p>
-        <div>Price: ₹{{product.price}}</div>
-        <div>In Stock: {{product.stockQuantity}}</div>
-        <div>Category: {{product.category}}</div>
-        <div>Brand: {{product.brand}}</div>
-        <label>Quantity:
-          <input type="number" min="1" [max]="product.stockQuantity" [(ngModel)]="quantity[product.productId]" />
-        </label>
-        <button (click)="addToCart(product)">Add to Cart</button>
-        <button [routerLink]="['/review']">View Reviews</button>
-        <button [routerLink]="['/myreview']">Write a Review</button>
+    <h2>Products</h2>
+    <input type="text" placeholder="Search products..." [(ngModel)]="searchTerm" />
+    <div *ngIf="filteredProducts().length === 0" class="no-data">No products found.</div>
+    <div class="product-list">
+      <div class="product-card" *ngFor="let product of filteredProducts()">
+        <img [src]="product.coverImage" alt="{{product.productName}}" class="product-img" />
+        <div class="product-info">
+          <h3>{{product.productName}}</h3>
+          <p>{{product.description}}</p>
+          <div>Price: ₹{{product.price}}</div>
+          <div>In Stock: {{product.stockQuantity}}</div>
+          <div>Category: {{product.category}}</div>
+          <div>Brand: {{product.brand}}</div>
+          <label>Quantity:
+            <input type="number" min="1" [max]="product.stockQuantity" [(ngModel)]="quantity[product.productId]" />
+          </label>
+          <button (click)="addToCart(product)">Add to Cart</button>
+          <button [routerLink]="['/review']">View Reviews</button>
+          <button [routerLink]="['/myreview']">Write a Review</button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="modal" *ngIf="showAddCartModal">
-    <div class="modal-content">
-      <p>{{addedProductName}} added to cart!</p>
-      <button (click)="closeAddCartModal()">Ok</button>
+    <div class="modal" *ngIf="showAddCartModal">
+      <div class="modal-content">
+        <p>{{addedProductName}} added to cart!</p>
+        <button (click)="closeAddCartModal()">Ok</button>
+      </div>
     </div>
-  </div>
 </div>

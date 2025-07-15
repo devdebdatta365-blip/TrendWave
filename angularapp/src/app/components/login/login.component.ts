@@ -1,225 +1,69 @@
-// // import { Component, OnInit } from '@angular/core';
-// // import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-// // import { AuthService } from '../../services/auth.service';
-// // import { Router } from '@angular/router';
-
-// // @Component({
-// //   selector: 'app-login',
-// //   templateUrl: './login.component.html',
-// //   styleUrls: ['./login.component.css']
-// // })
-// // export class LoginComponent implements OnInit {
-// //   loginForm: FormGroup;
-// //   loginError: string = '';
-
-// //   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
-
-// //   ngOnInit() {
-// //     this.loginForm = this.fb.group({
-// //       email: ['', [Validators.required, Validators.email]],
-// //       password: ['', [Validators.required, Validators.minLength(6)]]
-// //     });
-// //   }
-
-// //   get email() { return this.loginForm.get('email'); }
-// //   get password() { return this.loginForm.get('password'); }
-
-// //   onLogin() {
-// //     if (this.loginForm.invalid) return;
-// //     this.authService.login(this.loginForm.value).subscribe({
-// //       next: (res) => {
-// //         this.authService.setToken(res.token);
-// //         this.authService.setUserRole(res.userRole);
-// //         this.authService.setUserId(res.userId);
-// //         if (res.userRole === 'Admin') {
-// //           this.router.navigate(['/adminnav']);
-// //         } else {
-// //           this.router.navigate(['/usernav']);
-// //         }
-// //       },
-// //       error: () => {
-// //         this.loginError = 'Invalid Email or Password';
-// //       }
-// //     });
-// //   }
-// // }
-
-
-// // import { Component, OnInit } from '@angular/core';
-// // import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-// // import { AuthService } from '../../services/auth.service';
-// // import { Router } from '@angular/router';
-
-// // @Component({
-// //   selector: 'app-login',
-// //   templateUrl: './login.component.html',
-// //   styleUrls: ['./login.component.css']
-// // })
-// // export class LoginComponent implements OnInit {
-// //   loginForm: FormGroup;
-// //   loginError: string = '';
-
-// //   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
-
-// //   ngOnInit() {
-// //     this.loginForm = this.fb.group({
-// //       email: ['', [Validators.required, Validators.email]],
-// //       password: ['', [Validators.required, Validators.minLength(6)]]
-// //     });
-// //   }
-
-// //   get email() { return this.loginForm.get('email'); }
-// //   get password() { return this.loginForm.get('password'); }
-
-// //   onLogin() {
-// //     if (this.loginForm.invalid) return;
-// //     this.authService.login(this.loginForm.value).subscribe({
-// //       next: (res) => {
-// //         this.authService.setToken(res.token);
-// //         this.authService.setUserRole(res.userRole);
-// //         this.authService.setUserId(res.userId);
-// //         if (res.userRole === 'Admin') {
-// //           this.router.navigate(['/adminnav']);
-// //         } else {
-// //           this.router.navigate(['/usernav']);
-// //         }
-// //       },
-// //       error: () => {
-// //         this.loginError = 'Invalid Email or Password';
-// //       }
-// //     });
-// //   }
-// // }
-
-
-
-// import { Component, OnInit } from '@angular/core';
-// import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-// import { AuthService } from '../../services/auth.service';
-// import { Router } from '@angular/router';
-
-// @Component({
-//   selector: 'app-login',
-//   templateUrl: './login.component.html',
-//   styleUrls: ['./login.component.css']
-// })
-// export class LoginComponent implements OnInit {
-//   loginForm: FormGroup;
-//   loginError: string = '';
-
-//   constructor(
-//     private fb: FormBuilder,
-//     private authService: AuthService,
-//     private router: Router
-//   ) {}
-
-//   ngOnInit(): void {
-//     this.loginForm = this.fb.group({
-//       email: ['', [Validators.required, Validators.email]],
-//       password: ['', [Validators.required, Validators.minLength(6)]]
-//     });
-//   }
-
-//   get email() {
-//     return this.loginForm.get('email');
-//   }
-
-//   get password() {
-//     return this.loginForm.get('password');
-//   }
-
-//   onLogin(): void {
-//     if (this.loginForm.invalid) return;
-
-//     this.authService.login(this.loginForm.value).subscribe({
-//       next: (res) => {
-//         this.authService.setToken(res.token);
-//         this.authService.setUserRole(res.userRole);
-//         this.authService.setUserId(res.userId);
-
-//         if (res.userRole === 'Admin') {
-//           this.router.navigate(['/adminnav']);
-//         } else {
-//           this.router.navigate(['/usernav']);
-//         }
-//       },
-//       error: () => {
-//         this.loginError = 'Invalid Email or Password';
-//       }
-//     });
-//   }
-// }
-
-
-
-
-
-
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  templateUrl: './login.component.html'
 })
-export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
-  loginError: string = '';
-  loginSuccess='';
-  isLoading: boolean = false;
-  showPassword: boolean = false;
+export class LoginComponent {
+  loginForm: FormGroup;
+  submitted = false;
+  errorMsg = '';
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  get email() {
-    return this.loginForm.get('email');
-  }
+  get f() { return this.loginForm.controls; }
 
-  get password() {
-    return this.loginForm.get('password');
-  }
-
-  togglePasswordVisibility(): void {
-    this.showPassword = !this.showPassword;
-  }
-
-  onLogin(): void {
-    // if (this.loginForm.invalid) return;
-
-    this.isLoading = true;
-    this.loginError = '';
-    this.loginSuccess='';
+  onLogin() {
+    this.submitted = true;
+    this.errorMsg = '';
+    if (this.loginForm.invalid) return;
 
     this.authService.login(this.loginForm.value).subscribe({
-      next: (res)=> {
-        this.isLoading = false;
+      next: (res) => {
+        
+        console.log('Raw token:', res);
+
         this.authService.setToken(res.token);
-        this.authService.setUserRole(res.userRole);
-        this.authService.setUserId(res.userId);
-        this.loginSuccess = 'Login successful! Redirecting...';
-        console.log('logg');
-        if (res.userRole === 'Admin') {
+        
+        //save role and userId in localstorage
+        
+        localStorage.setItem('userRole',res.userRole);
+        localStorage.setItem('userId',res.userId);
+        
+        //Also push them to BehaviorSubjects if needed
+
+        this.authService.userRole.next(res.userRole);
+        this.authService.userId.next(res.userId);
+
+        //Redirect
+
+        if (res.userRole.toUpperCase() === 'ADMIN') {
           this.router.navigate(['/adminnav']);
+          alert("successful as admin");
+          console.log(res.userRole);
         } else {
+          // this.router.navigate(['/user/view-properties']);
           this.router.navigate(['/usernav']);
+          console.log(res.userRole);
+          alert("successful as user");
         }
       },
-      error: () => {
-        this.isLoading = false;
-           }});
+      error: (err) => {
+        console.error('Login error:', err);
+        this.errorMsg = 'Invalid Email or Password';
+      }
+    });
   }
 }

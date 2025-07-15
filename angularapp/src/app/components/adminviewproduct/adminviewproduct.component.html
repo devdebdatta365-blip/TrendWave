@@ -1,1 +1,25 @@
-<p>adminviewproduct works!</p>
+<div class="admin-products">
+    <h2>All Products</h2>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Product Name</th><th>Category</th><th>Brand</th><th>Price</th><th>Stock</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of products">
+          <td>{{p.productName}}</td>
+          <td>{{p.category}}</td>
+          <td>{{p.brand}}</td>
+          <td>{{p.price}}</td>
+          <td>{{p.stockQuantity}}</td>
+          <td>
+            <button (click)="editProduct(p.productId)">Edit</button>
+            <button (click)="deleteProduct(p.productId)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

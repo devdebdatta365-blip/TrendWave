@@ -1,108 +1,20 @@
-<!-- <div class="login-container">
-    <h2>ProKart</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-      <div class="form-group">
-        <label for="email">Email*</label>
-        <input id="email" formControlName="email" type="email" />
-        <div class="error" *ngIf="email.invalid && (email.dirty || email.touched)">
-          <span *ngIf="email.errors?.required">Email is required</span>
-          <span *ngIf="email.errors?.email">Please enter a valid email</span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="password">Password*</label>
-        <input id="password" formControlName="password" type="password" />
-        <div class="error" *ngIf="password.invalid && (password.dirty || password.touched)">
-          <span *ngIf="password.errors?.required">Password is required</span>
-          <span *ngIf="password.errors?.minlength">Password must be at least 6 characters</span>
-        </div>
-      </div>
-      <div class="error" *ngIf="loginError">{{ loginError }}</div>
-      <button type="submit" [disabled]="loginForm.invalid">Login</button>
-    </form>
-    <p>
-      Don't have an account?
-      <a routerLink="/signup">Signup</a>
-    </p>
-  </div>
-  
--->
+<h2>Login</h2>
+<form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+  <label>
+    Email:
+    <input formControlName="email" type="email" />
+    <span class="error" *ngIf="submitted && f.email.errors?.required">Email is required.</span>
+    <span class="error" *ngIf="submitted && f.email.errors?.email">Enter a valid email.</span>
+  </label><br>
 
-<!-- 
-<div class="login-container">
-    <h2>ProKart</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-      <div class="form-group">
-        <label for="email">Email*</label>
-        <input id="email" formControlName="email" type="email" />
-        <div class="error" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
-          <span *ngIf="email?.errors?.required">Email is required</span>
-          <span *ngIf="email?.errors?.email">Please enter a valid email</span>
-        </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="password">Password*</label>
-        <input id="password" formControlName="password" type="password" />
-        <div class="error" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
-          <span *ngIf="password?.errors?.required">Password is required</span>
-          <span *ngIf="password?.errors?.minlength">Password must be at least 6 characters</span>
-        </div>
-      </div>
-  
-      <div class="error" *ngIf="loginError">{{ loginError }}</div>
-      <button type="submit" [disabled]="loginForm.invalid">Login</button>
-    </form>
-  
-    <p>
-      Don't have an account?
-      <a routerLink="/signup">Signup</a>
-    </p>
-  </div>
-   -->
+  <label>
+    Password:
+    <input formControlName="password" type="password" />
+    <span class="error" *ngIf="submitted && f.password.errors?.required">Password is required.</span>
+    <span class="error" *ngIf="submitted && f.password.errors?.minlength">Password must be at least 6 characters.</span>
+  </label><br>
 
-   
-   <div class="login-container">
-    <h2>ProKart</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-      <div class="form-group">
-        <label for="email">Email*</label>
-        <input id="email" formControlName="email" type="email" />
-        <div class="error" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
-          <span *ngIf="email?.errors?.required">Email is required</span>
-          <span *ngIf="email?.errors?.email">Please enter a valid email</span>
-        </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="password">Password*</label>
-        <div class="password-wrapper">
-          <input
-            id="password"
-            formControlName="password"
-            [type]="showPassword ? 'text' : 'password'"
-          />
-          <button type="button" class="toggle-btn" (click)="togglePasswordVisibility()">
-            {{ showPassword ? 'Hide' : 'Show' }}
-          </button>
-        </div>
-        <div class="error" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
-          <span *ngIf="password?.errors?.required">Password is required</span>
-          <span *ngIf="password?.errors?.minlength">Password must be at least 6 characters</span>
-        </div>
-      </div>
-  
-      <div class="error" *ngIf="loginError">{{ loginError }}</div>
-      <div class="success" *ngIf="loginSuccess">{{ loginSuccess }}</div>
-
-      <button type="submit" [disabled]="loginForm.invalid || isLoading">
-        {{ isLoading ? 'Logging in...' : 'Login' }}
-      </button>
-    </form>
-  
-    <p>
-      Don't have an account?
-      <a routerLink="/signup">Signup</a>
-    </p>
-  </div>
-  
+  <button type="submit">Login</button>
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+</form>
+<a routerLink="/signup">Don't have an account? Signup</a>
