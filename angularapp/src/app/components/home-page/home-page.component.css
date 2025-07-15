@@ -1,0 +1,68 @@
+.home-container {
+    height: 100vh;
+    background-image: url('/assets/images/background.webp');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 20px;
+  }
+  
+  .navbar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    justify-content: flex-end;
+    gap: 40px; ;
+  }
+  
+  .navbar a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .nav-item {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  .submenu a {
+    color: white;
+    padding: 5px 0;
+    text-decoration: none;
+    gap: 30px; 
+  }
+  
+  h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif
+  }
+  
+  .info-section {
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    font-family:cursive;
+  }
