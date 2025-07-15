@@ -23,13 +23,12 @@ export class MyorderComponent implements OnInit {
   constructor(private orderService: OrderService, private authService: AuthService) {}
 
   ngOnInit() {
-    this.authService.getUserId().subscribe(id => {
-      this.userId = id;
-      if (id) {
-        this.orderService.getOrdersByUserId(id).subscribe(orders => this.orders = orders);
-      }
-    });
+    this.userId = this.authService.getUserId();
+    if (this.userId) {
+      this.orderService.getOrdersByUserId(this.userId).subscribe(orders => this.orders = orders);
+    }
   }
+  
 
   //Show the orders in selected order
   viewItems(order: Order) {
