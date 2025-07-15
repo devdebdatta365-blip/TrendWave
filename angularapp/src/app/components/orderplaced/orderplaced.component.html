@@ -1,1 +1,53 @@
-<p>orderplaced works!</p>
+<div class="orderplaced-container">
+    <h2>Orders Placed</h2>
+    <div class="filters">
+      <input type="text" placeholder="Search orders..." [(ngModel)]="searchTerm" />
+      <button (click)="sortAsc = !sortAsc">Sort by Date: {{sortAsc ? 'Ascending' : 'Descending'}}</button>
+    </div>
+    <div *ngIf="filteredOrders().length === 0" class="no-data">No orders found.</div>
+    <div class="order-list">
+      <div class="order-card" *ngFor="let order of filteredOrders()">
+        <div>Order ID: {{order.orderId}}</div>
+        <div>Date: {{order.orderDate | date}}</div>
+        <div>Total Amount: ₹{{order.totalAmount}}</div>
+        <div>Order Status: {{order.orderStatus}}</div>
+        <div>Shipping Address: {{order.shippingAddress}}</div>
+        <div>Billing Address: {{order.billingAddress}}</div>
+        <label>Update Order Status:
+          <select [(ngModel)]="order.orderStatus" (change)="openStatusModal(order)">
+            <option *ngFor="let status of orderStatusOptions" [value]="status">{{status}}</option>
+          </select>
+        </label>
+        <button (click)="openItemsModal(order)">View Items</button>
+        <button (click)="openUserModal(order)">View Profile</button>
+      </div>
+    </div>
+    <!-- Items Modal -->
+    <div class="modal" *ngIf="showItemsModal">
+      <div class="modal-content">
+        <button class="close-btn" (click)="closeModal()">X</button>
+        <h3>Order Items</h3>
+        <div *ngFor="let item of selectedOrder?.orderItems">
+          {{item.product.productName}} - Quantity: {{item.quantity}} - Price: ₹{{item.price}}
+        </div>
+      </div>
+    </div>
+    <!-- User Modal -->
+    <div class="modal" *ngIf="showUserModal">
+      <div class="modal-content">
+        <button class="close-btn" (click)="closeModal()">X</button>
+        <h3>User Profile</h3>
+        <div>Username: {{selectedOrder?.user.username}}</div>
+        <div>Email: {{selectedOrder?.user.email}}</div>
+        <div>Mobile Number: {{selectedOrder?.user.mobileNumber}}</div>
+      </div>
+    </div>
+    <!-- Status Modal -->
+    <div class="modal" *ngIf="showStatusModal">
+      <div class="modal-content">
+        <p>Order status updated successfully!</p>
+        <button (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+  
