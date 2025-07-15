@@ -1,15 +1,93 @@
+// import { Component, OnInit } from '@angular/core';
+// import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+// import { Router } from '@angular/router';
+// import { User } from 'src/app/models/user.model';
+// import { AuthService } from 'src/app/services/auth.service';
+
+// @Component({
+//   selector: 'app-signup',
+//   templateUrl: './signup.component.html',
+//   styleUrls: ['./signup.component.css']
+// })
+// export class SignupComponent{
+//   errorMessage: string = '';
+//   successMessage: string = '';
+
+//   constructor(private authService: AuthService,
+//     private router: Router) {
+
+//   }
+//   register(form: NgForm): void {
+//     if (form.valid) {
+//       const userData: User = new User(
+//         form.value.email,
+//         form.value.password,
+//         form.value.username,
+//         form.value.mobileNumber,
+//         form.value.userRole
+//       );
+
+//       this.authService.register(userData).subscribe({
+//         next: (registeredUser) => {
+//           this.successMessage = 'Registration successful!';
+//           // setTimeout(() => {
+//           //   this.router.navigate(['/login']);
+//           // }, 2000);
+//         },
+//         error: (err) => {
+//           this.errorMessage = 'Registration failed. Please try again.';
+//           console.error('Registration error', err);
+//         }
+//       });
+//     }
+//   }
+
+// }
+
+
+
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent{
+  errorMessage: string = '';
+  successMessage: string = '';
 
-  constructor() { }
+  constructor(private authService: AuthService,
+    private router: Router) {
 
-  ngOnInit(): void {
+  }
+  register(form: NgForm): void {
+    if (form.valid) {
+      const userData: User = new User(
+        form.value.email,
+        form.value.password,
+        form.value.username,
+        form.value.mobileNumber,
+        form.value.userRole
+      );
+
+      this.authService.register(userData).subscribe({
+        next: (registeredUser) => {
+          this.successMessage = 'Registration successful!';
+          // setTimeout(() => {
+          //   this.router.navigate(['/login']);
+          // }, 2000);
+        },
+        error: (err) => {
+          this.errorMessage = 'Registration failed. Please try again.';
+          console.error('Registration error', err);
+        }
+      });
+    }
   }
 
 }

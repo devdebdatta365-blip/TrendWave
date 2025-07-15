@@ -1,31 +1,38 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Product } from '../models/product.model';
+import { BehaviorSubject } from 'rxjs';
 import { OrderItem } from '../models/order-item.model';
-import { Observable } from 'rxjs';
+import { Product } from '../models/product.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class CartService {
+  private cartItems: OrderItem[] = [];
+  private cartSubject = new BehaviorSubject<OrderItem[]>([]);
 
-  constructor(private http:HttpClient) { }
-  baseUrl:string='';
-  // addToCart(product:Product,quantity:number):void
-  // {
-  //   this.http.post<void>(`${this.baseUrl}`,product);
-  // }
-  // removeFromCart(productId: number): void
-  // {
-  //   this.http.delete<void>(`${this.baseUrl}/api/orders/${productId}`);
-  // }
-  // getCartItems():Observable<OrderItem[]>
-  // {
-  //   return this.http.get<OrderItem[]>(`${this.baseUrl}/api/orders`);
-  // }
-  clearCart()
-  {
-    
+  addToCart(product: Product, quantity: number): void {
+    const itemIndex = this.cartItems.findIndex(item => item.product.productId === product.productId);
+    if (itemIndex !== -1) {
+      this.cartItems[itemIndex].quantity += quantity;
+    } else {
+      this.cartItems.push({ product, quantity, price: product.price });
+    }
+    this.cartSubject.next(this.cartItems);
   }
 
+  removeFromCart(productId: number): void {
+    this.cartItems = this.cartItems.filter(item => item.product.productId !== productId);
+    this.cartSubject.next(this.cartItems);
+  }
+
+  getCartItems(): OrderItem[] {
+    return this.cartItems;
+  }
+
+  clearCart(): void {
+    this.cartItems = [];
+    this.cartSubject.next(this.cartItems);
+  }
+
+  getCartObservable() {
+    return this.cartSubject.asObservable();
+  }
 }

@@ -43,13 +43,10 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     AppRoutingModule,
-<<<<<<< HEAD
-    HttpClientModule
-=======
+    HttpClientModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule
->>>>>>> fb33a6031871c9bd4aa0be660dd8677baf46e04e
   ],
   providers: [],
   bootstrap: [AppComponent]

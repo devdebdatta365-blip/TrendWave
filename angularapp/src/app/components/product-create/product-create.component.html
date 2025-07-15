@@ -1,4 +1,10 @@
+
+
 <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+  <h1>Create a new Product</h1>
+
+ 
+
   <label>Product Name<span class="required">*</span></label>
   <input type="text" formControlName="productName" />
   <div *ngIf="productForm.get('productName')?.invalid && (productForm.get('productName')?.touched || productForm.get('productName')?.dirty)" class="error">
@@ -45,10 +51,11 @@
   </div><br>
 
   <label>Cover Image<span class="required">*</span></label>
-  <input type="file" (change)="onFileChange($event)" />
-  <div *ngIf="productForm.get('coverImage')?.invalid && submitted" class="error">
-    *Cover Image is required
-  </div><br>
+  <input type="file" (change)="onFileChange($event)" /><br>
+  
+  <div *ngIf="submitted && productForm.invalid" class="error">
+    All fields are required
+  </div>
 
   <button type="submit" class="submit-btn">Add Product</button>
 
@@ -59,4 +66,6 @@
       <button (click)="onPopupOk()" class="submit-btn">OK</button>
     </div>
   </div>
+
 </form>
+

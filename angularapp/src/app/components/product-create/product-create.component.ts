@@ -1,3 +1,5 @@
+
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -32,8 +34,11 @@ export class ProductCreateComponent implements OnInit {
     if (this.productForm.valid) {
       this.showSuccessPopup = true;
     }
+    
   }
 
+ 
+  
   onFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -46,3 +51,5 @@ export class ProductCreateComponent implements OnInit {
     this.router.navigate(['/adminviewproduct']);
   }
 }
+
+
