@@ -6,6 +6,7 @@ import { AdminnavComponent } from './components/adminnav/adminnav.component';
 import { UsernavComponent } from './components/usernav/usernav.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: '/signup', pathMatch: 'full' }, 
   {path:'login', component:LoginComponent},
   {path:'signup', component:SignupComponent},
   {path:'adminnav',component:AdminnavComponent},
