@@ -7,3 +7,13 @@ export class User {
     userRole: string;
     }
     
+// export class User {
+//     constructor(
+//     // public userId?: number,
+//     public email: string,
+//     public password: string,
+//     public username: string,
+//     public mobileNumber: string,
+//     public userRole: string){}
+//     }
+    

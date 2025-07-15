@@ -1,1 +1,84 @@
-<p>login works!</p>
+<!-- 
+
+<div class="login-page">
+  <div class="left-section"></div>
+  <div class="right-section">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <h2>Login</h2>
+      <label for="name">email *</label>
+      <input formControlName="email" />
+      <div class="error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+        Enter a valid email.
+      </div>
+
+      <label for="pwd">Password *</label>
+      <input type="password" formControlName="password" />
+      <div class="error" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+        Password is required.
+      </div>
+
+      <button type="submit" [disabled]="loginForm.invalid">Login</button>
+      <p>Don't have an account? <a routerLink="/">Register here</a></p>
+    </form>
+  </div>
+</div>
+<div *ngIf="showSuccessModal" class="modal-overlay">
+  <div class="modal">
+    <p>Your account has been logged in successfully!</p>
+    <button (click)="closeModal()">OK</button>
+  </div>
+</div>
+
+<router-outlet></router-outlet> -->
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f2f5;">
+  <div style="background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); width: 400px;">
+    <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">Login to Your Account</h2>
+    
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="form-group mb-4">
+        <label for="email" style="font-weight: 600; color: #34495e;">Email *</label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          class="form-control"
+          [(ngModel)]="loginData.email"
+          placeholder="Enter your Email"
+          required
+          style="margin-top: 5px;"
+        />
+      </div>
+
+      <div class="form-group mb-4">
+        <label for="password" style="font-weight: 600; color: #34495e;">Password *</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="form-control"
+          [(ngModel)]="loginData.password"
+          placeholder="Enter your password"
+          required
+          style="margin-top: 5px;"
+        />
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger" style="margin-bottom: 20px;">
+        {{ errorMessage }}
+      </div>
+
+      <div style="text-align: center;">
+        <button type="submit" class="btn btn-primary" style="padding: 10px 30px; font-weight: 500;">
+          Login
+        </button>
+      </div>
+    </form>
+
+    <div style="text-align: center; margin-top: 25px; font-size: 15px;">
+      <span style="color: #7f8c8d;">Don't have an account?</span>
+      <a (click)="goToRegister()" style="color: #007bff; cursor: pointer; text-decoration: none; font-weight: 500;">
+        Register here
+      </a>
+    </div>
+  </div>
+</div>

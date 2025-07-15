@@ -17,7 +17,7 @@ public class JwtHelper {
     /*
      * Secret key for JWT token generation and validation
      */
-    private String secret = "bookHeavensecretkey2025";
+    private String secret = "proKartsecretkey2025";
 
     /*
      * Token expiration time (24 hours in milliseconds)

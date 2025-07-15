@@ -38,7 +38,7 @@ public class AuthController {
     public ResponseEntity<String> loginUser(@Valid @RequestBody LoginDTO loginDTO){
         String token = userService.loginUser(loginDTO);
         if(token!=null){
-            return new ResponseEntity<>(token, HttpStatus.CREATED);
+            return new ResponseEntity<>(token, HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
