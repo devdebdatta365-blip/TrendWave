@@ -37,6 +37,10 @@ export class OrderplacedComponent implements OnInit {
         billingAddress: '456 Billing Lane, Bengaluru',
         totalAmount: 30500,
         user: {
+<<<<<<< HEAD
+=======
+          userId: 1,
+>>>>>>> f0e1fcffabe7492de873828c2683de56b2a51513
           username: 'john_doe',
           email: 'john@example.com',
           password: '',
@@ -103,6 +107,7 @@ export class OrderplacedComponent implements OnInit {
   openItemsModal(order: Order) {
     this.selectedOrder = order;
     this.showItemsModal = true;
+<<<<<<< HEAD
   }
 
   //To show the user profile of the selected order
@@ -117,6 +122,22 @@ export class OrderplacedComponent implements OnInit {
     this.showStatusModal = true;
   }
 
+=======
+  }
+
+  //To show the user profile of the selected order
+  openUserModal(order: Order) {
+    this.selectedOrder = order;
+    this.showUserModal = true;
+  }
+
+  //To show the  status update conformation after updating
+  openStatusModal(order: Order) {
+    this.selectedOrder = order;
+    this.showStatusModal = true;
+  }
+
+>>>>>>> f0e1fcffabe7492de873828c2683de56b2a51513
   //Updated the orders based on orderStatusOptions
   updateOrderStatus(newStatus: string) {
     if (!this.selectedOrder) return;
