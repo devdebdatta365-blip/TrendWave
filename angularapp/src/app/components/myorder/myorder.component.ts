@@ -1,76 +1,71 @@
 import { Component, OnInit } from '@angular/core';
-
-import { Order } from 'src/app/models/order.model';
-
-
-import { AuthService } from 'src/app/services/auth.service';
-import { OrderService } from 'src/app/services/order.service';
+import { OrderService } from '../../services/order.service';
+import { AuthService } from '../../services/auth.service';
+import { Order } from '../../models/order.model';
 
 @Component({
   selector: 'app-myorder',
   templateUrl: './myorder.component.html',
   styleUrls: ['./myorder.component.css']
 })
-export class MyorderComponent implements OnInit {
-
+export class MyOrderComponent implements OnInit {
   orders: Order[] = [];
-  userId: number | null = null;
-  selectedOrder: Order | null = null;
-  showItemsModal = false;
-  showTrackModal = false;
-  showCancelModal = false;
+  loading = false;
+  userId: number;
 
-  constructor(private orderService: OrderService, private authService: AuthService) {}
-
-  ngOnInit() {
+  constructor(
+    private orderService: OrderService,
+    private authService: AuthService
+  ) {
     this.userId = this.authService.getUserId();
-    if (this.userId) {
-      this.orderService.getOrdersByUserId(this.userId).subscribe(orders => this.orders = orders);
-    }
-  }
-  
-
-  //Show the orders in selected order
-  viewItems(order: Order) {
-    this.selectedOrder = order;
-    this.showItemsModal = true;
   }
 
-  //To show the tractking status of the selected order
-  trackOrder(order: Order) {
-    this.selectedOrder = order;
-    this.showTrackModal = true;
+  ngOnInit(): void {
+    this.loadMyOrders();
   }
 
-  //Confirmation message for deletion
-  cancelOrder(order: Order) {
-    this.selectedOrder = order;
-    this.showCancelModal = true;
+  loadMyOrders(): void {
+    this.loading = true;
+    this.orderService.getOrdersByUserId(this.userId).subscribe({
+      next: (orders) => {
+        this.orders = orders;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading orders:', error);
+        this.loading = false;
+      }
+    });
   }
 
- 
-  confirmCancelOrder() {
-    if (this.selectedOrder) {
-      this.orderService.deleteOrder(this.selectedOrder.orderId!).subscribe(() => {
-        this.orders = this.orders.filter(o => o.orderId !== this.selectedOrder?.orderId);
-        this.showCancelModal = false;
-        this.selectedOrder = null;
+  cancelOrder(orderId: number): void {
+    if (confirm('Are you sure you want to cancel this order?')) {
+      this.orderService.deleteOrder(orderId).subscribe({
+        next: () => {
+          this.orders = this.orders.filter(o => o.orderId !== orderId);
+          alert('Order cancelled successfully');
+        },
+        error: (error) => {
+          console.error('Error cancelling order:', error);
+          alert('Error cancelling order');
+        }
       });
     }
   }
 
-  //Closes the current modal and resets the order
-  closeModal() {
-    this.showItemsModal = false;
-    this.showTrackModal = false;
-    this.showCancelModal = false;
-    this.selectedOrder = null;
+  getStatusClass(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'pending': return 'status-pending';
+      case 'processing': return 'status-processing';
+      case 'shipped': return 'status-shipped';
+      case 'delivered': return 'status-delivered';
+      case 'cancelled': return 'status-cancelled';
+      default: return 'status-default';
+    }
   }
 
-
+  canCancelOrder(order: Order): boolean {
+    return order.orderStatus.toLowerCase() === 'pending' || 
+           order.orderStatus.toLowerCase() === 'processing';
+  }
 }
-
-
-
-
-

@@ -1,67 +1,53 @@
+.user-nav {
+  background-color: #3498db;
+  color: white;
+  padding: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
-.user-navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: linear-gradient(to right, #ff69b4, #8b4513); /* pink to brown */
-    padding: 10px 20px;
-    flex-wrap: wrap;
-  }
-  
-  .navbar-left {
-    flex: 1;
-  }
-  
-  .prokart-brand {
-    color: white;
-    font-weight: bold;
-    font-size: 22px;
-    text-transform: none;
-  }
-  
-  .navbar-right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .user-label {
-    border: 1px solid white;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  .nav-link {
-    color: white !important;
-    font-weight: 500;
-    text-decoration: none;
-  }
-  
-  .nav-link:hover {
-    text-decoration: underline;
-  }
-  
-  .cart-icon {
-    font-size: 18px;
-  }
-  
-  .btn-danger {
-    font-weight: bold;
-  }
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+}
 
-  
-.nav-link,
-.cart-icon {
-  color: white !important;
-  font-weight: 500;
+.nav-brand h2 {
+  margin: 0;
+  color: white;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-links a {
+  color: white;
   text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
 }
 
-.nav-link:hover,
-.cart-icon:hover {
-  text-decoration: none; /* Removes underline on hover */
+.nav-links a:hover,
+.nav-links a.active {
+  background-color: #2980b9;
 }
 
-  
+.logout-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
+}

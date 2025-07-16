@@ -1,16 +1,16 @@
+<nav class="admin-nav">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <h2>Admin Dashboard</h2>
+    </div>
+    
+    <div class="nav-links">
+      <a routerLink="/adminviewproduct" routerLinkActive="active">View Products</a>
+      <a routerLink="/adminviewreviews" routerLinkActive="active">View Reviews</a>
+      <a routerLink="/orderplaced" routerLinkActive="active">Orders Placed</a>
+      <button class="logout-btn" (click)="onLogout()">Logout</button>
+    </div>
+  </div>
+</nav>
 
-<nav class="navbar admin-navbar">
-     <div class="navbar-left">
-          <a class="navbar-brand prokart-brand">ProKart</a>
-     </div>
-   
-     <div class="navbar-right">
-       <span class="admin-label">admin / Admin</span>
-       <a class="nav-link text-white" routerLink="/">Home</a>
-       <a class="nav-link text-white" routerLink="/adminviewproduct">Product</a>
-       <a class="nav-link text-white" routerLink="/orderplaced">Order Placed</a>
-       <a class="nav-link text-white" routerLink="/reviews">Review</a>
-       <button class="btn btn-danger btn-sm" routerLink="/logout">Logout</button>
-     </div>
-   </nav>
-   
+<router-outlet></router-outlet>

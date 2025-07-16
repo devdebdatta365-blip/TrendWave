@@ -1,32 +1,68 @@
 <div class="checkout-container">
-    <h2>Order Confirmation</h2>
-    <div class="invoice">
-      <div *ngFor="let item of cartItems">
-        {{item.product.productName}} - Quantity: {{item.quantity}} - Price: ₹{{item.price}}
+  <h2>Checkout</h2>
+  
+  <div class="checkout-content">
+    <div class="cart-section">
+      <h3>Your Cart</h3>
+      
+      <div class="cart-items" *ngIf="cartItems.length > 0">
+        <div class="cart-item" *ngFor="let item of cartItems">
+          <div class="item-image">
+            <img [src]="item.product.coverImage" [alt]="item.product.productName" />
+          </div>
+          <div class="item-details">
+            <h4>{{ item.product.productName }}</h4>
+            <p class="item-price">${{ item.price }}</p>
+            <div class="quantity-controls">
+              <button (click)="updateQuantity(item.product.productId!, item.quantity - 1)">-</button>
+              <span class="quantity">{{ item.quantity }}</span>
+              <button (click)="updateQuantity(item.product.productId!, item.quantity + 1)">+</button>
+            </div>
+            <p class="item-total">${{ item.price * item.quantity }}</p>
+          </div>
+          <button class="remove-btn" (click)="removeFromCart(item.product.productId!)">
+            Remove
+          </button>
+        </div>
       </div>
-      <div><strong>Total Amount: ₹{{totalAmount}}</strong></div>
+      
+      <div class="empty-cart" *ngIf="cartItems.length === 0">
+        <p>Your cart is empty</p>
+        <button routerLink="/userviewproduct" class="shop-btn">Continue Shopping</button>
+      </div>
     </div>
-    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="shippingAddress">Shipping Address</label>
-        <input id="shippingAddress" formControlName="shippingAddress" type="text" />
-        <div class="error" *ngIf="checkoutForm.get('shippingAddress').invalid && (checkoutForm.get('shippingAddress').dirty || checkoutForm.get('shippingAddress').touched)">
-          Shipping address is required
+    
+    <div class="order-section" *ngIf="cartItems.length > 0">
+      <h3>Order Summary</h3>
+      
+      <div class="order-summary">
+        <div class="summary-row">
+          <span>Items ({{ cartItems.length }})</span>
+          <span>${{ totalAmount }}</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span>${{ totalAmount }}</span>
         </div>
       </div>
-      <div class="form-group">
-        <label for="billingAddress">Billing Address</label>
-        <input id="billingAddress" formControlName="billingAddress" type="text" />
-        <div class="error" *ngIf="checkoutForm.get('billingAddress').invalid && (checkoutForm.get('billingAddress').dirty || checkoutForm.get('billingAddress').touched)">
-          Billing address is required
-        </div>
+      
+      <div class="billing-section">
+        <h4>Billing Address</h4>
+        <textarea 
+          [(ngModel)]="billingAddress" 
+          placeholder="Enter your billing address"
+          rows="4"
+          class="address-input"
+        ></textarea>
       </div>
-      <button type="submit" [disabled]="checkoutForm.invalid">Place Order</button>
-      <div class="modal" *ngIf="showSuccess">
-        <div class="modal-content">
-          <p>Order placed successfully!</p>
-          <button (click)="showSuccess = false">Continue Shopping</button>
-        </div>
-      </div>
-    </form>
+      
+      <button 
+        class="place-order-btn" 
+        (click)="placeOrder()"
+        [disabled]="loading || cartItems.length === 0 || !billingAddress.trim()"
+      >
+        {{ loading ? 'Placing Order...' : 'Place Order' }}
+      </button>
+    </div>
   </div>
+</div>

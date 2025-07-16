@@ -35,6 +35,8 @@ public class Order {
 	private LocalDate orderDate;
 	@Column(name="order_status")
 	private String orderStatus;
+	@Column(name="shipping_address")
+    private String shippingAddress;
 	@Column(name="billing_address")
 	private String billingAddress;
 	@Column(name="total_amount")

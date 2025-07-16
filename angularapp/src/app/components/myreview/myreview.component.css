@@ -1,8 +1,126 @@
-.myreview-container { max-width: 900px; margin: 30px auto; }
-.review-list { display: flex; flex-wrap: wrap; gap: 18px; }
-.review-card { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #eee; padding: 16px; width: 270px; }
-.no-data { text-align: center; color: #888; margin-top: 32px; }
-button { margin-right: 8px; }
-.modal { position: fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.2); display:flex; align-items:center; justify-content:center; }
-.modal-content { background:#fff; padding:32px; border-radius:8px; text-align:left; min-width: 300px; position: relative; }
-.close-btn { position: absolute; top: 8px; right: 8px; background: none; border: none; font-size: 1.2em; cursor: pointer; }
+.my-reviews-container {
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .my-reviews-container h2 {
+    color: #2c3e50;
+    margin-bottom: 2rem;
+  }
+  
+  .loading {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    padding: 2rem;
+  }
+  
+  .reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .review-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .product-info h3 {
+    margin: 0;
+    color: #2c3e50;
+  }
+  
+  .review-date {
+    color: #7f8c8d;
+    margin: 0.25rem 0 0 0;
+    font-size: 0.9rem;
+  }
+  
+  .rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .star {
+    font-size: 1.2rem;
+    color: #ddd;
+  }
+  
+  .star.filled {
+    color: #f39c12;
+  }
+  
+  .rating-text {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+  }
+  
+  .review-content {
+    margin-bottom: 1rem;
+  }
+  
+  .review-content p {
+    color: #2c3e50;
+    line-height: 1.6;
+    margin: 0;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+  }
+  
+  .review-actions {
+    text-align: right;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+  }
+  
+  .delete-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .delete-btn:hover {
+    background-color: #c0392b;
+  }
+  
+  .no-reviews {
+    text-align: center;
+    color: #7f8c8d;
+    padding: 2rem;
+  }
+  
+  .shop-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .shop-btn:hover {
+    background-color: #2980b9;
+  }
+  

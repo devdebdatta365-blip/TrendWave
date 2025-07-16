@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Order } from 'src/app/models/order.model';
-import { OrderService } from 'src/app/services/order.service';
+import { OrderService } from '../../services/order.service';
+import { Order } from '../../models/order.model';
 
 @Component({
   selector: 'app-orderplaced',
@@ -8,138 +8,87 @@ import { OrderService } from 'src/app/services/order.service';
   styleUrls: ['./orderplaced.component.css']
 })
 export class OrderplacedComponent implements OnInit {
-
   orders: Order[] = [];
+  filteredOrders: Order[] = [];
   searchTerm: string = '';
-  sortAsc: boolean = true;
-  selectedOrder: Order | null = null;
-  showItemsModal = false;
-  showUserModal = false;
-  showStatusModal = false;
-  orderStatusOptions = ['Pending', 'Accepted', 'Dispatched', 'OutForDelivery', 'Delivered'];
-  statusUpdateSuccess = false;
+  selectedStatus: string = '';
 
-  constructor(private orderService: OrderService) { }
+  constructor(private orderService: OrderService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadOrders();
   }
 
-  loadOrders() {
-    //this.orderService.getAllOrders().subscribe(orders => this.orders = orders);
-
-    this.orders = [
-      {
-        orderId: 101,
-        orderDate: '2025-07-14',
-        orderStatus: 'Pending',
-        shippingAddress: '123 Demo Street, Bengaluru',
-        billingAddress: '456 Billing Lane, Bengaluru',
-        totalAmount: 30500,
-        user: {
-          userId: 1,
-          username: 'john_doe',
-          email: 'john@example.com',
-          password: '',
-          mobileNumber: '9876543210',
-          userRole: 'customer'
-        },
-        orderItems: [
-          {
-            orderItemId: 1,
-            product: {
-              productId: 201,
-              productName: 'Stereo Earphones',
-              description: 'High-quality stereo earphones with noise cancellation.',
-              price: 499,
-              stockQuantity: 100,
-              category: 'Electronics',
-              brand: 'SoundMax',
-              coverImage: 'earphones.jpg'
-            },
-            quantity: 10,
-            price: 499
-          },
-          {
-            orderItemId: 2,
-            product: {
-              productId: 202,
-              productName: 'Sample Mobile Product',
-              description: 'Latest smartphone with advanced features.',
-              price: 25000,
-              stockQuantity: 50,
-              category: 'Mobiles',
-              brand: 'TechBrand',
-              coverImage: 'mobile.jpg'
-            },
-            quantity: 1,
-            price: 25000
-          }
-
-        ]
+  loadOrders(): void {
+    this.orderService.getAllOrders().subscribe({
+      next: (orders) => {
+        this.orders = orders;
+        this.filteredOrders = orders;
+      },
+      error: (error) => {
+        console.error('Error loading orders:', error);
       }
-    ];
-
-    
-
-
-  }
-  /*Filters orders based on the searched Term
-   Sorts order based on date */
-  filteredOrders() {
-    let filtered = this.orders;
-    if (this.searchTerm) {
-      filtered = filtered.filter(o =>
-        o.orderId?.toString().includes(this.searchTerm) ||
-        o.user.username.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
-    }
-    return filtered.sort((a, b) => this.sortAsc
-      ? new Date(a.orderDate).getTime() - new Date(b.orderDate).getTime()
-      : new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()
-    );
-  }
-
-  //View items in the selected order
-  openItemsModal(order: Order) {
-    this.selectedOrder = order;
-    this.showItemsModal = true;
-  }
-
-  //To show the user profile of the selected order
-  openUserModal(order: Order) {
-    this.selectedOrder = order;
-    this.showUserModal = true;
-  }
-
-  //To show the  status update conformation after updating
-  openStatusModal(order: Order) {
-    this.selectedOrder = order;
-    this.showStatusModal = true;
-  }
-
-  //Updated the orders based on orderStatusOptions
-  updateOrderStatus(newStatus: string) {
-    if (!this.selectedOrder) return;
-    const updatedOrder = { ...this.selectedOrder, orderStatus: newStatus };
-    this.orderService.updateOrder(this.selectedOrder.orderId!, updatedOrder).subscribe(() => {
-      this.statusUpdateSuccess = true;
-      this.loadOrders();
-      setTimeout(() => {
-        this.statusUpdateSuccess = false;
-        this.showStatusModal = false;
-        this.selectedOrder = null;
-      }, 1200);
     });
   }
 
-  closeModal() {
-    this.showItemsModal = false;
-    this.showUserModal = false;
-    this.showStatusModal = false;
-    this.selectedOrder = null;
+  filterOrders(): void {
+    this.filteredOrders = this.orders.filter(order => {
+      const matchesSearch = this.searchTerm === '' || 
+        order.orderId?.toString().includes(this.searchTerm) ||
+        order.user.username.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        order.user.email.toLowerCase().includes(this.searchTerm.toLowerCase());
+      
+      const matchesStatus = this.selectedStatus === '' || order.orderStatus === this.selectedStatus;
+      
+      return matchesSearch && matchesStatus;
+    });
   }
 
+  updateOrderStatus(orderId: number, newStatus: string): void {
+    const order = this.orders.find(o => o.orderId === orderId);
+    if (order) {
+      const updatedOrder = { ...order, orderStatus: newStatus };
+      this.orderService.updateOrder(orderId, updatedOrder).subscribe({
+        next: (updated) => {
+          const index = this.orders.findIndex(o => o.orderId === orderId);
+          if (index !== -1) {
+            this.orders[index] = updated;
+            this.filterOrders();
+          }
+          alert('Order status updated successfully');
+        },
+        error: (error) => {
+          console.error('Error updating order status:', error);
+          alert('Error updating order status');
+        }
+      });
+    }
+  }
 
+  deleteOrder(orderId: number): void {
+    if (confirm('Are you sure you want to delete this order?')) {
+      this.orderService.deleteOrder(orderId).subscribe({
+        next: () => {
+          this.orders = this.orders.filter(o => o.orderId !== orderId);
+          this.filterOrders();
+          alert('Order deleted successfully');
+        },
+        error: (error) => {
+          console.error('Error deleting order:', error);
+          alert('Error deleting order');
+        }
+      });
+    }
+  }
+
+  getStatusClass(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'pending': return 'status-pending';
+      case 'processing': return 'status-processing';
+      case 'shipped': return 'status-shipped';
+      case 'delivered': return 'status-delivered';
+      case 'cancelled': return 'status-cancelled';
+      default: return 'status-default';
+    }
+  }
 }
-

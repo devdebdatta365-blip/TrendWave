@@ -1,53 +1,86 @@
-<div class="orderplaced-container">
-    <h2>Orders Placed</h2>
-    <div class="filters">
-      <input type="text" placeholder="Search orders..." [(ngModel)]="searchTerm" />
-      <button (click)="sortAsc = !sortAsc">Sort by Date: {{sortAsc ? 'Ascending' : 'Descending'}}</button>
+<div class="admin-orders-container">
+  <div class="header">
+    <h2>Order Management</h2>
+  </div>
+
+  <div class="filters">
+    <div class="search-box">
+      <input 
+        type="text" 
+        placeholder="Search by Order ID, username, or email..." 
+        [(ngModel)]="searchTerm"
+        (input)="filterOrders()"
+      />
     </div>
-    <div *ngIf="filteredOrders().length === 0" class="no-data">No orders found.</div>
-    <div class="order-list">
-      <div class="order-card" *ngFor="let order of filteredOrders()">
-        <div>Order ID: {{order.orderId}}</div>
-        <div>Date: {{order.orderDate | date}}</div>
-        <div>Total Amount: ₹{{order.totalAmount}}</div>
-        <div>Order Status: {{order.orderStatus}}</div>
-        <div>Shipping Address: {{order.shippingAddress}}</div>
-        <div>Billing Address: {{order.billingAddress}}</div>
-        <label>Update Order Status:
-          <select [(ngModel)]="order.orderStatus" (change)="openStatusModal(order)">
-            <option *ngFor="let status of orderStatusOptions" [value]="status">{{status}}</option>
-          </select>
-        </label>
-        <button (click)="openItemsModal(order)">View Items</button>
-        <button (click)="openUserModal(order)">View Profile</button>
-      </div>
+    <div class="status-filter">
+      <label>Filter by Status:</label>
+      <select [(ngModel)]="selectedStatus" (change)="filterOrders()">
+        <option value="">All Status</option>
+        <option value="PENDING">Pending</option>
+        <option value="PROCESSING">Processing</option>
+        <option value="SHIPPED">Shipped</option>
+        <option value="DELIVERED">Delivered</option>
+        <option value="CANCELLED">Cancelled</option>
+      </select>
     </div>
-    <!-- Items Modal -->
-    <div class="modal" *ngIf="showItemsModal">
-      <div class="modal-content">
-        <button class="close-btn" (click)="closeModal()">X</button>
-        <h3>Order Items</h3>
-        <div *ngFor="let item of selectedOrder?.orderItems">
-          {{item.product.productName}} - Quantity: {{item.quantity}} - Price: ₹{{item.price}}
+  </div>
+
+  <div class="orders-list">
+    <div class="order-card" *ngFor="let order of filteredOrders">
+      <div class="order-header">
+        <div class="order-id">
+          <strong>Order #{{ order.orderId }}</strong>
+        </div>
+        <div class="order-date">{{ order.orderDate | date:'mediumDate' }}</div>
+        <div class="order-status" [class]="getStatusClass(order.orderStatus)">
+          {{ order.orderStatus }}
         </div>
       </div>
-    </div>
-    <!-- User Modal -->
-    <div class="modal" *ngIf="showUserModal">
-      <div class="modal-content">
-        <button class="close-btn" (click)="closeModal()">X</button>
-        <h3>User Profile</h3>
-        <div>Username: {{selectedOrder?.user.username}}</div>
-        <div>Email: {{selectedOrder?.user.email}}</div>
-        <div>Mobile Number: {{selectedOrder?.user.mobileNumber}}</div>
+      
+      <div class="customer-info">
+        <strong>Customer:</strong> {{ order.user.username }} ({{ order.user.email }})
       </div>
-    </div>
-    <!-- Status Modal -->
-    <div class="modal" *ngIf="showStatusModal">
-      <div class="modal-content">
-        <p>Order status updated successfully!</p>
-        <button (click)="closeModal()">Close</button>
+      
+      <div class="order-details">
+        <div class="billing-address">
+          <strong>Billing Address:</strong> {{ order.billingAddress }}
+        </div>
+        <div class="total-amount">
+          <strong>Total Amount: ${{ order.totalAmount }}</strong>
+        </div>
+      </div>
+      
+      <div class="order-items">
+        <h4>Order Items:</h4>
+        <div class="item" *ngFor="let item of order.orderItems">
+          <div class="item-details">
+            <span class="item-name">{{ item.product.productName }}</span>
+            <span class="item-quantity">Qty: {{ item.quantity }}</span>
+            <span class="item-price">${{ item.price }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="actions">
+        <div class="status-update">
+          <label>Update Status:</label>
+          <select (change)="updateOrderStatus(order.orderId!, $event.target.value)">
+            <option value="">Select Status</option>
+            <option value="PENDING">Pending</option>
+            <option value="PROCESSING">Processing</option>
+            <option value="SHIPPED">Shipped</option>
+            <option value="DELIVERED">Delivered</option>
+            <option value="CANCELLED">Cancelled</option>
+          </select>
+        </div>
+        <button class="delete-btn" (click)="deleteOrder(order.orderId!)">
+          Delete Order
+        </button>
       </div>
     </div>
   </div>
-  
+
+  <div class="no-orders" *ngIf="filteredOrders.length === 0">
+    <p>No orders found.</p>
+  </div>
+</div>

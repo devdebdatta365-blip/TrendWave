@@ -8,50 +8,52 @@ import { Review } from '../../models/review.model';
   templateUrl: './myreview.component.html',
   styleUrls: ['./myreview.component.css']
 })
-export class MyreviewComponent implements OnInit {
+export class MyReviewComponent implements OnInit {
   reviews: Review[] = [];
-  userId: number | null = null;
-  selectedReview: Review | null = null;
-  showProductModal = false;
-  showDeleteModal = false;
+  loading = false;
+  userId: number;
 
-  constructor(private reviewService: ReviewService, private authService: AuthService) {}
-
-  ngOnInit() {
-    // this.authService.getUserId().subscribe(id => {
-    //   this.userId = id;
-    //   if (id) {
-    //     this.reviewService.getReviewsByUserId(id).subscribe(reviews => this.reviews = reviews);
-    //   }
-    // });
+  constructor(
+    private reviewService: ReviewService,
+    private authService: AuthService
+  ) {
+    this.userId = this.authService.getUserId();
   }
 
-  openProductModal(review: Review) {
-    this.selectedReview = review;
-    this.showProductModal = true;
+  ngOnInit(): void {
+    this.loadMyReviews();
   }
 
-  closeProductModal() {
-    this.showProductModal = false;
-    this.selectedReview = null;
-  }
-
-  confirmDelete(review: Review) {
-    this.selectedReview = review;
-    this.showDeleteModal = true;
-  }
-
-  deleteReview() {
-    if (!this.selectedReview) return;
-    this.reviewService.deleteReview(this.selectedReview.reviewId!).subscribe(() => {
-      this.reviews = this.reviews.filter(r => r.reviewId !== this.selectedReview?.reviewId);
-      this.showDeleteModal = false;
-      this.selectedReview = null;
+  loadMyReviews(): void {
+    this.loading = true;
+    this.reviewService.getReviewsByUserId(this.userId).subscribe({
+      next: (reviews) => {
+        this.reviews = reviews;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading reviews:', error);
+        this.loading = false;
+      }
     });
   }
 
-  cancelDelete() {
-    this.showDeleteModal = false;
-    this.selectedReview = null;
+  deleteReview(reviewId: number): void {
+    if (confirm('Are you sure you want to delete this review?')) {
+      this.reviewService.deleteReview(reviewId).subscribe({
+        next: () => {
+          this.reviews = this.reviews.filter(r => r.reviewId !== reviewId);
+          alert('Review deleted successfully');
+        },
+        error: (error) => {
+          console.error('Error deleting review:', error);
+          alert('Error deleting review');
+        }
+      });
+    }
+  }
+
+  getStarArray(rating: number): boolean[] {
+    return Array(5).fill(false).map((_, index) => index < rating);
   }
 }

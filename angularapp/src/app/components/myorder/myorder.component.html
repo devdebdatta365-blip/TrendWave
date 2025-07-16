@@ -1,55 +1,52 @@
-<div class="myorder-container">
-    <h2>My Orders</h2>
-    <div *ngIf="orders.length === 0" class="no-data">No orders found.</div>
-    <div class="order-list">
-      <div class="order-card" *ngFor="let order of orders">
-        <div>Order ID: {{order.orderId}}</div>
-        <div>Status: {{order.orderStatus}}</div>
-        <div>Total Amount: ₹{{order.totalAmount}}</div>
-        <div>Billing Address: {{order.billingAddress}}</div>
-        <div>Shipping Address: {{order.shippingAddress}}</div>
-        <div>Order Date: {{order.orderDate | date}}</div>
-        <div *ngFor="let item of order.orderItems">
-          Product: {{item.product.productName}} | Quantity: {{item.quantity}}
+<div class="my-orders-container">
+  <h2>My Orders</h2>
+  
+  <div class="loading" *ngIf="loading">Loading your orders...</div>
+  
+  <div class="orders-list" *ngIf="!loading">
+    <div class="order-card" *ngFor="let order of orders">
+      <div class="order-header">
+        <div class="order-info">
+          <h3>Order #{{ order.orderId }}</h3>
+          <p class="order-date">Placed on {{ order.orderDate | date:'mediumDate' }}</p>
         </div>
-        <button (click)="trackOrder(order)">Track Order</button>
-        <button (click)="viewItems(order)">View Items</button>
-        <button *ngIf="order.orderStatus === 'Pending'" (click)="cancelOrder(order)">Cancel Order</button>
-      </div>
-    </div>
-    <!-- Items Modal -->
-    <div class="modal" *ngIf="showItemsModal">
-      <div class="modal-content">
-        <button class="close-btn" (click)="closeModal()">X</button>
-        <h3>Order Items</h3>
-        <div *ngFor="let item of selectedOrder?.orderItems">
-          {{item.product.productName}} - Quantity: {{item.quantity}} - Price: ₹{{item.price}}
+        <div class="order-status" [class]="getStatusClass(order.orderStatus)">
+          {{ order.orderStatus }}
         </div>
       </div>
-    </div>
-    <!-- Track Modal -->
-    <div class="modal" *ngIf="showTrackModal">
-      <div class="modal-content">
-        <button class="close-btn" (click)="closeModal()">X</button>
-        <h3>Order Tracking Status</h3>
-        <div *ngIf="selectedOrder">
-          <div [ngClass]="{'active': selectedOrder.orderStatus === status}" *ngFor="let status of ['Pending','Accepted','Dispatched','OutForDelivery','Delivered']">
-            {{status}}
+      
+      <div class="order-details">
+        <div class="billing-info">
+          <strong>Billing Address:</strong> {{ order.billingAddress }}
+        </div>
+        <div class="total-amount">
+          <strong>Total: ${{ order.totalAmount }}</strong>
+        </div>
+      </div>
+      
+      <div class="order-items">
+        <h4>Items:</h4>
+        <div class="item-list">
+          <div class="order-item" *ngFor="let item of order.orderItems">
+            <div class="item-details">
+              <span class="item-name">{{ item.product.productName }}</span>
+              <span class="item-quantity">Qty: {{ item.quantity }}</span>
+              <span class="item-price">${{ item.price }}</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- Cancel Modal -->
-    <div class="modal" *ngIf="showCancelModal">
-      <div class="modal-content">
-        <p>Are you sure you want to cancel this order?</p>
-        <button (click)="confirmCancelOrder()">Yes, Cancel Order</button>
-        <button (click)="closeModal()">Cancel</button>
+      
+      <div class="order-actions" *ngIf="canCancelOrder(order)">
+        <button class="cancel-btn" (click)="cancelOrder(order.orderId!)">
+          Cancel Order
+        </button>
       </div>
     </div>
   </div>
   
-<<<<<<< HEAD
-
-=======
->>>>>>> f0e1fcffabe7492de873828c2683de56b2a51513
+  <div class="no-orders" *ngIf="!loading && orders.length === 0">
+    <p>You haven't placed any orders yet.</p>
+    <button routerLink="/userviewproduct" class="shop-btn">Start Shopping</button>
+  </div>
+</div>

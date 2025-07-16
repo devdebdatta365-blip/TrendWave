@@ -1,34 +1,37 @@
-<div class="myreview-container">
-    <h2>My Reviews</h2>
-    <div *ngIf="reviews.length === 0" class="no-data">No reviews found.</div>
-    <div class="review-list">
-      <div class="review-card" *ngFor="let review of reviews">
-        <div>{{review.product.productName}}</div>
-        <div>Rating: {{review.rating}}/5</div>
-        <div>Date: {{review.date | date}}</div>
-        <div>{{review.reviewText}}</div>
-        <button (click)="openProductModal(review)">View Product</button>
-        <button (click)="confirmDelete(review)">Delete Review</button>
+<div class="my-reviews-container">
+  <h2>My Reviews</h2>
+  
+  <div class="loading" *ngIf="loading">Loading your reviews...</div>
+  
+  <div class="reviews-list" *ngIf="!loading">
+    <div class="review-card" *ngFor="let review of reviews">
+      <div class="review-header">
+        <div class="product-info">
+          <h3>{{ review.product.productName }}</h3>
+          <p class="review-date">Reviewed on {{ review.date | date:'mediumDate' }}</p>
+        </div>
+        <div class="rating">
+          <span class="star" 
+                *ngFor="let star of getStarArray(review.rating)"
+                [class.filled]="star">★</span>
+          <span class="rating-text">({{ review.rating }}/5)</span>
+        </div>
       </div>
-    </div>
-    <!-- Product Modal -->
-    <div class="modal" *ngIf="showProductModal">
-      <div class="modal-content">
-        <button class="close-btn" (click)="closeProductModal()">X</button>
-        <h3>{{selectedReview?.product.productName}}</h3>
-        <div>Price: ₹{{selectedReview?.product.price}}</div>
-        <div>Category: {{selectedReview?.product.category}}</div>
-        <div>Brand: {{selectedReview?.product.brand}}</div>
-        <div>Description: {{selectedReview?.product.description}}</div>
+      
+      <div class="review-content">
+        <p>{{ review.reviewText }}</p>
       </div>
-    </div>
-    <!-- Delete Modal -->
-    <div class="modal" *ngIf="showDeleteModal">
-      <div class="modal-content">
-        <p>Are you sure you want to delete this review?</p>
-        <button (click)="deleteReview()">Yes, Delete</button>
-        <button (click)="cancelDelete()">Cancel</button>
+      
+      <div class="review-actions">
+        <button class="delete-btn" (click)="deleteReview(review.reviewId!)">
+          Delete Review
+        </button>
       </div>
     </div>
   </div>
   
+  <div class="no-reviews" *ngIf="!loading && reviews.length === 0">
+    <p>You haven't written any reviews yet.</p>
+    <button routerLink="/userviewproduct" class="shop-btn">Start Shopping</button>
+  </div>
+</div>
