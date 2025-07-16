@@ -1,68 +1,69 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserStoreService } from 'src/app/helpers/user-store.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  templateUrl: './login.component.html'
 })
-export class LoginComponent implements OnInit {
-
+export class LoginComponent {
   loginForm: FormGroup;
-  submitted: boolean = false;
-  errorMessage: string = '';
+  submitted = false;
+  errorMsg = '';
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private userStore: UserStoreService,
     private router: Router
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [
-        Validators.required,
-        Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/)
-      ]]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
   get f() { return this.loginForm.controls; }
 
-  onSubmit(): void {
+  onLogin() {
     this.submitted = true;
+    this.errorMsg = '';
+    if (this.loginForm.invalid) return;
 
-    if (this.loginForm.invalid) {
-      return;
-    }
-
-    const loginData = this.loginForm.value;
-
-    this.authService.login(loginData).subscribe({
+    this.authService.login(this.loginForm.value).subscribe({
       next: (res) => {
-        if (res.token) {
-          localStorage.setItem('token', res.token);
-          this.userStore.setUser(res); // Save user in UserStoreService
-          console.log("res:",res);
+        
+        console.log('Raw token:', res);
 
-          // Navigate based on role
-          if (res.userRole === 'ADMIN') {
-            this.router.navigate(['/adminnav']);
-          } else if (res.userRole === 'USER') {
-            this.router.navigate(['/usernav']);
-          }
+        this.authService.setToken(res.token);
+        
+        //save role and userId in localstorage
+        
+        localStorage.setItem('userRole',res.userRole);
+        localStorage.setItem('userId',res.userId);
+        
+        //Also push them to BehaviorSubjects if needed
+
+        this.authService.userRole.next(res.userRole);
+        this.authService.userId.next(res.userId);
+
+        //Redirect
+
+        if (res.userRole.toUpperCase() === 'ADMIN') {
+          this.router.navigate(['/adminnav']);
+          alert("successful as admin");
+          console.log(res.userRole);
+        } else {
+          // this.router.navigate(['/user/view-properties']);
+          this.router.navigate(['/usernav']);
+          console.log(res.userRole);
+          alert("successful as user");
         }
       },
       error: (err) => {
-        this.errorMessage = 'Invalid email or password';
-        console.error(err);
+        console.error('Login error:', err);
+        this.errorMsg = 'Invalid Email or Password';
       }
     });
   }
-
 }

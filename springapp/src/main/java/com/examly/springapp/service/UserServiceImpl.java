@@ -43,17 +43,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LoginDTO loginUser(User user){
+    public String loginUser(LoginDTO loginDTO){
         Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
+            new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),loginDTO.getPassword()));
         if(authentication.isAuthenticated()){
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            // return jwtUtils.generateToken(userDetails);
-            String token = jwtUtils.generateToken(userDetails);
-
-            User loggedinUser = userRepo.findByEmail(user.getEmail());
-
-            return new LoginDTO(token, loggedinUser.getEmail(), loggedinUser.getUserRole());
+            return jwtUtils.generateToken(userDetails);
         }
         else{
             throw new UnauthorizeException("Invalid Email and Password");
@@ -61,15 +56,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(long userId) {
-       User u = userRepo.findById(userId).get();
-       return u;
+    public User getUserByEmail(String email) {
+        return userRepo.findByEmail(email);
     }
 
-    @Override
-    public List<User> getAllUser() {
-        List<User> u = userRepo.findAll();
-        return u;
-    }
 
 }

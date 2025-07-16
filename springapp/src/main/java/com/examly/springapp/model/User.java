@@ -45,10 +45,10 @@ public class User {
 	@Column(name="password")
 	private String password;
 
-    @NotBlank(message = "Username is required")
-	@NotNull(message = "Username is required")
-	@Size(min = 3, max = 30, message = "Username must be between 3 and 30 characters")
-	@Column(name="user_name")
+    // @NotBlank(message = "Username is required")
+	// @NotNull(message = "Username is required")
+	// @Size(min = 3, max = 30, message = "Username must be between 3 and 30 characters")
+	@Column(name="username")
 	private String username;
 
     @NotBlank(message = "Mobile number is required")

@@ -1,25 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user.model';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  templateUrl: './signup.component.html'
 })
-export class SignupComponent implements OnInit {
-
-  // constructor() { }
-
-  // ngOnInit(): void {
-  // }
-
-
+export class SignupComponent {
   signupForm: FormGroup;
   submitted = false;
-  errorMessage: string = '';
+  errorMsg = '';
+  successMsg = '';
 
   constructor(
     private fb: FormBuilder,
@@ -29,44 +21,36 @@ export class SignupComponent implements OnInit {
     this.signupForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      mobileNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
-      role: ['', Validators.required]
-    }, { validator: this.passwordMatchValidator });
+      userRole: ['', Validators.required]
+    }, { validators: this.passwordMatchValidator });
   }
 
-  ngOnInit(): void {}
+  get f() { return this.signupForm.controls; }
 
-  // Custom validator to check if password and confirmPassword match
   passwordMatchValidator(form: FormGroup) {
-    return form.get('password').value === form.get('confirmPassword').value
+    return form.get('password')?.value === form.get('confirmPassword')?.value
       ? null : { mismatch: true };
   }
 
-  onSubmit(): void {
+  onSignup() {
     this.submitted = true;
+    this.errorMsg = '';
+    this.successMsg = '';
+    if (this.signupForm.invalid) return;
 
-    if (this.signupForm.invalid) {
-      return;
-    }
-
-    const user:User = {
-      username: this.signupForm.value.username,
-      email: this.signupForm.value.email,
-      mobileNumber: this.signupForm.value.mobile,
-      password: this.signupForm.value.password,
-      userRole: this.signupForm.value.role
-    };
+    const { username, email, mobileNumber, password, userRole } = this.signupForm.value;
+    const user = { username, email, mobileNumber, password, userRole };
 
     this.authService.register(user).subscribe({
-      next: (res) => {
-        console.log('User registered successfully', res);
-        this.router.navigate(['/login']);
+      next: () => {
+        this.successMsg = 'User Registration is Successful!';
+        setTimeout(() => this.router.navigate(['/login']), 1500);
       },
-      error: (err) => {
-        console.error('Registration failed', err);
-        this.errorMessage = 'Registration failed. Please try again.';
+      error: () => {
+        this.errorMsg = 'Registration failed. Try again.';
       }
     });
   }

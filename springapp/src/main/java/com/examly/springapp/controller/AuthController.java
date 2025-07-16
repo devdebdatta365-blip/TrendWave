@@ -1,6 +1,7 @@
 package com.examly.springapp.controller;
 
-import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,9 +25,7 @@ import com.examly.springapp.repository.UserRepo;
 import com.examly.springapp.service.UserService;
 
 import jakarta.jws.soap.SOAPBinding.Use;
-
-@RestController
-@CrossOrigin("*")
+import jakarta.validation.Valid;
 @RequestMapping("/api")
 public class AuthController {
     @Autowired
@@ -54,35 +53,33 @@ public class AuthController {
        }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody User user){
-        LoginDTO loginDTO = userService.loginUser(user);
-        
-        if(loginDTO!=null){
-            return new ResponseEntity<>(loginDTO, HttpStatus.CREATED);
-        }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    // @PostMapping("/login")
+    // public ResponseEntity<String> loginUser(@Valid @RequestBody LoginDTO loginDTO){
+    //     String token = userService.loginUser(loginDTO);
+    //     if(token!=null){
+    //         return new ResponseEntity<>(token, HttpStatus.OK);
+    //     }else{
+    //         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    //     }
 
-    }
+    //}
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<?> getUserById(@PathVariable long userId){
-        User u = userService.getUserById(userId);
-        if(u!= null){
-            return new ResponseEntity<>(u, HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+    
+@PostMapping("/login")
+public ResponseEntity<?> loginUser(@Valid @RequestBody LoginDTO loginDTO) {
+    String token = userService.loginUser(loginDTO);
+    User user = userService.getUserByEmail(loginDTO.getEmail()); // Add this method in UserService
 
-    @GetMapping("/user")
-    public ResponseEntity<?> getAllUser(){
-        List<User> u = userService.getAllUser();
-        if(!u.isEmpty()){
-            return new ResponseEntity<>(u, HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    if (token != null && user != null) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        response.put("userRole", user.getUserRole()); // Assuming getRole() returns "ADMIN" or "USER"
+        response.put("userId", user.getUserId());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    } else {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+}
+
 }

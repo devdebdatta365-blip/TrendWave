@@ -1,38 +1,20 @@
-<div class="login-container">
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <h2>Login</h2>
+<h2>Login</h2>
+<form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+  <label>
+    Email:
+    <input formControlName="email" type="email" />
+    <span class="error" *ngIf="submitted && f.email.errors?.required">Email is required.</span>
+    <span class="error" *ngIf="submitted && f.email.errors?.email">Enter a valid email.</span>
+  </label><br>
 
-    <!-- Email -->
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" formControlName="email" class="form-control" />
-      <div *ngIf="f.email.errors && (f.email.dirty || f.email.touched || submitted)" class="error">
-        <div *ngIf="f.email.errors.required && (submitted || f.email.touched)">Email is required</div>
-        <div *ngIf="f.email.errors.email">Invalid email format</div>
-      </div>
-    </div>
+  <label>
+    Password:
+    <input formControlName="password" type="password" />
+    <span class="error" *ngIf="submitted && f.password.errors?.required">Password is required.</span>
+    <span class="error" *ngIf="submitted && f.password.errors?.minlength">Password must be at least 6 characters.</span>
+  </label><br>
 
-    <!-- Password -->
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" formControlName="password" class="form-control" />
-      <div *ngIf="f.password.errors && (f.password.dirty || f.password.touched || submitted)" class="error">
-        <div *ngIf="f.password.errors.required && (submitted || f.password.touched)">Password is required</div>
-        <div *ngIf="f.password.errors.pattern">Invalid password format (Min 6 chars with letters and numbers)</div>
-      </div>
-    </div>
-
-    <!-- Submit button -->
-    <button type="submit" class="btn btn-primary">Login</button>
-
-    <!-- Error message -->
-    <div *ngIf="errorMessage" class="error">
-      {{ errorMessage }}
-    </div>
-
-    <p>
-      Don't have an account?
-      <a routerLink="/signup">Signup</a>
-    </p>
-  </form>
-</div>
+  <button type="submit">Login</button>
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+</form>
+<a routerLink="/signup">Don't have an account? Signup</a>
