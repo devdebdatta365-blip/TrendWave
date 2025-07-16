@@ -42,7 +42,7 @@ public class Order {
 	
 	@ManyToOne
 	@JoinColumn(name="userId")
-	@JsonBackReference
+	//@JsonBackReference
 	private User user;
 	
 	@OneToMany(mappedBy="order", cascade=CascadeType.ALL)
