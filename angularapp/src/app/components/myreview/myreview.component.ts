@@ -18,12 +18,12 @@ export class MyreviewComponent implements OnInit {
   constructor(private reviewService: ReviewService, private authService: AuthService) {}
 
   ngOnInit() {
-    this.authService.getUserId().subscribe(id => {
-      this.userId = id;
-      if (id) {
-        this.reviewService.getReviewsByUserId(id).subscribe(reviews => this.reviews = reviews);
-      }
-    });
+    // this.authService.getUserId().subscribe(id => {
+    //   this.userId = id;
+    //   if (id) {
+    //     this.reviewService.getReviewsByUserId(id).subscribe(reviews => this.reviews = reviews);
+    //   }
+    // });
   }
 
   openProductModal(review: Review) {

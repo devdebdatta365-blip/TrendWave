@@ -1,23 +1,19 @@
 package com.examly.springapp.model;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-
 public class LoginDTO {
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
     private String email;
-
-    @NotBlank(message = "Password is required")
-    private String password;
+    // private String password;
+    private String userRole;
+    private String token;
 
     public LoginDTO() {
     }
 
-    public LoginDTO(String email, String password) {
+    public LoginDTO(String token,String email, String userRole) {
+        this.token=token;
         this.email = email;
-        this.password = password;
+        this.userRole = userRole;
     }
 
     public String getEmail() {
@@ -28,13 +24,24 @@ public class LoginDTO {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getUserRole() {
+        return userRole;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+    
+
+    
     
 
 }

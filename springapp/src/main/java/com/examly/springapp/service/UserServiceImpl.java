@@ -1,5 +1,7 @@
 package com.examly.springapp.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,20 +16,22 @@ import com.examly.springapp.model.LoginDTO;
 import com.examly.springapp.model.User;
 import com.examly.springapp.repository.UserRepo;
 
-import lombok.RequiredArgsConstructor;
+import jakarta.jws.soap.SOAPBinding.Use;
 
 @Service
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-   
-    private final UserRepo userRepo;
+    @Autowired
+    private UserRepo userRepo;
 
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    private final AuthenticationManager authenticationManager;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-    private final JwtUtils jwtUtils;
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @Override
     public User createUser(User user){
@@ -39,16 +43,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String loginUser(LoginDTO loginDTO){
+    public LoginDTO loginUser(User user){
         Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),loginDTO.getPassword()));
+            new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
         if(authentication.isAuthenticated()){
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return jwtUtils.generateToken(userDetails);
+            // return jwtUtils.generateToken(userDetails);
+            String token = jwtUtils.generateToken(userDetails);
+
+            User loggedinUser = userRepo.findByEmail(user.getEmail());
+
+            return new LoginDTO(token, loggedinUser.getEmail(), loggedinUser.getUserRole());
         }
         else{
             throw new UnauthorizeException("Invalid Email and Password");
         }
+    }
+
+    @Override
+    public User getUserById(long userId) {
+       User u = userRepo.findById(userId).get();
+       return u;
+    }
+
+    @Override
+    public List<User> getAllUser() {
+        List<User> u = userRepo.findAll();
+        return u;
     }
 
 }

@@ -1,1 +1,79 @@
-<p>signup works!</p>
+<div class="signup-container">
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <h2>Signup</h2>
+
+    <!-- Username -->
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" formControlName="username" class="form-control" />
+      <div *ngIf="signupForm.controls.username.errors && (signupForm.controls.username.dirty || signupForm.controls.username.touched || submitted)" class="error">
+        <div *ngIf="signupForm.controls.username.errors.required && (submitted || signupForm.controls.username.touched)">Username is required</div>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" formControlName="email" class="form-control" />
+      <div *ngIf="signupForm.controls.email.errors && (signupForm.controls.email.dirty || signupForm.controls.email.touched || submitted)" class="error">
+        <div *ngIf="signupForm.controls.email.errors.required && (submitted || signupForm.controls.email.touched)">Email is required</div>
+        <div *ngIf="signupForm.controls.email.errors.email">Invalid email format</div>
+      </div>
+    </div>
+
+    <!-- Mobile -->
+    <div class="form-group">
+      <label>Mobile</label>
+      <input type="text" formControlName="mobile" class="form-control" />
+      <div *ngIf="signupForm.controls.mobile.errors && (signupForm.controls.mobile.dirty || signupForm.controls.mobile.touched || submitted)" class="error">
+        <div *ngIf="signupForm.controls.mobile.errors.required && (submitted || signupForm.controls.mobile.touched)">Mobile is required</div>
+        <div *ngIf="signupForm.controls.mobile.errors.pattern">Mobile must be 10 digits</div>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" formControlName="password" class="form-control" />
+      <div *ngIf="signupForm.controls.password.errors && (signupForm.controls.password.dirty || signupForm.controls.password.touched || submitted)" class="error">
+        <div *ngIf="signupForm.controls.password.errors.required && (submitted || signupForm.controls.password.touched)">Password is required</div>
+        <div *ngIf="signupForm.controls.password.errors.minlength">Minimum 6 characters</div>
+      </div>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="form-group">
+      <label>Confirm Password</label>
+      <input type="password" formControlName="confirmPassword" class="form-control" />
+      <div *ngIf="signupForm.errors?.mismatch && (signupForm.controls.confirmPassword.dirty || signupForm.controls.confirmPassword.touched || submitted)" class="error">
+        Passwords do not match
+      </div>
+    </div>
+
+    <!-- Role -->
+    <div class="form-group">
+      <label>Select Role</label>
+      <select formControlName="role" class="form-control">
+        <option value="">Select Role</option>
+        <option value="USER">USER</option>
+        <option value="ADMIN">ADMIN</option>
+      </select>
+      <div *ngIf="signupForm.controls.role.errors && (signupForm.controls.role.dirty || signupForm.controls.role.touched || submitted)" class="error">
+        <div *ngIf="signupForm.controls.role.errors.required && (submitted || signupForm.controls.role.touched)">Role is required</div>
+      </div>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary">Signup</button>
+
+    <!-- General error message -->
+    <div *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
+    </div>
+
+    <p>
+      Already have an account?
+      <a routerLink="/login">Login</a>
+    </p>
+  </form>
+</div>

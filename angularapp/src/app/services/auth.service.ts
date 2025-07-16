@@ -1,45 +1,49 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from '../models/user.model';
+import { BehaviorSubject, Observable, } from 'rxjs';
 import { Login } from '../models/login.model';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private apiUrl = "https://ide-adcbdffbcceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080/api";
 
-  
-  private roleSubject = new BehaviorSubject<string | null>(null);
+  private userRoleSubject = new BehaviorSubject<string | null>(null);
+  userRole$ = this.userRoleSubject.asObservable();
+
   private userIdSubject = new BehaviorSubject<number | null>(null);
+  userId$ = this.userIdSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  register(user: User): Observable<any> {
-    return this.http.post('/api/register', user);
+  register(user:User): Observable<any>{
+    return this.http.post<any>(`${this.apiUrl}/register`,user);
   }
 
-  login(login: Login): Observable<any> {
-    return new Observable(observer => {
-      this.http.post<any>('/api/login', login).subscribe({
-        next: (response) => {
-          localStorage.setItem('token', response.token);
-          this.roleSubject.next(response.role);
-          this.userIdSubject.next(response.userId);
-          observer.next(response);
-          observer.complete();
-        },
-        error: (err) => observer.error(err)
-      });
-    });
+  login(credentials: Login):Observable<any>{
+    return this.http.post<any>(`${this.apiUrl}/login`,credentials);
   }
 
-  getRole(): Observable<string | null> {
-    return this.roleSubject.asObservable();
+  logout():void{
+    localStorage.removeItem('token');
+    this.userRoleSubject.next(null);
+    this.userIdSubject.next(null);
   }
 
-  getUserId(): Observable<number | null> {
-    return this.userIdSubject.asObservable();
+  isAuthenticated():boolean{
+    return !!localStorage.getItem('token');
   }
+
+  getUserRole():string | null{
+    return this.userRoleSubject.value;
+  }
+
+
+  getCurrentUserId():number | null{
+    return this.userIdSubject.value;
+  }
+
 
 }
