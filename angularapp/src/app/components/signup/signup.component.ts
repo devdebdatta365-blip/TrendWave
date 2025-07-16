@@ -5,15 +5,13 @@ import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  templateUrl: './signup.component.html'
 })
 export class SignupComponent {
   signupForm: FormGroup;
   submitted = false;
   errorMsg = '';
   successMsg = '';
-
 
   constructor(
     private fb: FormBuilder,
@@ -48,7 +46,6 @@ export class SignupComponent {
 
     this.authService.register(user).subscribe({
       next: () => {
-        
         this.successMsg = 'User Registration is Successful!';
         setTimeout(() => this.router.navigate(['/login']), 1500);
       },
@@ -58,5 +55,3 @@ export class SignupComponent {
     });
   }
 }
-
-

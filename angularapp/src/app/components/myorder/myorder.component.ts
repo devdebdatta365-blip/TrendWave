@@ -47,31 +47,6 @@ export class MyorderComponent implements OnInit {
     this.selectedOrder = order;
     this.showCancelModal = true;
   }
-<<<<<<< HEAD
-
- 
-  confirmCancelOrder() {
-    if (this.selectedOrder) {
-      this.orderService.deleteOrder(this.selectedOrder.orderId!).subscribe(() => {
-        this.orders = this.orders.filter(o => o.orderId !== this.selectedOrder?.orderId);
-        this.showCancelModal = false;
-        this.selectedOrder = null;
-      });
-    }
-  }
-
-  //Closes the current modal and resets the order
-  closeModal() {
-    this.showItemsModal = false;
-    this.showTrackModal = false;
-    this.showCancelModal = false;
-    this.selectedOrder = null;
-  }
-
-
-}
-
-=======
 
  
   confirmCancelOrder() {
@@ -99,4 +74,3 @@ export class MyorderComponent implements OnInit {
 
 
 
->>>>>>> f0e1fcffabe7492de873828c2683de56b2a51513

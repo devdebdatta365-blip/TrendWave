@@ -1,57 +1,51 @@
+<h2>Signup</h2>
+<form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+  <label>
+    Username:
+    <input formControlName="username" />
+    <span class="error" *ngIf="submitted && f.username.errors?.required">Username is required.</span>
+  </label><br>
 
-<div class="signup-container">
-  <h2 class="signup-title">Signup</h2>
-  <form [formGroup]="signupForm" (ngSubmit)="onSignup()" class="signup-form">
-    
-    <div class="form-group">
-      <label for="username">Username:</label>
-      <input id="username" formControlName="username" class="form-control" />
-      <span class="error" *ngIf="submitted && f.username.errors?.required">Username is required.</span>
-    </div>
+  <label>
+    Email:
+    <input formControlName="email" type="email" />
+    <span class="error" *ngIf="submitted && f.email.errors?.required">Email is required.</span>
+    <span class="error" *ngIf="submitted && f.email.errors?.email">Enter a valid email.</span>
+  </label><br>
 
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input id="email" formControlName="email" type="email" class="form-control" />
-      <span class="error" *ngIf="submitted && f.email.errors?.required">Email is required.</span>
-      <span class="error" *ngIf="submitted && f.email.errors?.email">Enter a valid email.</span>
-    </div>
+  <label>
+    Mobile:
+    <input formControlName="mobileNumber" />
+    <span class="error" *ngIf="submitted && f.mobileNumber.errors?.required">Mobile number is required.</span>
+    <span class="error" *ngIf="submitted && f.mobileNumber.errors?.pattern">Enter a valid 10-digit mobile number.</span>
+  </label><br>
 
-    <div class="form-group">
-      <label for="mobileNumber">Mobile:</label>
-      <input id="mobileNumber" formControlName="mobileNumber" class="form-control" />
-      <span class="error" *ngIf="submitted && f.mobileNumber.errors?.required">Mobile number is required.</span>
-      <span class="error" *ngIf="submitted && f.mobileNumber.errors?.pattern">Enter a valid 10-digit mobile number.</span>
-    </div>
+  <label>
+    Password:
+    <input formControlName="password" type="password" />
+    <span class="error" *ngIf="submitted && f.password.errors?.required">Password is required.</span>
+    <span class="error" *ngIf="submitted && f.password.errors?.minlength">Password must be at least 6 characters.</span>
+  </label><br>
 
-    <div class="form-group">
-      <label for="password">Password:</label>
-      <input id="password" formControlName="password" type="password" class="form-control" />
-      <span class="error" *ngIf="submitted && f.password.errors?.required">Password is required.</span>
-      <span class="error" *ngIf="submitted && f.password.errors?.minlength">Password must be at least 6 characters.</span>
-    </div>
+  <label>
+    Confirm Password:
+    <input formControlName="confirmPassword" type="password" />
+    <span class="error" *ngIf="submitted && f.confirmPassword.errors?.required">Confirm password is required.</span>
+    <span class="error" *ngIf="submitted && signupForm.errors?.mismatch">Passwords do not match.</span>
+  </label><br>
 
-    <div class="form-group">
-      <label for="confirmPassword">Confirm Password:</label>
-      <input id="confirmPassword" formControlName="confirmPassword" type="password" class="form-control" />
-      <span class="error" *ngIf="submitted && f.confirmPassword.errors?.required">Confirm password is required.</span>
-      <span class="error" *ngIf="submitted && signupForm.errors?.mismatch">Passwords do not match.</span>
-    </div>
+  <label>
+    Select Role:
+    <select formControlName="userRole">
+      <option value="">Select</option>
+      <option value="User">User</option>
+      <option value="Admin">Admin</option>
+    </select>
+    <span class="error" *ngIf="submitted && f.userRole.errors?.required">Role is required.</span>
+  </label><br>
 
-    <div class="form-group">
-      <label for="userRole">Select Role:</label>
-      <select id="userRole" formControlName="userRole" class="form-control">
-        <option value="">Select</option>
-        <option value="User">User</option>
-        <option value="Admin">Admin</option>
-      </select>
-      <span class="error" *ngIf="submitted && f.userRole.errors?.required">Role is required.</span>
-    </div>
-
-    <div *ngIf="errorMsg" class="error-msg">{{ errorMsg }}</div>
-    <div *ngIf="successMsg" class="success-msg">{{ successMsg }}</div>
-
-    <button type="submit" class="submit-btn">Signup</button>
-  </form>
-
-  <a routerLink="/login" class="login-link">Already have an account? Login</a>
-</div>
+  <button type="submit">Signup</button>
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+  <div *ngIf="successMsg" class="success">{{ successMsg }}</div>
+</form>
+<a routerLink="/login">Already have an account? Login</a>
