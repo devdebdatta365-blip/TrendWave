@@ -1,66 +1,56 @@
-.navbar {
+
+.admin-navbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    background: #1976d2;
-    padding: 0 24px;
-    color: #fff;
-    height: 56px;
+    justify-content: space-between;
+    background: linear-gradient(to right, #ff69b4, #8b4513); /* pink to brown */
+    padding: 10px 20px;
+    flex-wrap: wrap;
   }
-  .nav-brand {
-    font-size: 1.5em;
+  
+  .navbar-left {
+    flex: 1;
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  .navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .admin-label {
+    border: 1px solid white;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .nav-link {
+    color: white !important;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  
+  .nav-link:hover {
+    text-decoration: underline;
+  }
+  
+  .btn-danger {
     font-weight: bold;
   }
-  .nav-links {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    margin: 0;
+
+  
+.prokart-brand {
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+    text-transform: none; /* Ensures P and K stay capitalized as written */
   }
-  .nav-links li {
-    margin: 0 14px;
-    position: relative;
-  }
-  .nav-links a, .nav-links button, .dropdown > span {
-    color: #fff;
-    text-decoration: none;
-    background: none;
-    border: none;
-    font: inherit;
-    cursor: pointer;
-    padding: 6px 10px;
-    border-radius: 3px;
-  }
-  .nav-links a:hover, .nav-links button:hover, .dropdown > span:hover {
-    background: #1565c0;
-  }
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background: #fff;
-    color: #1976d2;
-    min-width: 140px;
-    top: 100%;
-    left: 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    z-index: 100;
-    border-radius: 4px;
-  }
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  .dropdown-content li {
-    padding: 8px 16px;
-  }
-  .dropdown-content li a {
-    color: #1976d2;
-    display: block;
-  }
-  .dropdown-content li a:hover {
-    background: #e3f2fd;
-  }
-  .nav-user {
-    font-size: 1em;
-    font-weight: 500;
-  }
+  
   

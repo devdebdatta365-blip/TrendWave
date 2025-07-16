@@ -1,0 +1,67 @@
+
+.user-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to right, #ff69b4, #8b4513); /* pink to brown */
+    padding: 10px 20px;
+    flex-wrap: wrap;
+  }
+  
+  .navbar-left {
+    flex: 1;
+  }
+  
+  .prokart-brand {
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+    text-transform: none;
+  }
+  
+  .navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .user-label {
+    border: 1px solid white;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .nav-link {
+    color: white !important;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  
+  .nav-link:hover {
+    text-decoration: underline;
+  }
+  
+  .cart-icon {
+    font-size: 18px;
+  }
+  
+  .btn-danger {
+    font-weight: bold;
+  }
+
+  
+.nav-link,
+.cart-icon {
+  color: white !important;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.nav-link:hover,
+.cart-icon:hover {
+  text-decoration: none; /* Removes underline on hover */
+}
+
+  
