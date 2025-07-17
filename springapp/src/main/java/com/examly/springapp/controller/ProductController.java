@@ -1,10 +1,12 @@
 package com.examly.springapp.controller;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.examly.springapp.model.Product;
 import com.examly.springapp.service.ProductService;
@@ -28,17 +32,44 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        Product prod = productService.addProduct(product);
-        if(prod!=null){
-            return new ResponseEntity<>(prod,HttpStatus.CREATED);
-        }
-        else{
-            return new ResponseEntity<>(prod,HttpStatus.BAD_REQUEST);
-        }
+    // @PostMapping
+    // public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+    //     Product prod = productService.addProduct(product);
+    //     if(prod!=null){
+    //         return new ResponseEntity<>(prod,HttpStatus.CREATED);
+    //     }
+    //     else{
+    //         return new ResponseEntity<>(prod,HttpStatus.BAD_REQUEST);
+    //     }
 
+    // }
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+public ResponseEntity<Product> addProduct(
+    @RequestParam("productName") String productName,
+    @RequestParam("description") String description,
+    @RequestParam("price") double price,
+    @RequestParam("stockInteger") int stockInteger,
+    @RequestParam("category") String category,
+    @RequestParam("brand") String brand,
+    @RequestParam("coverImage") MultipartFile coverImage
+) {
+    try {
+        Product product = new Product();
+        product.setProductName(productName);
+        product.setDescription(description);
+        product.setPrice(price);
+        product.setStockInteger(stockInteger);
+        product.setCategory(category);
+        product.setBrand(brand);
+        product.setCoverImage(Base64.getEncoder().encodeToString(coverImage.getBytes()));
+
+        Product savedProduct = productService.addProduct(product);
+        return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
+    } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
+}
+
 
     @GetMapping("/{productId}")
     public ResponseEntity<Product> getProductById(@PathVariable Long productId) {

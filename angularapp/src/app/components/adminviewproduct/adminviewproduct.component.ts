@@ -20,10 +20,15 @@ export class AdminviewproductComponent implements OnInit {
 
   loadProducts() {
     this.productService.getAllProducts().subscribe(
-      data => this.products = data,
-      err => this.errorMessage = 'Could not load products'
+      data => {
+        this.products = data;
+      },
+      err => {
+        this.errorMessage = 'Could not load products';
+      }
     );
   }
+  
 
   deleteProduct(productId: number) {
     if (confirm('Are you sure to delete this product?')) {

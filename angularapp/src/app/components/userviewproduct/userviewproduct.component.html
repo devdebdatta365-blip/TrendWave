@@ -5,6 +5,7 @@
     <div class="product-list">
       <div class="product-card" *ngFor="let product of filteredProducts()">
         <img [src]="product.coverImage" alt="{{product.productName}}" class="product-img" />
+        
         <div class="product-info">
           <h3>{{product.productName}}</h3>
           <p>{{product.description}}</p>

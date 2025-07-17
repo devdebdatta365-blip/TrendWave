@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
 		if(p.isPresent()) {
         oldProduct=p.get();
 		oldProduct.setProductName(product.getProductName());
-		oldProduct.setDescripion(product.getDescripion());
+		oldProduct.setDescription(product.getDescription());
 		oldProduct.setPrice(product.getPrice());
 		oldProduct.setStockInteger(product.getStockInteger());
 		oldProduct.setCategory(product.getCategory());
