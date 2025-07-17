@@ -33,12 +33,12 @@ public class OrderItem {
 	
 	@ManyToOne
 	@JoinColumn(name="productId")
-	// @JsonBackReference
+	//@JsonBackReference
 	private Product product;
 	
 	@ManyToOne
 	@JoinColumn(name="orderId")
-    @JsonBackReference
+   	@JsonBackReference
 	private Order order;
 
 }

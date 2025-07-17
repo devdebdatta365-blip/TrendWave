@@ -1,26 +1,42 @@
-
 <div class="home-container">
-    <nav class="navbar">
-      <a routerLink="/home">Home</a>
-      <div class="nav-item"
-           (mouseenter)="toggleSubmenu(true)"
-           (mouseleave)="toggleSubmenu(false)">
-        Products
-        <div class="submenu" *ngIf="showSubmenu">
-          <a routerLink="/products">View Products</a>
-          <a routerLink="/orders">My Orders</a>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Welcome to ProKart</h1>
+      <p>Discover amazing products at unbeatable prices</p>
+      <button class="cta-button" routerLink="/userviewproduct">Shop Now</button>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="categories">
+    <h2>Shop by Category</h2>
+    <div class="categories-grid">
+      <div class="category-card" *ngFor="let category of categories" (click)="browseCategory(category)">
+        <h3>{{ category }}</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products Section -->
+  <section class="featured-products">
+    <h2>Featured Products</h2>
+    <div class="loading" *ngIf="loading">Loading products...</div>
+    <div class="products-grid" *ngIf="!loading">
+      <div class="product-card" *ngFor="let product of featuredProducts">
+        <div class="product-image">
+          <img [src]="product.coverImage" [alt]="product.productName" />
+        </div>
+        <div class="product-info">
+          <h3>{{ product.productName }}</h3>
+          <p class="price">${{ product.price }}</p>
+          <p class="category">{{ product.category }}</p>
+          <div class="card-actions">
+            <button class="view-btn" (click)="viewProduct(product.productId!)">View Details</button>
+            <button class="cart-btn" (click)="addToCart(product)">Add to Cart</button>
+          </div>
         </div>
       </div>
-      <a routerLink="/contact">Contact</a>
-    </nav>
-  
-    <h1>Welcome to ProKart</h1>
-    
-    <section class="info-section">
-      
-      <p>Welcome to ProKart, your one-stop solution for seamless online shopping.
-        Explore a wide range of products, from electronics to fashion, and enjoy a hassle-free shopping experience.
-        Start today and discover exclusive deals tailored just for you!</p>
-        <button class="shop-now-btn" style="color: white; background-color: blue;"  routerLink="/products">Shop Now</button>
-    </section>
-  </div>
+    </div>
+  </section>
+</div>

@@ -1,45 +1,128 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.model';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-adminviewproduct',
   templateUrl: './adminviewproduct.component.html',
   styleUrls: ['./adminviewproduct.component.css']
 })
-export class AdminviewproductComponent implements OnInit {
+export class AdminViewProductComponent implements OnInit {
   products: Product[] = [];
-  errorMessage: string = '';
+  showForm = false;
+  editingProduct: Product | null = null;
+  
+  newProduct: Product = {
+    productName: '',
+    descripion: '',
+    price: 0,
+    stockInteger: 0,
+    category: '',
+    brand: '',
+    coverImage: ''
+  };
 
-  constructor(private productService: ProductService, private router: Router) {}
+  constructor(private productService: ProductService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadProducts();
   }
 
-  loadProducts() {
-    this.productService.getAllProducts().subscribe(
-      data => {
-        this.products = data;
+  loadProducts(): void {
+    this.productService.getAllProducts().subscribe({
+      next: (products) => {
+        this.products = products;
       },
-      err => {
-        this.errorMessage = 'Could not load products';
+      error: (error) => {
+        console.error('Error loading products:', error);
       }
-    );
+    });
   }
   
 
-  deleteProduct(productId: number) {
-    if (confirm('Are you sure to delete this product?')) {
-      this.productService.deleteProduct(productId).subscribe(
-        () => this.loadProducts(),
-        err => this.errorMessage = 'Delete failed'
-      );
+  openAddForm(): void {
+    this.showForm = true;
+    this.editingProduct = null;
+    this.resetForm();
+  }
+
+  openEditForm(product: Product): void {
+    this.showForm = true;
+    this.editingProduct = product;
+    this.newProduct = { ...product };
+  }
+
+  closeForm(): void {
+    this.showForm = false;
+    this.editingProduct = null;
+    this.resetForm();
+  }
+
+  resetForm(): void {
+    this.newProduct = {
+      productName: '',
+      descripion: '',
+      price: 0,
+      stockInteger: 0,
+      category: '',
+      brand: '',
+      coverImage: ''
+    };
+  }
+
+  onSubmit(): void {
+    if (this.editingProduct) {
+      this.updateProduct();
+    } else {
+      this.addProduct();
     }
   }
 
-  editProduct(productId: number) {
-    this.router.navigate(['/product-create'], { queryParams: { id: productId } });
+  addProduct(): void {
+    this.productService.addProduct(this.newProduct).subscribe({
+      next: (product) => {
+        this.products.push(product);
+        this.closeForm();
+        alert('Product added successfully');
+      },
+      error: (error) => {
+        console.error('Error adding product:', error);
+        alert('Error adding product');
+      }
+    });
+  }
+
+  updateProduct(): void {
+    if (this.editingProduct?.productId) {
+      this.productService.updateProduct(this.editingProduct.productId, this.newProduct).subscribe({
+        next: (updatedProduct) => {
+          const index = this.products.findIndex(p => p.productId === this.editingProduct?.productId);
+          if (index !== -1) {
+            this.products[index] = updatedProduct;
+          }
+          this.closeForm();
+          alert('Product updated successfully');
+        },
+        error: (error) => {
+          console.error('Error updating product:', error);
+          alert('Error updating product');
+        }
+      });
+    }
+  }
+
+  deleteProduct(productId: number): void {
+    if (confirm('Are you sure you want to delete this product?')) {
+      this.productService.deleteProduct(productId).subscribe({
+        next: () => {
+          this.products = this.products.filter(p => p.productId !== productId);
+          alert('Product deleted successfully');
+        },
+        error: (error) => {
+          console.error('Error deleting product:', error);
+          alert('Error deleting product');
+        }
+      });
+    }
   }
 }

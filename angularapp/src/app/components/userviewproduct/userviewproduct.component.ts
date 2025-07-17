@@ -1,5 +1,5 @@
-
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { Product } from '../../models/product.model';
@@ -9,34 +9,97 @@ import { Product } from '../../models/product.model';
   templateUrl: './userviewproduct.component.html',
   styleUrls: ['./userviewproduct.component.css']
 })
-export class UserviewproductComponent implements OnInit {
+export class UserViewProductComponent implements OnInit {
   products: Product[] = [];
+  filteredProducts: Product[] = [];
   searchTerm: string = '';
-  selectedProduct: Product | null = null;
-  quantity: { [key: number]: number } = {};
-  showAddCartModal = false;
-  addedProductName = '';
+  selectedCategory: string = '';
+  categories: string[] = [];
+  sortBy: string = 'name';
+  loading = false;
 
-  constructor(private productService: ProductService, private cartService: CartService) {}
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
-  ngOnInit() {
-    this.productService.getAllProducts().subscribe(products => this.products = products);
+  ngOnInit(): void {
+    this.loadProducts();
+    
+    // Check for category filter from query params
+    this.route.queryParams.subscribe(params => {
+      if (params['category']) {
+        this.selectedCategory = params['category'];
+        this.filterProducts();
+      }
+    });
   }
 
-  filteredProducts() {
-    if (!this.searchTerm) return this.products;
-    return this.products.filter(p => p.productName.toLowerCase().includes(this.searchTerm.toLowerCase()));
+  loadProducts(): void {
+    this.loading = true;
+    this.productService.getAllProducts().subscribe({
+      next: (products) => {
+        this.products = products;
+        this.filteredProducts = products;
+        this.categories = [...new Set(products.map(p => p.category))];
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading products:', error);
+        this.loading = false;
+      }
+    });
   }
 
-  addToCart(product: Product) {
-    const qty = this.quantity[product.productId!] || 1;
-    this.cartService.addToCart(product, qty);
-    this.addedProductName = product.productName;
-    this.showAddCartModal = true;
+  filterProducts(): void {
+    this.filteredProducts = this.products.filter(product => {
+      const matchesSearch = this.searchTerm === '' || 
+        product.productName.toLowerCase().includes(this.searchTerm.toLowerCase());
+      
+      const matchesCategory = this.selectedCategory === '' || 
+        product.category === this.selectedCategory;
+      
+      return matchesSearch && matchesCategory;
+    });
+    
+    this.sortProducts();
   }
 
-  closeAddCartModal() {
-    this.showAddCartModal = false;
-    this.addedProductName = '';
+  sortProducts(): void {
+    this.filteredProducts.sort((a, b) => {
+      switch (this.sortBy) {
+        case 'name':
+          return a.productName.localeCompare(b.productName);
+        case 'price-low':
+          return a.price - b.price;
+        case 'price-high':
+          return b.price - a.price;
+        default:
+          return 0;
+      }
+    });
+  }
+
+  addToCart(product: Product): void {
+    this.cartService.addToCart(product, 1);
+    alert('Product added to cart!');
+  }
+
+  viewProductDetails(productId: number): void {
+    this.router.navigate(['/product-details', productId]);
+  }
+
+  onSearchChange(): void {
+    this.filterProducts();
+  }
+
+  onCategoryChange(): void {
+    this.filterProducts();
+  }
+
+  onSortChange(): void {
+    this.sortProducts();
   }
 }

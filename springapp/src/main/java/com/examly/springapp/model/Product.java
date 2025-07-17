@@ -49,6 +49,7 @@ public class Product {
 
 	@OneToMany(mappedBy="product", cascade=CascadeType.ALL)
 	@JsonManagedReference
+	// @JsonIgnore
 	private List<Review> reviews;
 	
 

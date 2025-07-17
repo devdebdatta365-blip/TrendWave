@@ -1,42 +1,65 @@
-<div class="container mt-4">
-    <h2>All Product Reviews</h2>
-
-    <input type="text" [(ngModel)]="searchTerm" (input)="applyFilters()" placeholder="Search by product name"
-        class="form-control mb-3">
-
-    <button class="btn btn-secondary mb-3" (click)="toggleSort()">Sort by Date ({{ sortDirection }})</button>
-
-    <div *ngIf="filteredReviews.length === 0" class="alert alert-info">
-        No reviews found.
+<div class="admin-reviews-container">
+    <div class="header">
+      <h2>Review Management</h2>
     </div>
-
-    <div *ngFor="let review of paginatedReviews" class="card mb-3">
-        <div class="card-body">
-            <h5 class="card-title">{{ review.product.productName }}</h5>
-            <p class="card-text">{{ review.reviewText }}</p>
-            <p class="card-text"><strong>Rating:</strong> {{ review.rating }}</p>
-            <p class="card-text"><strong>User:</strong> {{ review.user.username }}</p>
-            <p class="card-text"><strong>Date:</strong> {{ review.date | date }}</p>
+  
+    <div class="filters">
+      <div class="search-box">
+        <input 
+          type="text" 
+          placeholder="Search reviews, products, or users..." 
+          [(ngModel)]="searchTerm"
+          (input)="filterReviews()"
+        />
+      </div>
+      <div class="rating-filter">
+        <label>Filter by Rating:</label>
+        <select [(ngModel)]="selectedRating" (change)="filterReviews()">
+          <option value="0">All Ratings</option>
+          <option value="1">1 Star</option>
+          <option value="2">2 Stars</option>
+          <option value="3">3 Stars</option>
+          <option value="4">4 Stars</option>
+          <option value="5">5 Stars</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="reviews-list">
+      <div class="review-card" *ngFor="let review of filteredReviews">
+        <div class="review-header">
+          <div class="user-info">
+            <strong>{{ review.user.username }}</strong>
+            <span class="email">{{ review.user.email }}</span>
+          </div>
+          <div class="review-date">{{ review.date | date:'mediumDate' }}</div>
         </div>
-
+        
+        <div class="product-info">
+          <strong>Product:</strong> {{ review.product.productName }}
+        </div>
+        
+        <div class="rating">
+          <span class="star" 
+                *ngFor="let star of getStarArray(review.rating)"
+                [class.filled]="star">★</span>
+          <span class="rating-text">({{ review.rating }}/5)</span>
+        </div>
+        
+        <div class="review-text">
+          {{ review.reviewText }}
+        </div>
+        
+        <div class="actions">
+          <button class="delete-btn" (click)="deleteReview(review.reviewId!)">
+            Delete Review
+          </button>
+        </div>
+      </div>
     </div>
-
-    <nav *ngIf="filteredReviews.length > pageSize">
-        <ul class="pagination">
-            <li class="page-item" [class.disabled]="currentPage === 1">
-                <button class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
-
-            </li>
-            <li class="page-item"
-                *ngFor="let page of [].constructor(Math.ceil(filteredReviews.length / pageSize)); let i = index"
-                [class.active]="currentPage === i + 1">
-                <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
-            </li>
-            <li class="page-item" [class.disabled]="currentPage === Math.ceil(filteredReviews.length / pageSize)">
-                <button class="page-link" (click)="changePage(currentPage + 1)">Next</button>
-            </li>
-
-        </ul>
-
-    </nav>
-</div>
+  
+    <div class="no-reviews" *ngIf="filteredReviews.length === 0">
+      <p>No reviews found.</p>
+    </div>
+  </div>
+  

@@ -1,42 +1,68 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../models/product.model';
+
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
+  baseUrl: string = 'https://ide-adcbdffbcceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080';
 
-  baseUrl:string='https://ide-dacabdbfceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080';
+  constructor(private http: HttpClient) { }
 
-  constructor(private http:HttpClient) { }
-  
-  getAllProducts(): Observable<Product[]>{
-    return this.http.get<Product[]>(`${this.baseUrl}/api/products`);
-  }
+  private createAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    console.log('Token from localStorage:', token); // Debug log
+    
+    if (!token) {
+      console.error('No token found in localStorage');
+      return new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
+    }
 
-  getProductById(productId: number): Observable<Product>{
-    return this.http.get<Product>(`${this.baseUrl}/api/products/${productId}`)
-  }
-
-  // addProduct(product: FormData): Observable<Product>{
-  //   return this.http.post<Product>(`${this.baseUrl}/api/products`,product);
-  // }
-  addProduct(formData: FormData): Observable<any> {
-    return this.http.post(`${this.baseUrl}/api/products`, formData);
-  }
-  
-  
-
-  // updateProduct(productId: number, product: Product): Observable<Product>{
-  //   return this.http.put<Product>(`${this.baseUrl}/api/products/${productId}`,product);
-  // }
-  updateProduct(productId: number, formData: FormData): Observable<any> {
-    return this.http.put(`/api/products/${productId}`, formData);
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
   }
   
+  getAllProducts(): Observable<Product[]> {
+    console.log('Making GET request to:', `${this.baseUrl}/api/products`);
+    return this.http.get<Product[]>(`${this.baseUrl}/api/products`, {
+      headers: this.createAuthHeaders()
+    });
+  }
 
-  deleteProduct(productId: number): Observable<void>{
-    return this.http.delete<void>(`${this.baseUrl}/api/products/${productId}`);
+  getProductById(productId: number): Observable<Product> {
+    return this.http.get<Product>(`${this.baseUrl}/api/products/${productId}`, {
+      headers: this.createAuthHeaders()
+    });
+  }
+
+  addProduct(product: Product): Observable<Product> {
+    return this.http.post<Product>(`${this.baseUrl}/api/products`, product, {
+      headers: this.createAuthHeaders()
+    });
+  }
+  
+  
+
+  updateProduct(productId: number, product: Product): Observable<Product> {
+    return this.http.put<Product>(`${this.baseUrl}/api/products/${productId}`, product, {
+      headers: this.createAuthHeaders()
+    });
+  }
+  
+
+  deleteProduct(productId: number): Observable<void> {
+    console.log('Making DELETE request to:', `${this.baseUrl}/api/products/${productId}`);
+    const headers = this.createAuthHeaders();
+    console.log('Headers:', headers);
+    
+    return this.http.delete<void>(`${this.baseUrl}/api/products/${productId}`, {
+      headers: headers
+    });
   }
 }

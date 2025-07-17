@@ -35,12 +35,13 @@ public class Review {
 	private LocalDate date;
 	
 	@ManyToOne
-	@JoinColumn(name="userId")
-	// @JsonBackReference
+	@JoinColumn(name="user_Id")
+	//@JsonBackReference
 	private User user;
 
 	@ManyToOne
 	@JoinColumn(name="product_id")
 	@JsonBackReference
+	// @JsonIgnore
 	private Product product;    
 }
