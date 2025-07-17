@@ -33,7 +33,7 @@ public class Product {
 	private long productId;
 	@Column(name="product_name")
 	private String productName;
-	@Column(name="description")
+	@Column(name="descripion")
 	private String descripion;
 	@Column(name="price")
 	private double price;

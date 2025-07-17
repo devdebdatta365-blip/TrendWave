@@ -6,8 +6,8 @@
   </div><br>
 
   <label>Description<span class="required">*</span></label>
-  <textarea formControlName="description"></textarea>
-  <div *ngIf="productForm.get('description')?.invalid && (productForm.get('description')?.touched || productForm.get('description')?.dirty)" class="error">
+  <textarea formControlName="descripion"></textarea>
+  <div *ngIf="productForm.get('descripion')?.invalid && (productForm.get('descripion')?.touched || productForm.get('descripion')?.dirty)" class="error">
     *Description is required
   </div><br>
 
@@ -18,8 +18,8 @@
   </div><br>
 
   <label>Stock Quantity<span class="required">*</span></label>
-  <input type="number" formControlName="stockQuantity" />
-  <div *ngIf="productForm.get('stockQuantity')?.invalid && (productForm.get('stockQuantity')?.touched || productForm.get('stockQuantity')?.dirty)" class="error">
+  <input type="number" formControlName="stockInteger" />
+  <div *ngIf="productForm.get('stockInteger')?.invalid && (productForm.get('stockInteger')?.touched || productForm.get('stockInteger')?.dirty)" class="error">
     *Stock Quantity is required
   </div><br>
 

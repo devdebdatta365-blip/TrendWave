@@ -16,7 +16,7 @@ export class ProductCreateComponent implements OnInit {
   constructor(private fb: FormBuilder, private router: Router) {
     this.productForm = this.fb.group({
       productName: ['', Validators.required],
-      description: ['', Validators.required],
+      descripion: ['', Validators.required],
       price: ['', Validators.required],
       stockInteger: ['', Validators.required],
       category: ['', Validators.required],
