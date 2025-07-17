@@ -54,7 +54,7 @@
           <button 
             class="add-to-cart-btn" 
             (click)="addToCart(product)"
-            [disabled]="product.stockQuantity === 0"
+            [disabled]="product.stockInteger === 0"
           >
             {{ product.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart' }}
           </button>
