@@ -69,19 +69,17 @@ export class AuthService {
   }
 
   //login user
-  
-login(login: Login): Observable<any> {
-  return this.http.post(`${this.apiUrl}/login`, login);
-}
+  login(login: Login): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, login);
+  }
 
   setToken(token: string):void {
     localStorage.setItem('token',token);
     this.loggedIn.next(true);
   }
 
-
-   //store user details in localstorage  + token too
-   storeAuthData(token:string,userId:number,userRole:string):void{
+  //store user details in localstorage  + token too
+  storeAuthData(token:string,userId:number,userRole:string):void{
     localStorage.setItem('token',token);
     localStorage.setItem('userId',userId.toString());
     localStorage.setItem('userRole',userRole);
@@ -92,7 +90,9 @@ login(login: Login): Observable<any> {
 
   //check login status
   isLoggedIn():boolean{
-    return !!localStorage.getItem('token');
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+    return !!token && !!userId && userId !== '0';
   }
 
   isAdmin():boolean{
@@ -108,7 +108,17 @@ login(login: Login): Observable<any> {
   }
 
   getUserId():number{
-    return Number(localStorage.getItem('userId')||'0');
+    const userId = localStorage.getItem('userId');
+    const parsedUserId = Number(userId);
+    
+    // If userId is 0 or invalid, redirect to login
+    if (!userId || parsedUserId === 0) {
+      console.warn('Invalid user ID, redirecting to login');
+      this.logout();
+      return 0;
+    }
+    
+    return parsedUserId;
   }
 
   getToken():string{
@@ -118,6 +128,9 @@ login(login: Login): Observable<any> {
   //logout
   logout():void{
     localStorage.clear();
+    this.loggedIn.next(false);
+    this.userRole.next(null);
+    this.userId.next(null);
     this.router.navigate(['/login']);
   }
 
@@ -125,3 +138,4 @@ login(login: Login): Observable<any> {
     return !!localStorage.getItem('token');
   }
 }
+

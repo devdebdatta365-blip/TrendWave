@@ -33,8 +33,8 @@ public class Product {
 	private long productId;
 	@Column(name="product_name")
 	private String productName;
-	@Column(name="description")
-	private String description;
+	@Column(name="descripion")
+	private String descripion;
 	@Column(name="price")
 	private double price;
 	@Column(name="stock_integer")
@@ -48,8 +48,8 @@ public class Product {
 	private String  coverImage;
 
 	@OneToMany(mappedBy="product", cascade=CascadeType.ALL)
-	@JsonManagedReference
-	// @JsonIgnore
+	// @JsonManagedReference
+	@JsonIgnore
 	private List<Review> reviews;
 	
 

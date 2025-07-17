@@ -36,24 +36,25 @@
         <img [src]="product.coverImage" [alt]="product.productName" />
       </div>
       <div class="product-info">
+        <h3>Product ID: {{ product.productId }}</h3>
         <h3>{{ product.productName }}</h3>
         <p class="description">{{ product.description }}</p>
         <p class="price">${{ product.price }}</p>
         <p class="category">{{ product.category }} - {{ product.brand }}</p>
-        <p class="stock" [class.low-stock]="product.stockQuantity < 10">
-          Stock: {{ product.stockQuantity }}
+        <p class="stock" [class.low-stock]="product.stockInteger < 10">
+          Stock: {{ product.stockInteger }}
         </p>
         <div class="product-actions">
-          <button 
+          <!-- <button 
             class="view-details-btn" 
             (click)="viewProductDetails(product.productId!)"
           >
             View Details
-          </button>
+          </button> -->
           <button 
             class="add-to-cart-btn" 
             (click)="addToCart(product)"
-            [disabled]="product.stockQuantity === 0"
+            [disabled]="product.stockInteger === 0"
           >
             {{ product.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart' }}
           </button>
