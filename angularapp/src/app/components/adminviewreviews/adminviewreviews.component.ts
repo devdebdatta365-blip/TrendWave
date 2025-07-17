@@ -9,9 +9,8 @@ import { Review } from '../../models/review.model';
 })
 export class AdminViewReviewsComponent implements OnInit {
   reviews: Review[] = [];
-  filteredReviews: Review[] = [];
-  searchTerm: string = '';
-  selectedRating: number = 0;
+  loading = false;
+  error: string | null = null;
 
   constructor(private reviewService: ReviewService) {}
 
@@ -20,27 +19,27 @@ export class AdminViewReviewsComponent implements OnInit {
   }
 
   loadReviews(): void {
+    this.loading = true;
+    this.error = null;
+    
     this.reviewService.getAllReviews().subscribe({
       next: (reviews) => {
-        this.reviews = reviews;
-        this.filteredReviews = reviews;
+        // Filter out reviews with null/undefined reviewText and rating
+        this.reviews = reviews.filter(review => 
+          review.reviewText && 
+          review.rating !== null && 
+          review.rating !== undefined &&
+          review.user
+        );
+        
+        this.loading = false;
+        console.log('Loaded reviews:', this.reviews);
       },
       error: (error) => {
         console.error('Error loading reviews:', error);
+        this.error = 'Failed to load reviews. Please try again.';
+        this.loading = false;
       }
-    });
-  }
-
-  filterReviews(): void {
-    this.filteredReviews = this.reviews.filter(review => {
-      const matchesSearch = this.searchTerm === '' || 
-        review.reviewText.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        review.product.productName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        review.user.username.toLowerCase().includes(this.searchTerm.toLowerCase());
-      
-      const matchesRating = this.selectedRating === 0 || review.rating === this.selectedRating;
-      
-      return matchesSearch && matchesRating;
     });
   }
 
@@ -49,7 +48,6 @@ export class AdminViewReviewsComponent implements OnInit {
       this.reviewService.deleteReview(reviewId).subscribe({
         next: () => {
           this.reviews = this.reviews.filter(r => r.reviewId !== reviewId);
-          this.filterReviews();
           alert('Review deleted successfully');
         },
         error: (error) => {
@@ -58,9 +56,5 @@ export class AdminViewReviewsComponent implements OnInit {
         }
       });
     }
-  }
-
-  getStarArray(rating: number): boolean[] {
-    return Array(5).fill(false).map((_, index) => index < rating);
   }
 }

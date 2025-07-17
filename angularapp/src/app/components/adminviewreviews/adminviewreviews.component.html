@@ -1,65 +1,41 @@
 <div class="admin-reviews-container">
-    <div class="header">
-      <h2>Review Management</h2>
-    </div>
+  <div class="header">
+    <h2>Reviews Management</h2>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading reviews...</div>
   
-    <div class="filters">
-      <div class="search-box">
-        <input 
-          type="text" 
-          placeholder="Search reviews, products, or users..." 
-          [(ngModel)]="searchTerm"
-          (input)="filterReviews()"
-        />
-      </div>
-      <div class="rating-filter">
-        <label>Filter by Rating:</label>
-        <select [(ngModel)]="selectedRating" (change)="filterReviews()">
-          <option value="0">All Ratings</option>
-          <option value="1">1 Star</option>
-          <option value="2">2 Stars</option>
-          <option value="3">3 Stars</option>
-          <option value="4">4 Stars</option>
-          <option value="5">5 Stars</option>
-        </select>
-      </div>
-    </div>
-  
-    <div class="reviews-list">
-      <div class="review-card" *ngFor="let review of filteredReviews">
-        <div class="review-header">
-          <div class="user-info">
-            <strong>{{ review.user.username }}</strong>
-            <span class="email">{{ review.user.email }}</span>
-          </div>
-          <div class="review-date">{{ review.date | date:'mediumDate' }}</div>
-        </div>
-        
-        <div class="product-info">
-          <strong>Product:</strong> {{ review.product.productName }}
-        </div>
-        
+  <div class="error-message" *ngIf="error">
+    <p>{{ error }}</p>
+    <button (click)="loadReviews()">Try Again</button>
+  </div>
+
+  <div class="reviews-list" *ngIf="!loading && !error">
+    <div class="review-card" *ngFor="let review of reviews">
+      <div class="review-header">
+        <h4>Review #{{ review.reviewId }}</h4>
         <div class="rating">
-          <span class="star" 
-                *ngFor="let star of getStarArray(review.rating)"
-                [class.filled]="star">★</span>
-          <span class="rating-text">({{ review.rating }}/5)</span>
-        </div>
-        
-        <div class="review-text">
-          {{ review.reviewText }}
-        </div>
-        
-        <div class="actions">
-          <button class="delete-btn" (click)="deleteReview(review.reviewId!)">
-            Delete Review
-          </button>
+          <span class="stars">{{ '★'.repeat(review.rating) }}{{ '☆'.repeat(5 - review.rating) }}</span>
+          <span class="rating-number">({{ review.rating }}/5)</span>
         </div>
       </div>
-    </div>
-  
-    <div class="no-reviews" *ngIf="filteredReviews.length === 0">
-      <p>No reviews found.</p>
+      
+      <div class="review-content">
+        <p class="review-text">{{ review.reviewText }}</p>
+        <div class="review-meta">
+          <span class="user">User ID: {{ review.user.userId }}</span>
+          <span class="username">Username: {{ review.user.username }}</span>
+          <span class="date">Date: {{ review.date | date:'medium' }}</span>
+        </div>
+      </div>
+      
+      <div class="review-actions">
+        <button class="delete-btn" (click)="deleteReview(review.reviewId!)">Delete Review</button>
+      </div>
     </div>
   </div>
-  
+
+  <div class="no-reviews" *ngIf="!loading && !error && reviews.length === 0">
+    <p>No reviews found.</p>
+  </div>
+</div>

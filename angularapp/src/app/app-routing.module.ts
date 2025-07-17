@@ -17,6 +17,7 @@ import { AdminViewProductComponent } from './components/adminviewproduct/adminvi
 import { UserViewProductComponent } from './components/userviewproduct/userviewproduct.component';
 import { AdminViewReviewsComponent } from './components/adminviewreviews/adminviewreviews.component';
 import { MyOrderComponent } from './components/myorder/myorder.component';
+import { MyReviewComponent } from './components/myreview/myreview.component';
 
 const routes: Routes = [
   // Default route
@@ -50,7 +51,7 @@ const routes: Routes = [
       { path: 'home-page', component: HomePageComponent },
       { path: 'userviewproduct', component: UserViewProductComponent },
       { path: 'myorder', component: MyOrderComponent },
-      { path: 'myreview', component: ReviewComponent },
+      { path: 'myreview', component: MyReviewComponent },
       { path: 'checkout', component: CheckoutComponent },
       { path: 'review', component: ReviewComponent }
     ]
@@ -58,12 +59,12 @@ const routes: Routes = [
   
   // Direct routes (with AuthGuard)
   { path: 'adminviewproduct', component: AdminViewProductComponent, canActivate: [AuthGuard] },
-  { path: 'adminviewreviews', component: AdminViewProductComponent, canActivate: [AuthGuard] },
+  { path: 'adminviewreviews', component: AdminViewReviewsComponent, canActivate: [AuthGuard] },
   { path: 'orderplaced', component: OrderplacedComponent, canActivate: [AuthGuard] },
   { path: 'home-page', component: HomePageComponent, canActivate: [AuthGuard] },
   { path: 'userviewproduct', component: UserViewProductComponent, canActivate: [AuthGuard] },
   { path: 'myorder', component: MyOrderComponent, canActivate: [AuthGuard] },
-  { path: 'myreview', component: ReviewComponent, canActivate: [AuthGuard] },
+  { path: 'myreview', component: MyReviewComponent, canActivate: [AuthGuard] },
   { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
   { path: 'review', component: ReviewComponent, canActivate: [AuthGuard] },
   { path: 'product-create', component: ProductCreateComponent, canActivate: [AuthGuard] },

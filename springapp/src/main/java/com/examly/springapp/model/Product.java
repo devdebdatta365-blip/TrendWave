@@ -48,8 +48,8 @@ public class Product {
 	private String  coverImage;
 
 	@OneToMany(mappedBy="product", cascade=CascadeType.ALL)
-	@JsonManagedReference
-	// @JsonIgnore
+	// @JsonManagedReference
+	@JsonIgnore
 	private List<Review> reviews;
 	
 
