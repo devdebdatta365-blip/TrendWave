@@ -109,17 +109,7 @@ export class ProductCreateComponent implements OnInit {
     this.submitted = true;
 
     if (this.productForm.valid) {
-      const formData = new FormData();
-      formData.append('productName', this.productForm.get('productName')?.value);
-      formData.append('description', this.productForm.get('description')?.value);
-      formData.append('price', this.productForm.get('price')?.value);
-      formData.append('stockInteger', this.productForm.get('stockQuantity')?.value);
-      formData.append('category', this.productForm.get('category')?.value);
-      formData.append('brand', this.productForm.get('brand')?.value);
-      formData.append('coverImage', this.productForm.get('coverImage')?.value);
-
-
-      this.pservice.addProduct(formData).subscribe({
+      this.pservice.addProduct(this.productForm.value).subscribe({
         next: () => {
           this.showSuccessPopup = true;
           console.log('Product added successfully');

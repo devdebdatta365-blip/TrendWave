@@ -44,7 +44,7 @@
     *Brand is required
   </div><br>
 
-  <label>Cover Image<span class="required">*</span></label>
+  <label>Cover Images<span class="required">*</span></label>
   <input type="file"  (change)="onFileChange($event)" />
   <div *ngIf="productForm.get('coverImage')?.invalid && submitted" class="error">
     *Cover Image is required

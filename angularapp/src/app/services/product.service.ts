@@ -7,7 +7,7 @@ import { Product } from '../models/product.model';
   providedIn: 'root'
 })
 export class ProductService {
-  baseUrl: string = 'https://ide-adcbdffbcceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080';
+  baseUrl: string = 'https://ide-dacabdbfceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080';
 
   constructor(private http: HttpClient) { }
 
@@ -41,7 +41,7 @@ export class ProductService {
     });
   }
 
-  addProduct(product: Product): Observable<Product> {
+  addProduct(product:Product): Observable<Product> {
     return this.http.post<Product>(`${this.baseUrl}/api/products`, product, {
       headers: this.createAuthHeaders()
     });

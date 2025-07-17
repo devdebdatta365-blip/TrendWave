@@ -67,6 +67,7 @@ const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
   { path: 'review', component: ReviewComponent, canActivate: [AuthGuard] },
   { path: 'product-create', component: ProductCreateComponent, canActivate: [AuthGuard] },
+  {path:'adminnav',component:AdminNavComponent},
   
   // Error route
   { path: 'error', component: ErrorComponent },
