@@ -1,3 +1,6 @@
+
+
+<app-usernav></app-usernav>
 <div class="product-view-container">
   <div class="filters-section">
     <div class="search-filter">
@@ -45,18 +48,18 @@
           Stock: {{ product.stockInteger }}
         </p>
         <div class="product-actions">
-          <!-- <button 
-            class="view-details-btn" 
-            (click)="viewProductDetails(product.productId!)"
+          <button 
+            class="view-reviews-btn" 
+            (click)="viewReviews(product)"
           >
-            View Details
-          </button> -->
+            View Reviews
+          </button>
           <button 
             class="add-to-cart-btn" 
             (click)="addToCart(product)"
             [disabled]="product.stockInteger === 0"
           >
-            {{ product.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart' }}
+            {{ product.stockInteger === 0 ? 'Out of Stock' : 'Add to Cart' }}
           </button>
         </div>
       </div>
@@ -65,5 +68,43 @@
 
   <div class="no-products" *ngIf="!loading && filteredProducts.length === 0">
     <p>No products found matching your criteria.</p>
+  </div>
+</div>
+
+<!-- Review Modal -->
+<div class="modal-overlay" *ngIf="showReviewModal" (click)="closeReviewModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Reviews for {{ selectedProductName }}</h2>
+      <button class="close-btn" (click)="closeReviewModal()">&times;</button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="loading-reviews" *ngIf="loadingReviews">
+        Loading reviews...
+      </div>
+      
+      <div class="reviews-container" *ngIf="!loadingReviews">
+        <div class="no-reviews" *ngIf="selectedProductReviews.length === 0">
+          <p>No reviews available for this product.</p>
+        </div>
+        
+        <div class="review-item" *ngFor="let review of selectedProductReviews">
+          <div class="review-header">
+            <div class="rating">
+              <span class="stars">{{ getStarRating(review.rating) }}</span>
+              <span class="rating-number">({{ review.rating }}/5)</span>
+            </div>
+            <div class="review-date">{{ formatDate(review.date) }}</div>
+          </div>
+          <div class="review-text">
+            <p>{{ review.reviewText }}</p>
+          </div>
+          <div class="reviewer-info" *ngIf="review.user">
+            <small>By: {{ review.user.username }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

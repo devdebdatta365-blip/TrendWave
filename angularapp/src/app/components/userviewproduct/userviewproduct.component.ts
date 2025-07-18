@@ -1,8 +1,12 @@
+
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
+import { ReviewService } from '../../services/review.service';
 import { Product } from '../../models/product.model';
+import { Review } from '../../models/review.model';
 
 @Component({
   selector: 'app-userviewproduct',
@@ -18,9 +22,16 @@ export class UserViewProductComponent implements OnInit {
   sortBy: string = 'name';
   loading = false;
 
+  // Modal properties
+  showReviewModal = false;
+  selectedProductReviews: Review[] = [];
+  selectedProductName = '';
+  loadingReviews = false;
+
   constructor(
     private productService: ProductService,
     private cartService: CartService,
+    private reviewService: ReviewService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -89,6 +100,49 @@ export class UserViewProductComponent implements OnInit {
 
   viewProductDetails(productId: number): void {
     this.router.navigate(['/product-details', productId]);
+  }
+
+  // New method to view reviews
+  viewReviews(product: Product): void {
+    this.selectedProductName = product.productName;
+    this.showReviewModal = true;
+    this.loadingReviews = true;
+    
+    this.reviewService.getReviewsByProductId(product.productId!).subscribe({
+      next: (reviews) => {
+        this.selectedProductReviews = reviews;
+        this.loadingReviews = false;
+      },
+      error: (error) => {
+        console.error('Error loading reviews:', error);
+        this.selectedProductReviews = [];
+        this.loadingReviews = false;
+      }
+    });
+  }
+
+  // Method to close modal
+  closeReviewModal(): void {
+    this.showReviewModal = false;
+    this.selectedProductReviews = [];
+    this.selectedProductName = '';
+  }
+
+  // Method to generate star rating display
+  getStarRating(rating: number): string {
+    const fullStars = '★'.repeat(rating);
+    const emptyStars = '☆'.repeat(5 - rating);
+    return fullStars + emptyStars;
+  }
+
+  // Method to format date
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
   }
 
   onSearchChange(): void {
