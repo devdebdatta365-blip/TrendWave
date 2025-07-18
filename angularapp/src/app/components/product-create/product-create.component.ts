@@ -18,9 +18,9 @@ export class ProductCreateComponent implements OnInit {
   constructor(private fb: FormBuilder, private router: Router) {
     this.productForm = this.fb.group({
       productName: ['', Validators.required],
-      description: ['', Validators.required],
+      descripion: ['', Validators.required],
       price: ['', Validators.required],
-      stockQuantity: ['', Validators.required],
+      stockInteger: ['', Validators.required],
       category: ['', Validators.required],
       brand: ['', Validators.required],
       coverImage: ['', Validators.required],
@@ -34,11 +34,8 @@ export class ProductCreateComponent implements OnInit {
     if (this.productForm.valid) {
       this.showSuccessPopup = true;
     }
-    
   }
 
- 
-  
   onFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -51,5 +48,3 @@ export class ProductCreateComponent implements OnInit {
     this.router.navigate(['/adminviewproduct']);
   }
 }
-
-

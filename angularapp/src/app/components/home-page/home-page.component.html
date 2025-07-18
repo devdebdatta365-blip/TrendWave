@@ -1,25 +1,12 @@
-<div class="home-container">
-    <nav class="navbar">
-      <a routerLink="/home">Home</a>
-      <div class="nav-item"
-           (mouseenter)="toggleSubmenu(true)"
-           (mouseleave)="toggleSubmenu(false)">
-        Products
-        <div class="submenu" *ngIf="showSubmenu">
-          <a routerLink="/products">View Products</a>
-          <a routerLink="/orders">My Orders</a>
-        </div>
+   <app-usernav></app-usernav>
+   <div class="home-container">
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Welcome to ProKart</h1>
+        <p>Discover amazing products at unbeatable prices</p>
+        <button class="cta-button" routerLink="/userviewproduct">Shop Now</button>
       </div>
-      <a routerLink="/contact">Contact</a>
-    </nav>
-  
-    <h1>Welcome to ProKart</h1>
-    
-    <section class="info-section">
-      
-      <p>Welcome to ProKart, your one-stop solution for seamless online shopping.
-        Explore a wide range of products, from electronics to fashion, and enjoy a hassle-free shopping experience.
-        Start today and discover exclusive deals tailored just for you!</p>
-        <button class="shop-now-btn" style="color: white; background-color: blue;"  routerLink="/products">Shop Now</button>
     </section>
+  
   </div>
+  

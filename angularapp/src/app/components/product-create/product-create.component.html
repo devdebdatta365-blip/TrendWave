@@ -1,10 +1,6 @@
 
 
 <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-  <h1>Create a new Product</h1>
-
- 
-
   <label>Product Name<span class="required">*</span></label>
   <input type="text" formControlName="productName" />
   <div *ngIf="productForm.get('productName')?.invalid && (productForm.get('productName')?.touched || productForm.get('productName')?.dirty)" class="error">
@@ -12,8 +8,8 @@
   </div><br>
 
   <label>Description<span class="required">*</span></label>
-  <textarea formControlName="description"></textarea>
-  <div *ngIf="productForm.get('description')?.invalid && (productForm.get('description')?.touched || productForm.get('description')?.dirty)" class="error">
+  <textarea formControlName="descripion"></textarea>
+  <div *ngIf="productForm.get('descripion')?.invalid && (productForm.get('descripion')?.touched || productForm.get('descripion')?.dirty)" class="error">
     *Description is required
   </div><br>
 
@@ -24,8 +20,8 @@
   </div><br>
 
   <label>Stock Quantity<span class="required">*</span></label>
-  <input type="number" formControlName="stockQuantity" />
-  <div *ngIf="productForm.get('stockQuantity')?.invalid && (productForm.get('stockQuantity')?.touched || productForm.get('stockQuantity')?.dirty)" class="error">
+  <input type="number" formControlName="stockInteger" />
+  <div *ngIf="productForm.get('stockInteger')?.invalid && (productForm.get('stockInteger')?.touched || productForm.get('stockInteger')?.dirty)" class="error">
     *Stock Quantity is required
   </div><br>
 
@@ -51,11 +47,10 @@
   </div><br>
 
   <label>Cover Image<span class="required">*</span></label>
-  <input type="file" (change)="onFileChange($event)" /><br>
-  
-  <div *ngIf="submitted && productForm.invalid" class="error">
-    All fields are required
-  </div>
+  <input type="file" (change)="onFileChange($event)" />
+  <div *ngIf="productForm.get('coverImage')?.invalid && submitted" class="error">
+    *Cover Image is required
+  </div><br>
 
   <button type="submit" class="submit-btn">Add Product</button>
 
@@ -66,6 +61,4 @@
       <button (click)="onPopupOk()" class="submit-btn">OK</button>
     </div>
   </div>
-
 </form>
-

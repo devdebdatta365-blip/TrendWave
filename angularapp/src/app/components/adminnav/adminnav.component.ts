@@ -1,22 +1,30 @@
-import { Component, Input } from '@angular/core';
+
+
+
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-adminnav',
+  selector: 'app-admin-nav',
   templateUrl: './adminnav.component.html',
   styleUrls: ['./adminnav.component.css']
 })
-export class AdminnavComponent {
-  @Input() username: string;
-  @Input() role: string;
+export class AdminNavComponent implements OnInit {
+  
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  constructor(private router: Router, private authService: AuthService) {}
-
-  logout() {
-    if (confirm('Are you sure you want to logout?')) {
-      this.authService.logout();
+  ngOnInit(): void {
+    // Check if user is admin
+    if (!this.authService.isAdmin()) {
       this.router.navigate(['/login']);
     }
+  }
+
+  onLogout(): void {
+    this.authService.logout();
   }
 }

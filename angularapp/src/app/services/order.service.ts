@@ -1,4 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+
+
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Order } from '../models/order.model';
 import { Observable } from 'rxjs';
@@ -7,32 +9,52 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class OrderService {
+  baseUrl: string = 'https://ide-ddbfeafaaceaeceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080/api/orders';
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  baseUrl:string='';
-
-  placeOrder(order:Order):Observable<Order>{
-    return this.http.post<Order>(this.baseUrl, order);
-  } 
-
-  getOrderById(orderId:number):Observable<Order>{
-    return this.http.get<Order>(`${this.baseUrl}/${orderId}`)
+  private createAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
   }
 
-  getAllOrders():Observable<Order[]>{
-    return this.http.get<Order[]>(this.baseUrl);
+  placeOrder(order: Order): Observable<string> {
+    return this.http.post(this.baseUrl, order, {
+      headers: this.createAuthHeaders(),
+      responseType: 'text' // Handle text response from backend
+    });
   }
 
-  getOrdersByUserId(userId:number):Observable<Order[]>{
-    return this.http.get<Order[]>(this.baseUrl);
+  getOrderById(orderId: number): Observable<Order> {
+    return this.http.get<Order>(`${this.baseUrl}/${orderId}`, {
+      headers: this.createAuthHeaders()
+    });
   }
 
-  updateOrder(orderId:number, order:Order):Observable<Order>{
-    return this.http.put<Order>(`${this.baseUrl}/${orderId}`, order);
+  getAllOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(this.baseUrl, {
+      headers: this.createAuthHeaders()
+    });
   }
 
-  deleteOrder(orderId:number):Observable<void>{
-    return this.http.delete<void>(`${this.baseUrl}/${orderId}`);
+  getOrdersByUserId(userId: number): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.baseUrl}/user/${userId}`, {
+      headers: this.createAuthHeaders()
+    });
+  }
+
+  updateOrder(orderId: number, order: Order): Observable<Order> {
+    return this.http.put<Order>(`${this.baseUrl}/${orderId}`, order, {
+      headers: this.createAuthHeaders()
+    });
+  }
+
+  deleteOrder(orderId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${orderId}`, {
+      headers: this.createAuthHeaders()
+    });
   }
 }

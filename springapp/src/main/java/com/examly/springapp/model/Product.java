@@ -2,6 +2,7 @@ package com.examly.springapp.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -32,7 +33,7 @@ public class Product {
 	private long productId;
 	@Column(name="product_name")
 	private String productName;
-	@Column(name="description")
+	@Column(name="descripion")
 	private String descripion;
 	@Column(name="price")
 	private double price;
@@ -47,8 +48,9 @@ public class Product {
 	private String  coverImage;
 
 	@OneToMany(mappedBy="product", cascade=CascadeType.ALL)
-	@JsonManagedReference
+	// @JsonManagedReference
+	@JsonIgnore
 	private List<Review> reviews;
 	
-
 }
+

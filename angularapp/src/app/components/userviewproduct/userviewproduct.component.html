@@ -1,30 +1,64 @@
-<div class="userviewproduct-container">
-    <h2>Products</h2>
-    <input type="text" placeholder="Search products..." [(ngModel)]="searchTerm" />
-    <div *ngIf="filteredProducts().length === 0" class="no-data">No products found.</div>
-    <div class="product-list">
-      <div class="product-card" *ngFor="let product of filteredProducts()">
-        <img [src]="product.coverImage" alt="{{product.productName}}" class="product-img" />
-        <div class="product-info">
-          <h3>{{product.productName}}</h3>
-          <p>{{product.description}}</p>
-          <div>Price: ₹{{product.price}}</div>
-          <div>In Stock: {{product.stockQuantity}}</div>
-          <div>Category: {{product.category}}</div>
-          <div>Brand: {{product.brand}}</div>
-          <label>Quantity:
-            <input type="number" min="1" [max]="product.stockQuantity" [(ngModel)]="quantity[product.productId]" />
-          </label>
-          <button (click)="addToCart(product)">Add to Cart</button>
-          <button [routerLink]="['/review']">View Reviews</button>
-          <button [routerLink]="['/myreview']">Write a Review</button>
+ <app-usernav></app-usernav>
+ <div class="product-view-container">
+  <div class="filters-section">
+    <div class="search-filter">
+      <input 
+        type="text" 
+        placeholder="Search products..." 
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+        class="search-input"
+      />
+    </div>
+    
+    <div class="category-filter">
+      <select [(ngModel)]="selectedCategory" (change)="onCategoryChange()">
+        <option value="">All Categories</option>
+        <option *ngFor="let category of categories" [value]="category">
+          {{ category }}
+        </option>
+      </select>
+    </div>
+    
+    <div class="sort-filter">
+      <select [(ngModel)]="sortBy" (change)="onSortChange()">
+        <option value="name">Sort by Name</option>
+        <option value="price-low">Price: Low to High</option>
+        <option value="price-high">Price: High to Low</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading products...</div>
+  
+  <div class="products-grid" *ngIf="!loading">
+    <div class="product-card" *ngFor="let product of filteredProducts">
+      <div class="product-image">
+        <img [src]="product.coverImage" [alt]="product.productName" />
+      </div>
+      <div class="product-info">
+        <h3>Product ID: {{ product.productId }}</h3>
+        <h3>{{ product.productName }}</h3>
+        <p class="description">{{ product.description }}</p>
+        <p class="price">${{ product.price }}</p>
+        <p class="category">{{ product.category }} - {{ product.brand }}</p>
+        <p class="stock" [class.low-stock]="product.stockInteger < 10">
+          Stock: {{ product.stockInteger }}
+        </p>
+        <div class="product-actions">
+          <button 
+            class="add-to-cart-btn" 
+            (click)="addToCart(product)"
+            [disabled]="product.stockInteger === 0"
+          >
+            {{ product.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart' }}
+          </button>
         </div>
       </div>
     </div>
-    <div class="modal" *ngIf="showAddCartModal">
-      <div class="modal-content">
-        <p>{{addedProductName}} added to cart!</p>
-        <button (click)="closeAddCartModal()">Ok</button>
-      </div>
-    </div>
+  </div>
+
+  <div class="no-products" *ngIf="!loading && filteredProducts.length === 0">
+    <p>No products found matching your criteria.</p>
+  </div>
 </div>

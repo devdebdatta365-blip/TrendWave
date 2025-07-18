@@ -1,42 +1,44 @@
-<div class="container mt-4">
-    <h2>All Product Reviews</h2>
 
-    <input type="text" [(ngModel)]="searchTerm" (input)="applyFilters()" placeholder="Search by product name"
-        class="form-control mb-3">
-
-    <button class="btn btn-secondary mb-3" (click)="toggleSort()">Sort by Date ({{ sortDirection }})</button>
-
-    <div *ngIf="filteredReviews.length === 0" class="alert alert-info">
-        No reviews found.
+<app-admin-nav></app-admin-nav>
+<div class="admin-reviews-container">
+    <div class="header">
+      <h2>Reviews Management</h2>
     </div>
-
-    <div *ngFor="let review of paginatedReviews" class="card mb-3">
-        <div class="card-body">
-            <h5 class="card-title">{{ review.product.productName }}</h5>
-            <p class="card-text">{{ review.reviewText }}</p>
-            <p class="card-text"><strong>Rating:</strong> {{ review.rating }}</p>
-            <p class="card-text"><strong>User:</strong> {{ review.user.username }}</p>
-            <p class="card-text"><strong>Date:</strong> {{ review.date | date }}</p>
+  
+    <div class="loading" *ngIf="loading">Loading reviews...</div>
+    
+    <div class="error-message" *ngIf="error">
+      <p>{{ error }}</p>
+      <button (click)="loadReviews()">Try Again</button>
+    </div>
+  
+    <div class="reviews-list" *ngIf="!loading && !error">
+      <div class="review-card" *ngFor="let review of reviews">
+        <div class="review-header">
+          <h4>Review #{{ review.reviewId }}</h4>
+          <div class="rating">
+            <span class="stars">{{ '★'.repeat(review.rating) }}{{ '☆'.repeat(5 - review.rating) }}</span>
+            <span class="rating-number">({{ review.rating }}/5)</span>
+          </div>
         </div>
-
+        
+        <div class="review-content">
+          <p class="review-text">{{ review.reviewText }}</p>
+          <div class="review-meta">
+            <span class="user">User ID: {{ review.user.userId }}</span>
+            <span class="username">Username: {{ review.user.username }}</span>
+            <span class="date">Date: {{ review.date | date:'medium' }}</span>
+          </div>
+        </div>
+        
+        <!-- <div class="review-actions">
+          <button class="delete-btn" (click)="deleteReview(review.reviewId!)">Delete Review</button>
+        </div> -->
+      </div>
     </div>
-
-    <nav *ngIf="filteredReviews.length > pageSize">
-        <ul class="pagination">
-            <li class="page-item" [class.disabled]="currentPage === 1">
-                <button class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
-
-            </li>
-            <li class="page-item"
-                *ngFor="let page of [].constructor(Math.ceil(filteredReviews.length / pageSize)); let i = index"
-                [class.active]="currentPage === i + 1">
-                <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
-            </li>
-            <li class="page-item" [class.disabled]="currentPage === Math.ceil(filteredReviews.length / pageSize)">
-                <button class="page-link" (click)="changePage(currentPage + 1)">Next</button>
-            </li>
-
-        </ul>
-
-    </nav>
-</div>
+  
+    <div class="no-reviews" *ngIf="!loading && !error && reviews.length === 0">
+      <p>No reviews found.</p>
+    </div>
+  </div>
+  

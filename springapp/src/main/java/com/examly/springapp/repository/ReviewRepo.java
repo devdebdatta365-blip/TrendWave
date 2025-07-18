@@ -20,4 +20,3 @@ public interface ReviewRepo extends JpaRepository<Review, Long>{
 	//Find reviews by product ID
 	List<Review> findByProductProductId(Long productId);
 }
-
