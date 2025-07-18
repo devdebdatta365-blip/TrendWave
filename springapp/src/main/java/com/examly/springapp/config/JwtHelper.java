@@ -1,3 +1,4 @@
+
 package com.examly.springapp.config;
 
 import io.jsonwebtoken.Claims;
@@ -95,3 +96,5 @@ public class JwtHelper {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }
+
+

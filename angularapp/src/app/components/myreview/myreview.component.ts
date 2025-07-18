@@ -1,3 +1,5 @@
+
+
 import { Component, OnInit } from '@angular/core';
 import { ReviewService } from '../../services/review.service';
 import { AuthService } from '../../services/auth.service';
@@ -59,7 +61,7 @@ export class MyReviewComponent implements OnInit {
     }
     this.loadMyReviews();
   }
-  
+
   loadMyReviews(): void {
     this.loading = true;
     this.error = null;
@@ -210,10 +212,6 @@ export class MyReviewComponent implements OnInit {
   getStarArray(rating: number): boolean[] {
     return Array(5).fill(false).map((_, index) => index < rating);
   }
-  // getStarArray(rating: number): number[] {
-  //   return Array(rating).fill(0).map((_, index) => index);
-  // }
-  
 
   refreshReviews(): void {
     this.loadMyReviews();

@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.model';
@@ -52,3 +53,5 @@ export class HomePageComponent implements OnInit {
     this.router.navigate(['/userviewproduct'], { queryParams: { category } });
   }
 }
+
+

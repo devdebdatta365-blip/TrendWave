@@ -1,54 +1,54 @@
 <app-usernav></app-usernav>
 <div class="my-orders-container">
-    <h2>My Orders</h2>
-    
-    <div class="loading" *ngIf="loading">Loading your orders...</div>
-    
-    <div class="orders-list" *ngIf="!loading">
-      <div class="order-card" *ngFor="let order of orders">
-        <div class="order-header">
-          <div class="order-info">
-            <h3>Order #{{ order.orderId }}</h3>
-            <p class="order-date">Placed on {{ order.orderDate | date:'mediumDate' }}</p>
-          </div>
-          <div class="order-status" [class]="getStatusClass(order.orderStatus)">
-            {{ order.orderStatus }}
-          </div>
+  <h2>My Orders</h2>
+  
+  <div class="loading" *ngIf="loading">Loading your orders...</div>
+  
+  <div class="orders-list" *ngIf="!loading">
+    <div class="order-card" *ngFor="let order of orders">
+      <div class="order-header">
+        <div class="order-info">
+          <h3>Order #{{ order.orderId }}</h3>
+          <p class="order-date">Placed on {{ order.orderDate | date:'mediumDate' }}</p>
         </div>
-        
-        <div class="order-details">
-          <div class="billing-info">
-            <strong>Billing Address:</strong> {{ order.billingAddress }}
-          </div>
-          <div class="total-amount">
-            <strong>Total: ${{ order.totalAmount }}</strong>
-          </div>
+        <div class="order-status" [class]="getStatusClass(order.orderStatus)">
+          {{ order.orderStatus }}
         </div>
-        
-        <div class="order-items">
-          <h4>Items:</h4>
-          <div class="item-list">
-            <div class="order-item" *ngFor="let item of order.orderItems">
-              <div class="item-details">
-                <span class="item-name">{{ item.product.productName }}</span>
-                <span class="item-quantity">Qty: {{ item.quantity }}</span>
-                <span class="item-price">${{ item.price }}</span>
-              </div>
+      </div>
+      
+      <div class="order-details">
+        <div class="billing-info">
+          <strong>Billing Address:</strong> {{ order.billingAddress }}
+        </div>
+        <div class="total-amount">
+          <strong>Total: ${{ order.totalAmount }}</strong>
+        </div>
+      </div>
+      
+      <div class="order-items">
+        <h4>Items:</h4>
+        <div class="item-list">
+          <div class="order-item" *ngFor="let item of order.orderItems">
+            <div class="item-details">
+              <span class="item-name">{{ item.product.productName }}</span>
+              <span class="item-quantity">Qty: {{ item.quantity }}</span>
+              <span class="item-price">${{ item.price }}</span>
             </div>
           </div>
         </div>
-        
-        <div class="order-actions" *ngIf="canCancelOrder(order)">
-          <button class="cancel-btn" (click)="cancelOrder(order.orderId!)">
-            Cancel Order
-          </button>
-        </div>
       </div>
-    </div>
-    
-    <div class="no-orders" *ngIf="!loading && orders.length === 0">
-      <p>You haven't placed any orders yet.</p>
-      <button routerLink="/userviewproduct" class="shop-btn">Start Shopping</button>
+      
+      <div class="order-actions" *ngIf="canCancelOrder(order)">
+        <button class="cancel-btn" (click)="cancelOrder(order.orderId!)">
+          Cancel Order
+        </button>
+      </div>
     </div>
   </div>
   
+  <div class="no-orders" *ngIf="!loading && orders.length === 0">
+    <p>You haven't placed any orders yet.</p>
+    <button routerLink="/userviewproduct" class="shop-btn">Start Shopping</button>
+  </div>
+</div>
+

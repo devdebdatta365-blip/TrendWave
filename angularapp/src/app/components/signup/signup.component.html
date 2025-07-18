@@ -1,5 +1,4 @@
 
-
 <h2>Signup</h2>
 <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
   <label>
@@ -51,4 +50,3 @@
   <div *ngIf="successMsg" class="success">{{ successMsg }}</div>
 </form>
 <a routerLink="/login">Already have an account? Login</a>
-

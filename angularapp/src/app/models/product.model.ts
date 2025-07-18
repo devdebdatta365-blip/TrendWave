@@ -1,4 +1,3 @@
-
 export interface Product {
     productId?: number;
     productName: string; 
@@ -9,3 +8,5 @@ export interface Product {
     brand: string; 
     coverImage: string; 
 }
+
+

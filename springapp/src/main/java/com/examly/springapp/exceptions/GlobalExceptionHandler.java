@@ -1,3 +1,5 @@
+
+
 package com.examly.springapp.exceptions;
 
 import org.springframework.http.ResponseEntity;

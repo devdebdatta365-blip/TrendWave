@@ -1,3 +1,4 @@
+
 package com.examly.springapp.exceptions;
 
 import java.time.LocalDateTime;

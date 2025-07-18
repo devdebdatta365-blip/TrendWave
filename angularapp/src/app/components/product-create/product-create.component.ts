@@ -48,3 +48,5 @@ export class ProductCreateComponent implements OnInit {
     this.router.navigate(['/adminviewproduct']);
   }
 }
+
+

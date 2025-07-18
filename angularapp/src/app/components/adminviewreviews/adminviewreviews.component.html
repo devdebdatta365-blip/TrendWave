@@ -1,44 +1,42 @@
-
 <app-admin-nav></app-admin-nav>
 <div class="admin-reviews-container">
-    <div class="header">
-      <h2>Reviews Management</h2>
-    </div>
+  <div class="header">
+    <h2>Reviews Management</h2>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading reviews...</div>
   
-    <div class="loading" *ngIf="loading">Loading reviews...</div>
-    
-    <div class="error-message" *ngIf="error">
-      <p>{{ error }}</p>
-      <button (click)="loadReviews()">Try Again</button>
-    </div>
-  
-    <div class="reviews-list" *ngIf="!loading && !error">
-      <div class="review-card" *ngFor="let review of reviews">
-        <div class="review-header">
-          <h4>Review #{{ review.reviewId }}</h4>
-          <div class="rating">
-            <span class="stars">{{ '★'.repeat(review.rating) }}{{ '☆'.repeat(5 - review.rating) }}</span>
-            <span class="rating-number">({{ review.rating }}/5)</span>
-          </div>
+  <div class="error-message" *ngIf="error">
+    <p>{{ error }}</p>
+    <button (click)="loadReviews()">Try Again</button>
+  </div>
+
+  <div class="reviews-list" *ngIf="!loading && !error">
+    <div class="review-card" *ngFor="let review of reviews">
+      <div class="review-header">
+        <h4>Review #{{ review.reviewId }}</h4>
+        <div class="rating">
+          <span class="stars">{{ '★'.repeat(review.rating) }}{{ '☆'.repeat(5 - review.rating) }}</span>
+          <span class="rating-number">({{ review.rating }}/5)</span>
         </div>
-        
-        <div class="review-content">
-          <p class="review-text">{{ review.reviewText }}</p>
-          <div class="review-meta">
-            <span class="user">User ID: {{ review.user.userId }}</span>
-            <span class="username">Username: {{ review.user.username }}</span>
-            <span class="date">Date: {{ review.date | date:'medium' }}</span>
-          </div>
-        </div>
-        
-        <!-- <div class="review-actions">
-          <button class="delete-btn" (click)="deleteReview(review.reviewId!)">Delete Review</button>
-        </div> -->
       </div>
-    </div>
-  
-    <div class="no-reviews" *ngIf="!loading && !error && reviews.length === 0">
-      <p>No reviews found.</p>
+      
+      <div class="review-content">
+        <p class="review-text">{{ review.reviewText }}</p>
+        <div class="review-meta">
+          <span class="user">User ID: {{ review.user.userId }}</span>
+          <span class="username">Username: {{ review.user.username }}</span>
+          <span class="date">Date: {{ review.date | date:'medium' }}</span>
+        </div>
+      </div>
+      
+      <!-- <div class="review-actions">
+        <button class="delete-btn" (click)="deleteReview(review.reviewId!)">Delete Review</button>
+      </div> -->
     </div>
   </div>
-  
+
+  <div class="no-reviews" *ngIf="!loading && !error && reviews.length === 0">
+    <p>No reviews found.</p>
+  </div>
+</div>

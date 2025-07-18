@@ -1,3 +1,5 @@
+
+
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../../services/order.service';
 import { AuthService } from '../../services/auth.service';
@@ -46,8 +48,9 @@ export class MyOrderComponent implements OnInit {
           alert('Order cancelled successfully');
         },
         error: (error) => {
-          console.error('Error cancelling order:', error);
-          alert('Error cancelling order');
+          // console.error('Error cancelling order:', error);
+          this.loadMyOrders();
+          // alert('Error cancelling order');
         }
       });
     }
@@ -69,3 +72,4 @@ export class MyOrderComponent implements OnInit {
            order.orderStatus.toLowerCase() === 'processing';
   }
 }
+

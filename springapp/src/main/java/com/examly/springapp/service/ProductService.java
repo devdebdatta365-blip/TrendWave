@@ -1,3 +1,4 @@
+
 package com.examly.springapp.service;
 
 import java.util.List;
@@ -14,3 +15,5 @@ public interface ProductService {
 	public abstract boolean deleteProduct(Long productId);
 
 }
+
+

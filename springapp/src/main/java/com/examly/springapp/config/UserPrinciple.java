@@ -1,3 +1,4 @@
+
 package com.examly.springapp.config;
 
 import java.util.ArrayList;
@@ -56,3 +57,4 @@ public class UserPrinciple implements UserDetails {
         return true;
     }
 }
+

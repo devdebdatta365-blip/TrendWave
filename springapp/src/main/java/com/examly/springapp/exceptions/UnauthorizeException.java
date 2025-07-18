@@ -1,3 +1,4 @@
+
 package com.examly.springapp.exceptions;
 
 public class UnauthorizeException extends RuntimeException 

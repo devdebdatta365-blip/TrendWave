@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
   
-  private apiUrl:string = 'https://ide-ddbfeafaaceaeceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080/api';
+  private apiUrl:string = 'https://ide-dacabdbfceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080/api';
 
   public loggedIn = new BehaviorSubject<boolean>(this.hasToken());
   public userRole = new BehaviorSubject<string | null>(localStorage.getItem('userRole'));
