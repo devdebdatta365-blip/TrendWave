@@ -7,7 +7,7 @@ import { Review } from '../models/review.model';
   providedIn: 'root'
 })
 export class ReviewService {
-  public apiUrl = 'https://ide-dacabdbfceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080';
+  public apiUrl = 'https://ide-ddbfeafaaceaeceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080';
 
   constructor(private http: HttpClient) { }
 

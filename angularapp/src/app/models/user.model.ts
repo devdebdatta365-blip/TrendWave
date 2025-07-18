@@ -1,3 +1,5 @@
+
+
 export class User {
     userId?: number;
      email: string;
@@ -6,3 +8,4 @@ export class User {
      mobileNumber: string;
      userRole: string;
     }
+    

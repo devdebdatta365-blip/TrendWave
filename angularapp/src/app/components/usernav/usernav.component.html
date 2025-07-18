@@ -1,18 +1,17 @@
 <nav class="user-nav">
-  <div class="nav-container">
-    <div class="nav-brand">
-      <h2>ProKart</h2>
+    <div class="nav-container">
+      <div class="nav-brand">
+        <h2>ProKart</h2>
+      </div>
+      
+      <div class="nav-links">
+        <a routerLink="/home-page" routerLinkActive="active">Home</a>
+        <a routerLink="/userviewproduct" routerLinkActive="active">Products</a>
+        <a routerLink="/myorder" routerLinkActive="active">My Orders</a>
+        <a routerLink="/myreview" routerLinkActive="active">My Reviews</a>
+        <a routerLink="/checkout" routerLinkActive="active">Cart</a>
+        <button class="logout-btn" (click)="onLogout()">Logout</button>
+      </div>
     </div>
-    
-    <div class="nav-links">
-      <a routerLink="/home-page" routerLinkActive="active">Home</a>
-      <a routerLink="/userviewproduct" routerLinkActive="active">Products</a>
-      <a routerLink="/myorder" routerLinkActive="active">My Orders</a>
-      <a routerLink="/myreview" routerLinkActive="active">My Reviews</a>
-      <a routerLink="/checkout" routerLinkActive="active">Cart</a>
-      <button class="logout-btn" (click)="onLogout()">Logout</button>
-    </div>
-  </div>
-</nav>
-
-<router-outlet></router-outlet>
+  </nav>
+  

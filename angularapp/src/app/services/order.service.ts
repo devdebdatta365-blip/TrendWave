@@ -1,3 +1,5 @@
+
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Order } from '../models/order.model';
@@ -7,7 +9,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class OrderService {
-  baseUrl: string = 'https://ide-dacabdbfceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080/api/orders';
+  baseUrl: string = 'https://ide-ddbfeafaaceaeceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080/api/orders';
 
   constructor(private http: HttpClient) { }
 

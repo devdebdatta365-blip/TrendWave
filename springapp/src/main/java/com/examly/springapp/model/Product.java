@@ -53,3 +53,4 @@ public class Product {
 	private List<Review> reviews;
 	
 }
+
