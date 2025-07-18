@@ -1,15 +1,14 @@
 .error-page {
-    width: 100%;
-    min-height: 80vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #d32f2f;
-    background: #fff3e0;
-  }
-  .error-page h2 {
-    font-size: 2em;
-    margin-bottom: 16px;
-  }
-  
+  width: 100%;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #d32f2f;
+  background: #fff3e0;
+}
+.error-page h2 {
+  font-size: 2em;
+  margin-bottom: 16px;
+}

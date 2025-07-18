@@ -38,7 +38,6 @@ export class AdminViewProductComponent implements OnInit {
       }
     });
   }
-  
 
   openAddForm(): void {
     this.showForm = true;

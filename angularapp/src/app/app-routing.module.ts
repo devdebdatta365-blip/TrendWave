@@ -1,5 +1,3 @@
-// app-routing.module.ts
-
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './components/home-page/home-page.component';
@@ -68,7 +66,6 @@ const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
   { path: 'review', component: ReviewComponent, canActivate: [AuthGuard] },
   { path: 'product-create', component: ProductCreateComponent, canActivate: [AuthGuard] },
-  {path:'adminnav',component:AdminNavComponent},
   
   // Error route
   { path: 'error', component: ErrorComponent },

@@ -52,5 +52,4 @@ public class Product {
 	@JsonIgnore
 	private List<Review> reviews;
 	
-
 }

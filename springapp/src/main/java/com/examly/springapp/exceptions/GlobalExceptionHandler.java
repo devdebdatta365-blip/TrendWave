@@ -31,7 +31,4 @@ public class GlobalExceptionHandler
     {
         return ResponseEntity.status(401).body(ex.getMessage());
     } 
-    
-    
-    
 }

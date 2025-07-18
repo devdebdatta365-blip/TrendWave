@@ -10,3 +10,4 @@ public interface UserService {
     String loginUser(LoginDTO loginDTO);
     User getUserByEmail(String email);
 }
+

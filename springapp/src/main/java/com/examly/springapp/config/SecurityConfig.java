@@ -55,18 +55,9 @@ public class SecurityConfig {
 
                 // Admin-only product management
                 .requestMatchers(HttpMethod.POST, "/api/products").hasRole("ADMIN")
-
-
                 .requestMatchers(HttpMethod.PUT, "/api/products/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
-
                 .requestMatchers(HttpMethod.GET, "/api/products/**").hasRole("ADMIN")
-
-                
-                // .requestMatchers(HttpMethod.POST, "/api/products").hasRole("Admin")
-                // .requestMatchers(HttpMethod.PUT, "/api/products/**").hasRole("Admin")
-                // .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("Admin")
-                // .requestMatchers(HttpMethod.GET, "/api/products/**").hasRole("Admin")
 
                 // Admin-only order management
                 .requestMatchers(HttpMethod.GET, "/api/orders").hasRole("ADMIN")

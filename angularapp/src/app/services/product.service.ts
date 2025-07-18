@@ -41,20 +41,17 @@ export class ProductService {
     });
   }
 
-  addProduct(product:Product): Observable<Product> {
+  addProduct(product: Product): Observable<Product> {
     return this.http.post<Product>(`${this.baseUrl}/api/products`, product, {
       headers: this.createAuthHeaders()
     });
   }
-  
-  
 
   updateProduct(productId: number, product: Product): Observable<Product> {
     return this.http.put<Product>(`${this.baseUrl}/api/products/${productId}`, product, {
       headers: this.createAuthHeaders()
     });
   }
-  
 
   deleteProduct(productId: number): Observable<void> {
     console.log('Making DELETE request to:', `${this.baseUrl}/api/products/${productId}`);

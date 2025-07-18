@@ -1,4 +1,3 @@
-
 package com.examly.springapp.config;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -80,3 +79,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 }
+
