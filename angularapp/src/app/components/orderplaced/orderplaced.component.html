@@ -15,7 +15,7 @@
       />
     </div>
     <div class="status-filter">
-      <label>Filter by Status:</label>
+      <label for="">Filter by Status:</label>
       <select [(ngModel)]="selectedStatus" (change)="filterOrders()">
         <option value="">All Status</option>
         <option value="PENDING">Pending</option>
@@ -65,7 +65,7 @@
       
       <div class="actions">
         <div class="status-update">
-          <label>Update Status:</label>
+          <label for="">Update Status:</label>
           <select (change)="updateOrderStatus(order.orderId!, $event.target.value)">
             <option value="">Select Status</option>
             <option value="PENDING">Pending</option>
@@ -75,9 +75,6 @@
             <option value="CANCELLED">Cancelled</option>
           </select>
         </div>
-        <!-- <button class="delete-btn" (click)="deleteOrder(order.orderId!)">
-          Delete Order
-        </button> -->
       </div>
     </div>
   </div>

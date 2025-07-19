@@ -24,15 +24,12 @@
       <div class="review-content">
         <p class="review-text">{{ review.reviewText }}</p>
         <div class="review-meta">
+          <span class="user">Product ID: {{ review.product.productId }}</span>
           <span class="user">User ID: {{ review.user.userId }}</span>
           <span class="username">Username: {{ review.user.username }}</span>
           <span class="date">Date: {{ review.date | date:'medium' }}</span>
         </div>
       </div>
-      
-      <!-- <div class="review-actions">
-        <button class="delete-btn" (click)="deleteReview(review.reviewId!)">Delete Review</button>
-      </div> -->
     </div>
   </div>
 

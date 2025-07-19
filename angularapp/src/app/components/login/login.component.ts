@@ -56,8 +56,7 @@ export class LoginComponent {
           alert("successful as admin");
           console.log(res.userRole);
         } else {
-          // this.router.navigate(['/user/view-properties']);
-          this.router.navigate(['/usernav']);
+          this.router.navigate(['/home-page']);
           console.log(res.userRole);
           alert("successful as user");
         }

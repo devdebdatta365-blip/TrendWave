@@ -43,7 +43,7 @@ public class Review {
 	@ManyToOne
 	@JoinColumn(name="product_id")
 	// @JsonBackReference
-	@JsonIgnore
+	// @JsonIgnore
 	private Product product;    
 }
 

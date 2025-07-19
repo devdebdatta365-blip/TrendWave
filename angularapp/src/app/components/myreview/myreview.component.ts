@@ -70,7 +70,6 @@ export class MyReviewComponent implements OnInit {
     
     this.reviewService.getReviewsByUserId(this.userId).subscribe({
       next: (reviews) => {
-        // Filter out reviews with null reviewText and rating
         this.reviews = reviews.filter(review => 
           review.reviewText && 
           review.rating !== null && 

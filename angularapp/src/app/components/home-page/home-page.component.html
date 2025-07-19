@@ -1,6 +1,5 @@
-<app-usernav></app-usernav>
+<!-- <app-usernav></app-usernav>
 <div class="home-container">
-  <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
       <h1>Welcome to ProKart</h1>
@@ -8,36 +7,86 @@
       <button class="cta-button" routerLink="/userviewproduct">Shop Now</button>
     </div>
   </section>
+</div> -->
 
-  <!-- Categories Section -->
-  <!-- <section class="categories">
-    <h2>Shop by Category</h2>
-    <div class="categories-grid">
-      <div class="category-card" *ngFor="let category of categories" (click)="browseCategory(category)">
-        <h3>{{ category }}</h3>
+<app-usernav></app-usernav>
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-background">
+      <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="shape shape-5"></div>
       </div>
     </div>
-  </section> -->
-
-  <!-- Featured Products Section -->
-  <!-- <section class="featured-products">
-    <h2>Featured Products</h2>
-    <div class="loading" *ngIf="loading">Loading products...</div>
-    <div class="products-grid" *ngIf="!loading">
-      <div class="product-card" *ngFor="let product of featuredProducts">
-        <div class="product-image">
-          <img [src]="product.coverImage" [alt]="product.productName" />
+    <div class="hero-content">
+      <div class="hero-badge">🎉 Grand Opening Sale</div>
+      <h1>Welcome to <span class="brand-highlight">ProKart</span></h1>
+      <p class="hero-subtitle">Your Ultimate Shopping Destination</p>
+      <p class="hero-description">Discover amazing products at unbeatable prices with premium quality and lightning-fast delivery right to your doorstep</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number">10K+</span>
+          <span class="stat-label">Happy Customers</span>
         </div>
-        <div class="product-info">
-          <h3>{{ product.productName }}</h3>
-          <p class="price">${{ product.price }}</p>
-          <p class="category">{{ product.category }}</p>
-          <div class="card-actions">
-            <button class="view-btn" (click)="viewProduct(product.productId!)">View Details</button>
-            <button class="cart-btn" (click)="addToCart(product)">Add to Cart</button>
-          </div>
+        <div class="stat">
+          <span class="stat-number">5K+</span>
+          <span class="stat-label">Products</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">24/7</span>
+          <span class="stat-label">Support</span>
+        </div>
+      </div>
+      <button class="cta-button" routerLink="/userviewproduct">
+        <span>Shop Now</span>
+        <i class="arrow">→</i>
+      </button>
+      <p class="hero-offer">🚚 Free shipping on orders over $50 | 💳 Secure payment guaranteed</p>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="features-container">
+      <h2>Why Choose ProKart?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>Secure Shopping</h3>
+          <p>Your data is protected with bank-level security and encrypted transactions</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Fast Delivery</h3>
+          <p>Lightning-fast delivery within 24-48 hours to your doorstep</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💎</div>
+          <h3>Premium Quality</h3>
+          <p>Handpicked products from trusted brands with quality guarantee</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Best Prices</h3>
+          <p>Competitive pricing with exclusive deals and seasonal discounts</p>
         </div>
       </div>
     </div>
-  </section> -->
+  </section>
+
+  <!-- Call to Action Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>Ready to Start Shopping?</h2>
+      <p>Join thousands of satisfied customers and experience the ProKart difference today</p>
+      <div class="cta-buttons">
+        <button class="cta-button primary" routerLink="/userviewproduct">Browse Products</button>
+        <button class="cta-button secondary" routerLink="/signup">Create Account</button>
+      </div>
+    </div>
+  </section>
 </div>
