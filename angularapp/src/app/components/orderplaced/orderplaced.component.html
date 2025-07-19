@@ -1,1 +1,87 @@
-<p>orderplaced works!</p>
+<app-admin-nav></app-admin-nav>
+<div class="admin-orders-container">
+  <div class="header">
+    <h2>Order Management</h2>
+  </div>
+
+  <div class="filters">
+    <div class="search-box">
+      <input 
+        type="text" 
+        placeholder="Search by Order ID, username, or email..." 
+        [(ngModel)]="searchTerm"
+        (input)="filterOrders()"
+      />
+    </div>
+    <div class="status-filter">
+      <label>Filter by Status:</label>
+      <select [(ngModel)]="selectedStatus" (change)="filterOrders()">
+        <option value="">All Status</option>
+        <option value="PENDING">Pending</option>
+        <option value="PROCESSING">Processing</option>
+        <option value="SHIPPED">Shipped</option>
+        <option value="DELIVERED">Delivered</option>
+        <option value="CANCELLED">Cancelled</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="orders-list">
+    <div class="order-card" *ngFor="let order of filteredOrders">
+      <div class="order-header">
+        <div class="order-id">
+          <strong>Order #{{ order.orderId }}</strong>
+        </div>
+        <div class="order-date">{{ order.orderDate | date:'mediumDate' }}</div>
+        <div class="order-status" [class]="getStatusClass(order.orderStatus)">
+          {{ order.orderStatus }}
+        </div>
+      </div>
+      
+      <div class="customer-info">
+        <strong>Customer:</strong> {{ order.user.username }} ({{ order.user.email }})
+      </div>
+      
+      <div class="order-details">
+        <div class="billing-address">
+          <strong>Billing Address:</strong> {{ order.billingAddress }}
+        </div>
+        <div class="total-amount">
+          <strong>Total Amount: ${{ order.totalAmount }}</strong>
+        </div>
+      </div>
+      
+      <div class="order-items">
+        <h4>Order Items:</h4>
+        <div class="item" *ngFor="let item of order.orderItems">
+          <div class="item-details">
+            <span class="item-name">{{ item.product.productName }}</span>
+            <span class="item-quantity">Qty: {{ item.quantity }}</span>
+            <span class="item-price">${{ item.price }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="actions">
+        <div class="status-update">
+          <label>Update Status:</label>
+          <select (change)="updateOrderStatus(order.orderId!, $event.target.value)">
+            <option value="">Select Status</option>
+            <option value="PENDING">Pending</option>
+            <option value="PROCESSING">Processing</option>
+            <option value="SHIPPED">Shipped</option>
+            <option value="DELIVERED">Delivered</option>
+            <option value="CANCELLED">Cancelled</option>
+          </select>
+        </div>
+        <!-- <button class="delete-btn" (click)="deleteOrder(order.orderId!)">
+          Delete Order
+        </button> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="no-orders" *ngIf="filteredOrders.length === 0">
+    <p>No orders found.</p>
+  </div>
+</div>

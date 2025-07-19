@@ -1,76 +1,60 @@
 import { Component, OnInit } from '@angular/core';
-import { Review } from 'src/app/models/review.model';
-import { ReviewService } from 'src/app/services/review.service';
+import { ReviewService } from '../../services/review.service';
+import { Review } from '../../models/review.model';
 
 @Component({
   selector: 'app-adminviewreviews',
   templateUrl: './adminviewreviews.component.html',
   styleUrls: ['./adminviewreviews.component.css']
 })
-export class AdminviewreviewsComponent implements OnInit {
+export class AdminViewReviewsComponent implements OnInit {
+  reviews: Review[] = [];
+  loading = false;
+  error: string | null = null;
 
-  reviews: Review[] = []; //All reviews fetched from the backend
-  filteredReviews: Review[] = []; //Reviews after applying search and filters
-  searchTerm: string = ''; //Text used to filter reviews by product name
-  currentPage: number = 1;
-  pageSize: number = 5;
-  sortDirection: 'asc' | 'desc' = 'desc';
+  constructor(private reviewService: ReviewService) {}
 
-  constructor(private reviewService: ReviewService) { }
-
-  //Fetches all reviews and apply filters
-  //Handles errors by setting reviews to empty array
   ngOnInit(): void {
+    this.loadReviews();
+  }
+
+  loadReviews(): void {
+    this.loading = true;
+    this.error = null;
+    
     this.reviewService.getAllReviews().subscribe({
-      next: (data) => {
-        this.reviews = data;
-        this.applyFilters();
+      next: (reviews) => {
+        // Filter out reviews with null/undefined reviewText and rating
+        this.reviews = reviews.filter(review => 
+          review.reviewText && 
+          review.rating !== null && 
+          review.rating !== undefined &&
+          review.user
+        );
+        
+        this.loading = false;
+        console.log('Loaded reviews:', this.reviews);
       },
-      error: () => {
-        this.reviews = [];
+      error: (error) => {
+        console.error('Error loading reviews:', error);
+        this.error = 'Failed to load reviews. Please try again.';
+        this.loading = false;
       }
     });
   }
 
-
-  //Filters reviews by product name
-  //Sorts them by date based on sort direction
-  applyFilters(): void {
-    let filtered = this.reviews;
-
-    if (this.searchTerm.trim()) {
-      filtered = filtered.filter(review =>
-        review.product.productName.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
+  deleteReview(reviewId: number): void {
+    if (confirm('Are you sure you want to delete this review?')) {
+      this.reviewService.deleteReview(reviewId).subscribe({
+        next: () => {
+          this.reviews = this.reviews.filter(r => r.reviewId !== reviewId);
+          alert('Review deleted successfully');
+        },
+        error: (error) => {
+          console.error('Error deleting review:', error);
+          alert('Error deleting review');
+        }
+      });
     }
-
-    filtered = filtered.sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      return this.sortDirection === 'asc' ? dateA - dateB : dateB - dateA;
-    });
-
-    this.filteredReviews = filtered;
   }
-  
-
-  //Updates the current page
-  //Returns the reviews of the current page
-  changePage(page: number): void {
-    this.currentPage = page;
-  }
-
-  get paginatedReviews(): Review[] {
-    const start = (this.currentPage - 1) * this.pageSize;
-    return this.filteredReviews.slice(start, start + this.pageSize);
-  }
-
-
-  //Switches between ascending and descending order
-  toggleSort(): void {
-    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-    this.applyFilters();
-  }
-
-
 }

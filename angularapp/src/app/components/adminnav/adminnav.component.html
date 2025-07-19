@@ -1,14 +1,16 @@
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-     <a class="navbar-brand" href="#">ProKart | Admin</a>
-     <div class="collapse navbar-collapse">
-     <ul class="navbar-nav ml-auto">
-     <li class="nav-item"><a class="nav-link" routerLink="/admin/home">Home</a></li>
-     <li class="nav-item"><a class="nav-link" routerLink="/admin/products">Product</a></li>
-     <li class="nav-item"><a class="nav-link" routerLink="/admin/orders">Order Placed</a></li>
-     <li class="nav-item"><a class="nav-link" routerLink="/admin/reviews">Review</a></li>
-     <li class="nav-item"><a class="nav-link" routerLink="/logout">Logout</a></li>
-     </ul>
-     </div>
-    </nav>
+<nav class="admin-nav">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <h2>Admin Dashboard</h2>
+    </div>
     
+    <div class="nav-links">
+      <a routerLink="/adminviewproduct" routerLinkActive="active">View Products</a>
+      <a routerLink="/adminviewreviews" routerLinkActive="active">View Reviews</a>
+      <a routerLink="/orderplaced" routerLinkActive="active">Orders Placed</a>
+      <button class="logout-btn" (click)="onLogout()">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<!-- <router-outlet></router-outlet> -->
