@@ -52,10 +52,11 @@ export class LoginComponent {
         //Redirect
 
         if (res.userRole.toUpperCase() === 'ADMIN') {
-          this.router.navigate(['/adminnav']);
+          this.router.navigate(['/adminviewproduct']);
           alert("successful as admin");
           console.log(res.userRole);
         } else {
+          // this.router.navigate(['/user/view-properties']);
           this.router.navigate(['/home-page']);
           console.log(res.userRole);
           alert("successful as user");

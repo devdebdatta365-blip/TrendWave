@@ -48,7 +48,9 @@ export class MyOrderComponent implements OnInit {
           alert('Order cancelled successfully');
         },
         error: (error) => {
+          console.error('Error cancelling order:', error);
           this.loadMyOrders();
+          // alert('Error cancelling order');
         }
       });
     }

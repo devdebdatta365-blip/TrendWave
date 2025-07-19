@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -48,7 +49,7 @@ public class Product {
 	private String  coverImage;
 
 	@OneToMany(mappedBy="product", cascade=CascadeType.ALL)
-	// @JsonManagedReference
+	// @JsonIgnore
 	@JsonIgnoreProperties("product")
 	private List<Review> reviews;
 	
