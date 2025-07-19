@@ -1,3 +1,4 @@
+
 package com.examly.springapp.exceptions;
 
 import java.time.LocalDateTime;
@@ -25,7 +26,5 @@ public class ErrorInfo {
     private int errorCode;
     private String errorMessage;
     private LocalDateTime timeStamp;
-
-    
 
 }

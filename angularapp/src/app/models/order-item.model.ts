@@ -1,3 +1,4 @@
+
 import { Product } from "./product.model";
 
 export interface OrderItem {
@@ -6,4 +7,3 @@ export interface OrderItem {
     quantity: number;
     price: number;
     }
-    

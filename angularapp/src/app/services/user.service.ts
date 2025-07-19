@@ -1,3 +1,5 @@
+
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -7,7 +9,7 @@ import { User } from '../models/user.model';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl: string = 'https://ide-adcbdffbcceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080';
+  private apiUrl: string = 'https://ide-dacabdbfceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080';
 
   constructor(private http: HttpClient) { }
 

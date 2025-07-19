@@ -1,5 +1,7 @@
+<app-admin-nav></app-admin-nav>
+
 <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-  <label>Product Name<span class="required">*</span></label>
+  <label for="">Product Name<span class="required">*</span></label>
   <input type="text" formControlName="productName" />
   <div *ngIf="productForm.get('productName')?.invalid && (productForm.get('productName')?.touched || productForm.get('productName')?.dirty)" class="error">
     *Product Name is required

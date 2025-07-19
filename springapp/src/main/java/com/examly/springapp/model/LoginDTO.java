@@ -1,3 +1,5 @@
+
+
 package com.examly.springapp.model;
 
 import jakarta.validation.constraints.Email;
@@ -38,3 +40,4 @@ public class LoginDTO {
     
 
 }
+

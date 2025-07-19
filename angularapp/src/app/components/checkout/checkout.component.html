@@ -1,11 +1,11 @@
 <app-usernav></app-usernav>
 <div class="checkout-container">
   <h2>Checkout</h2>
-  
+
   <div class="checkout-content">
     <div class="cart-section">
       <h3>Your Cart</h3>
-      
+
       <div class="cart-items" *ngIf="cartItems.length > 0">
         <div class="cart-item" *ngFor="let item of cartItems">
           <div class="item-image">
@@ -21,21 +21,19 @@
             </div>
             <p class="item-total">${{ item.price * item.quantity }}</p>
           </div>
-          <button class="remove-btn" (click)="removeFromCart(item.product.productId!)">
-            Remove
-          </button>
+          <button class="remove-btn" (click)="removeFromCart(item.product.productId!)">Remove</button>
         </div>
       </div>
-      
+
       <div class="empty-cart" *ngIf="cartItems.length === 0">
         <p>Your cart is empty</p>
         <button routerLink="/userviewproduct" class="shop-btn">Continue Shopping</button>
       </div>
     </div>
-    
+
     <div class="order-section" *ngIf="cartItems.length > 0">
       <h3>Order Summary</h3>
-      
+
       <div class="order-summary">
         <div class="summary-row">
           <span>Items ({{ cartItems.length }})</span>
@@ -46,24 +44,23 @@
           <span>${{ totalAmount }}</span>
         </div>
       </div>
-      
+
       <div class="billing-section">
         <h4>Billing Address</h4>
-        <textarea 
-          [(ngModel)]="billingAddress" 
-          placeholder="Enter your billing address"
-          rows="4"
-          class="address-input"
-        ></textarea>
+        <textarea [(ngModel)]="billingAddress" placeholder="Enter your billing address" rows="4" class="address-input"></textarea>
       </div>
-      
-      <button 
-        class="place-order-btn" 
-        (click)="placeOrder()"
-        [disabled]="loading || cartItems.length === 0 || !billingAddress.trim()"
-      >
+
+      <button class="place-order-btn" (click)="placeOrder()" [disabled]="loading || cartItems.length === 0 || !billingAddress.trim()">
         {{ loading ? 'Placing Order...' : 'Place Order' }}
       </button>
     </div>
+  </div>
+</div>
+
+<div class="popup-overlay" *ngIf="showSuccessPopup">
+  <div class="popup-content">
+    <h2>Order Placed Successfully!</h2>
+    <img src="assets/images/An animated-style image of a Yamaha R15 motorbike delivery demonstration for an e-commerce brand cal.jpeg" alt="Success" />
+    <button (click)="closePopup()">Close</button>
   </div>
 </div>

@@ -1,3 +1,4 @@
+
 package com.examly.springapp.model;
 
 import java.time.LocalDate;
@@ -51,3 +52,4 @@ public class Order {
 	@JsonManagedReference
 	List<OrderItem> orderItems;
 }
+

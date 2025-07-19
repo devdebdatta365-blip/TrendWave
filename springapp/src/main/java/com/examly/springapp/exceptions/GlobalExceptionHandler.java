@@ -1,3 +1,5 @@
+
+
 package com.examly.springapp.exceptions;
 
 import org.springframework.http.ResponseEntity;
@@ -31,7 +33,4 @@ public class GlobalExceptionHandler
     {
         return ResponseEntity.status(401).body(ex.getMessage());
     } 
-    
-    
-    
 }

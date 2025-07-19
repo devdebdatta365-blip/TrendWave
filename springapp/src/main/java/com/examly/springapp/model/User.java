@@ -1,3 +1,4 @@
+
 package com.examly.springapp.model;
 
 import jakarta.persistence.CascadeType;
@@ -67,3 +68,4 @@ public class User {
 	//  @JsonManagedReference
 	// private List<Review> reviews;
 }
+

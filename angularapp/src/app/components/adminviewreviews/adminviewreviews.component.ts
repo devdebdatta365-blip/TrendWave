@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { ReviewService } from '../../services/review.service';
 import { Review } from '../../models/review.model';
@@ -24,7 +25,6 @@ export class AdminViewReviewsComponent implements OnInit {
     
     this.reviewService.getAllReviews().subscribe({
       next: (reviews) => {
-        // Filter out reviews with null/undefined reviewText and rating
         this.reviews = reviews.filter(review => 
           review.reviewText && 
           review.rating !== null && 
@@ -58,3 +58,4 @@ export class AdminViewReviewsComponent implements OnInit {
     }
   }
 }
+

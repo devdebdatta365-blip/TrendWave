@@ -1,3 +1,4 @@
+
 package com.examly.springapp.config;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,3 +25,5 @@ public class MyUserDetailsService implements UserDetailsService {
         return new UserPrinciple(user);
     }
 }
+
+

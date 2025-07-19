@@ -1,48 +1,4 @@
 
-// import { HttpClient } from '@angular/common/http';
-// import { Injectable } from '@angular/core';
-// import { UserStoreService } from '../helpers/user-store.service';
-// import { Observable } from 'rxjs';
-// import { User } from '../models/user.model';
-// import { Login } from '../models/login.model';
-// // import { AuthUser } from '../models/auth-user';
-
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class AuthService {
-//   constructor(private http : HttpClient , private userStore : UserStoreService) { }
-//   baseUrl = "https://ide-dacabdbfceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080/auth";
-//   register(user:User):Observable<User>{
-//     console.log("From Service..")
-//     return this.http.post<User>(this.baseUrl+"/register",user);
-//   }
-//   login(credentials:Login):Observable<User>{
-//     return this.http.post<User>(this.baseUrl+"/login",credentials);
-//   }
-//   logout():void{
-//     this.userStore.setUser(null);
-//   }
-
-//   isAuthenticated():boolean{
-//     return this.userStore.isLoggedIn();
-//     }
-//   isAdmin():boolean{
-//     const authUser=this.userStore.authUser;
-//     return authUser?.role === 'ADMIN';
-//   }
-//   getCurrentUserId():number | null{
-//     const authUser=this.userStore.authUser;
-//     return authUser ? authUser.userId:null;
-//   }
-
-//   getCustomerName():string | null{
-//     const authUser=this.userStore.authUser;
-//     return authUser?.userName;
-//   }
-  
-// }
 
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -55,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
   
-  private apiUrl:string = 'https://ide-adcbdffbcceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080/api';
+  private apiUrl:string = 'https://ide-dacabdbfceabacaaeccaceddbcfdcfcc.project.examly.io/proxy/8080/api';
 
   public loggedIn = new BehaviorSubject<boolean>(this.hasToken());
   public userRole = new BehaviorSubject<string | null>(localStorage.getItem('userRole'));
@@ -138,4 +94,3 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 }
-

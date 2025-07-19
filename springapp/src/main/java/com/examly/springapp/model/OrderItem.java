@@ -1,3 +1,4 @@
+
 package com.examly.springapp.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -42,3 +43,4 @@ public class OrderItem {
 	private Order order;
 
 }
+

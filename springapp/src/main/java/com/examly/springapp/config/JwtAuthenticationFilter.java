@@ -36,12 +36,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        // ✅ Skip JWT validation for login and register endpoints
-        // if (path.contains("/api/login") || path.contains("/api/register")) {
-        //     filterChain.doFilter(request, response);
-        //     return;
-        // }
-
         String requestHeader = request.getHeader("Authorization");
         String username = null;
         String token = null;
@@ -80,3 +74,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 }
+
+

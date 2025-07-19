@@ -17,6 +17,7 @@ export class CheckoutComponent implements OnInit {
   billingAddress: string = '';
   userId: number;
   loading = false;
+  showSuccessPopup = false;
 
   constructor(
     private cartService: CartService,
@@ -36,7 +37,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   calculateTotal(): void {
-    this.totalAmount = this.cartItems.reduce((total, item) => 
+    this.totalAmount = this.cartItems.reduce((total, item) =>
       total + (item.price * item.quantity), 0);
   }
 
@@ -63,14 +64,14 @@ export class CheckoutComponent implements OnInit {
       alert('Your cart is empty!');
       return;
     }
-  
+
     if (!this.billingAddress.trim()) {
       alert('Please enter billing address!');
       return;
     }
-  
+
     this.loading = true;
-  
+
     const user: User = {
       userId: this.userId,
       email: '',
@@ -79,8 +80,7 @@ export class CheckoutComponent implements OnInit {
       mobileNumber: '',
       userRole: ''
     };
-  
-    // Make sure to match backend field names
+
     const order: Order = {
       orderDate: new Date().toISOString().split('T')[0],
       orderStatus: 'PENDING',
@@ -92,21 +92,20 @@ export class CheckoutComponent implements OnInit {
         ...item,
         product: {
           ...item.product,
-          // Convert frontend field names to backend field names
           descripion: item.product.descripion,
           stockInteger: item.product.stockInteger
         }
       }))
     };
-  
+
     this.orderService.placeOrder(order).subscribe({
       next: (response: string) => {
-        alert(response); // This will show "Order Placed Successfully!!"
         this.cartService.clearCart();
         this.cartItems = [];
         this.totalAmount = 0;
         this.billingAddress = '';
         this.loading = false;
+        this.showSuccessPopup = true;
       },
       error: (error) => {
         console.error('Error placing order:', error);
@@ -115,5 +114,8 @@ export class CheckoutComponent implements OnInit {
       }
     });
   }
-  
+
+  closePopup(): void {
+    this.showSuccessPopup = false;
+  }
 }
