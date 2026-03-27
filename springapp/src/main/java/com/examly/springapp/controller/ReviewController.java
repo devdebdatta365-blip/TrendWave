@@ -63,12 +63,7 @@ public class ReviewController {
     public ResponseEntity<List<Review>> getReviewsByUserId(@PathVariable Long userId) {
         List<Review> reviews = reviewService.getReviewsByUserId(userId);
       
-        if(reviews.isEmpty()) {
-        	return ResponseEntity.status(404).build();
-        }
-        else {
-        	return ResponseEntity.status(200).body(reviews);
-        }
+        return ResponseEntity.status(200).body(reviews);
     }
 
     @GetMapping("/product/{productId}")

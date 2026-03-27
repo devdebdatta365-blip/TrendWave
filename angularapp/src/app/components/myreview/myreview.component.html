@@ -31,11 +31,11 @@
         <p>{{ review.reviewText }}</p>
       </div>
       
-      <div class="review-meta">
-        <span class="username">Product Id: {{ review.product.productId}}</span>
+      <!-- <div class="review-meta">
+        <span class="username">Product Id: {{ review.product.productId }}</span>
         <span class="username">By: {{ review.user.username }}</span>
         <span class="user-id">User ID: {{ review.user.userId }}</span>
-      </div>
+      </div> -->
       
       <div class="review-actions">
         <button class="delete-btn" (click)="deleteReview(review.reviewId!)">
@@ -61,17 +61,21 @@
       </div>
       
       <form (ngSubmit)="addReview()" #reviewForm="ngForm">
+
+        <!-- ✅ CHANGED: dropdown instead of text input -->
         <div class="form-group">
-          <label for="productId">Product ID: *</label>
-          <input 
-            type="number" 
+          <label for="productId">Select Product: *</label>
+          <select
             id="productId"
-            [(ngModel)]="newReview.product.productId" 
-            name="productId" 
-            required 
-            min="1"
-            placeholder="Enter the product ID" />
-          <small>Enter the ID of the product you want to review</small>
+            [(ngModel)]="newReview.product.productId"
+            name="productId"
+            required>
+            <option [value]="0" disabled>-- Select a product --</option>
+            <option *ngFor="let p of products" [value]="p.productId">
+              {{ p.productName }}
+            </option>
+          </select>
+          <small *ngIf="products.length === 0">No products available. Please add products first.</small>
         </div>
         
         <div class="form-group">
@@ -103,7 +107,7 @@
         </div>
         
         <div class="form-actions">
-          <button type="submit" class="save-btn" [disabled]="!reviewForm.valid">Add Review</button>
+          <button type="submit" class="save-btn" [disabled]="!reviewForm.valid || newReview.product.productId === 0">Add Review</button>
           <button type="button" class="cancel-btn" (click)="closeAddForm()">Cancel</button>
         </div>
       </form>

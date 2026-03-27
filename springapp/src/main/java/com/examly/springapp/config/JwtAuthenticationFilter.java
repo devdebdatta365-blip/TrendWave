@@ -58,8 +58,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            // UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            // boolean isValid = this.jwtHelper.validateToken(token, userDetails);
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            boolean isValid = this.jwtHelper.validateToken(token, userDetails);
+    System.out.println("=== JWT DEBUG ===");
+    System.out.println("Username from token: " + username);
+    System.out.println("Authorities: " + userDetails.getAuthorities());
+    boolean isValid = this.jwtHelper.validateToken(token, userDetails);
+    System.out.println("Token valid: " + isValid);
+    System.out.println("=================");
+
 
             if (isValid) {
                 UsernamePasswordAuthenticationToken authentication =

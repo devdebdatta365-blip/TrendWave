@@ -1,9 +1,9 @@
-
-
 import { Component, OnInit } from '@angular/core';
 import { ReviewService } from '../../services/review.service';
 import { AuthService } from '../../services/auth.service';
+import { ProductService } from '../../services/product.service';
 import { Review } from '../../models/review.model';
+import { Product } from '../../models/product.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class MyReviewComponent implements OnInit {
   reviews: Review[] = [];
+  products: Product[] = [];  // ← list of products for dropdown
   loading = false;
   userId: number;
   showAddForm = false;
@@ -31,7 +32,7 @@ export class MyReviewComponent implements OnInit {
       userRole: 'USER'
     },
     product: {
-      productId: 0,
+      productId: 0,  // ← fixed: no longer hardcoded to 1
       productName: '',
       descripion: '',
       price: 0,
@@ -45,13 +46,13 @@ export class MyReviewComponent implements OnInit {
   constructor(
     private reviewService: ReviewService,
     private authService: AuthService,
+    private productService: ProductService,  // ← added
     private router: Router
   ) {
     this.userId = this.authService.getUserId();
   }
 
   ngOnInit(): void {
-    // Check if user is logged in and has valid ID
     if (!this.authService.isLoggedIn() || this.userId === 0) {
       this.error = 'User not authenticated. Please login again.';
       setTimeout(() => {
@@ -60,6 +61,18 @@ export class MyReviewComponent implements OnInit {
       return;
     }
     this.loadMyReviews();
+    this.loadProducts();  // ← load products for dropdown
+  }
+
+  loadProducts(): void {
+    this.productService.getAllProducts().subscribe({
+      next: (products) => {
+        this.products = products;
+      },
+      error: (error) => {
+        console.error('Error loading products:', error);
+      }
+    });
   }
 
   loadMyReviews(): void {
@@ -90,7 +103,7 @@ export class MyReviewComponent implements OnInit {
             break;
             
           case 404:
-            // Handle 404 - user has no reviews (normal case)
+            // ← fixed: 404 just means no reviews yet, do NOT logout
             this.reviews = [];
             this.error = null;
             console.log('No reviews found for user ID:', this.userId);
@@ -137,7 +150,7 @@ export class MyReviewComponent implements OnInit {
         userRole: 'USER'
       },
       product: {
-        productId: 1, // Default product ID - user will need to change this
+        productId: 0,  // ← fixed: no longer hardcoded to 1
         productName: '',
         descripion: '',
         price: 0,
@@ -156,7 +169,7 @@ export class MyReviewComponent implements OnInit {
     }
 
     if (this.newReview.product.productId <= 0) {
-      alert('Please enter a valid product ID');
+      alert('Please select a product');  // ← better message
       return;
     }
 
@@ -178,6 +191,9 @@ export class MyReviewComponent implements OnInit {
           this.authService.logout();
         } else if (error.status === 400) {
           alert('Invalid review data. Please check your input.');
+        } else if (error.status === 500) {
+          // ← fixed: 500 means product ID doesn't exist in DB
+          alert('Selected product does not exist. Please choose a valid product.');
         } else {
           alert('Error adding review. Please try again.');
         }

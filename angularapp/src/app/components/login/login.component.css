@@ -1,57 +1,301 @@
+/* ============================================================
+   TrendWave — login.component.css
+   Design: Modern Corporate Blue — Centered Auth Card
+   Font Pairing: Syne (display) + DM Sans (body)
+   ============================================================ */
 
-.login-box {
-  width: 300px;
-  margin: 50px auto;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
-  text-align: left;
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+/* ── Design Tokens ────────────────────────────────────────── */
+:host {
+  --blue-950:  #03071e;
+  --blue-900:  #0a1628;
+  --blue-800:  #0d2045;
+  --blue-700:  #0f3460;
+  --blue-600:  #1a4e8a;
+  --blue-500:  #1e6bbf;
+  --blue-400:  #3b8de0;
+  --blue-300:  #6aaee8;
+  --blue-100:  #dbeeff;
+  --blue-50:   #f0f7ff;
+
+  --accent:    #0ea5e9;
+  --accent-glow: rgba(14, 165, 233, 0.30);
+
+  --white:     #ffffff;
+  --gray-50:   #f8fafc;
+  --gray-100:  #f1f5f9;
+  --gray-200:  #e2e8f0;
+  --gray-300:  #cbd5e1;
+  --gray-400:  #94a3b8;
+  --gray-500:  #64748b;
+  --gray-700:  #334155;
+  --gray-900:  #0f172a;
+
+  --error:     #ef4444;
+  --error-bg:  #fef2f2;
+
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+
+  --radius-sm:  6px;
+  --radius-md:  12px;
+  --radius-lg:  20px;
+  --radius-xl:  32px;
+
+  --transition: all 0.26s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ── Full-Page Layout ─────────────────────────────────────── */
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 55%, var(--blue-600) 100%);
+  font-family: var(--font-body);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Grid overlay — matches homepage hero */
+:host::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* Ambient glow blobs */
+:host::after {
+  content: '';
+  position: fixed;
+  top: -200px; right: -200px;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(14,165,233,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Login Card ───────────────────────────────────────────── */
+.login-box {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 440px;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 52px 44px 44px;
+  box-shadow:
+    0 24px 80px rgba(3, 7, 30, 0.35),
+    0 4px 16px rgba(3, 7, 30, 0.15);
+  animation: cardReveal 0.7s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes cardReveal {
+  from { opacity: 0; transform: translateY(28px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Top accent bar */
+.login-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--blue-400));
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+/* ── Heading ──────────────────────────────────────────────── */
 .login-box h2 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--gray-900);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
   text-align: center;
 }
 
-.login-box label {
+/* Subtext under heading (decorative) */
+.login-box h2::after {
+  content: 'Welcome back to TrendWave';
   display: block;
-  margin-bottom: 15px;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--gray-400);
+  letter-spacing: 0;
+  margin-top: 6px;
+  margin-bottom: 36px;
 }
 
-.login-box input {
+/* ── Labels ───────────────────────────────────────────────── */
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  letter-spacing: 0.01em;
+  margin-bottom: 20px;
+}
+
+/* Hide the <br> visual gaps — spacing handled via label margin */
+br {
+  display: none;
+}
+
+/* ── Inputs ───────────────────────────────────────────────── */
+input[type="email"],
+input[type="password"] {
   width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  box-sizing: border-box;
+  padding: 13px 16px;
+  font-family: var(--font-body);
+  font-size: 0.97rem;
+  font-weight: 400;
+  color: var(--gray-900);
+  background: var(--gray-50);
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: var(--transition);
+  -webkit-appearance: none;
 }
 
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+  color: var(--gray-300);
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  background: var(--white);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* Error state on input */
+input.ng-invalid.ng-touched {
+  border-color: var(--error);
+  background: var(--error-bg);
+}
+
+input.ng-invalid.ng-touched:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+/* ── Error Messages ───────────────────────────────────────── */
+.error {
+  display: block;
+  font-size: 0.80rem;
+  font-weight: 400;
+  color: var(--error);
+  margin-top: 2px;
+  padding-left: 2px;
+  animation: errorFade 0.22s ease both;
+}
+
+@keyframes errorFade {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Global error message box */
+div.error {
+  background: var(--error-bg);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-top: 16px;
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+/* ── Login Button ─────────────────────────────────────────── */
 .login-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px;
+  display: block;
   width: 100%;
-  border-radius: 4px;
+  padding: 14px;
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--blue-600) 0%, var(--blue-500) 100%);
+  border: none;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  font-size: 16px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(15, 52, 96, 0.35);
+}
+
+/* Shine sweep on hover */
+.login-button::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.5s ease;
 }
 
 .login-button:hover {
-  background-color: #0056b3;
+  background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-600) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(15, 52, 96, 0.40);
 }
 
-.error {
-  color: red;
-  font-size: 12px;
-  margin-top: 4px;
-  display: block;
+.login-button:hover::after {
+  left: 160%;
 }
 
+.login-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(15, 52, 96, 0.30);
+}
+
+/* ── Signup Link ──────────────────────────────────────────── */
 .login-link {
   display: block;
   text-align: center;
-  margin-top: 15px;
-  color: #007bff;
+  margin-top: 24px;
+  font-size: 0.88rem;
+  color: var(--gray-500);
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
+.login-link:hover {
+  color: var(--blue-500);
+}
+
+.login-link span,
+.login-link strong {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .login-box {
+    padding: 40px 28px 36px;
+    border-radius: var(--radius-md);
+  }
+
+  .login-box h2 {
+    font-size: 1.7rem;
+  }
+}

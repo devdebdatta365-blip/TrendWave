@@ -11,7 +11,7 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'ProKart';
+  title = 'TrendWave';
   showFooter = true;
 
   constructor(
