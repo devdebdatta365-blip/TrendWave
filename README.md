@@ -46,13 +46,13 @@ TrendWave/
 cd springapp
 # update src/main/resources/application.properties with your MySQL creds
 ./mvnw spring-boot:run
-# runs on http://localhost:8080
+
 
 ### Frontend
 cd angularapp
 npm install
 ng serve
-# runs on http://localhost:4200
+
 
 ## API Endpoints (sample)
 | Method | Endpoint | Description |
